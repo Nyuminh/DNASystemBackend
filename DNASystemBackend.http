@@ -1,0 +1,6 @@
+@DNASystemBackend_HostAddress = http://localhost:5198
+
+GET {{DNASystemBackend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
