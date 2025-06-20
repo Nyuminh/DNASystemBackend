@@ -1,6 +1,9 @@
 ﻿using System.Text;
 using System.Text.Json.Serialization;
+using DNASystemBackend.Interfaces;
 using DNASystemBackend.Models;
+using DNASystemBackend.Repositories;
+using DNASystemBackend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -21,6 +24,18 @@ builder.Services.AddControllers()
 // Add Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IServiceService, ServiceService>();
+builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
+builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+builder.Services.AddScoped<IKitRepository, KitRepository>();
+builder.Services.AddScoped<IKitService, KitService>();
+builder.Services.AddScoped<ITestResultRepository, TestResultRepository>();
+builder.Services.AddScoped<ITestResultService, TestResultService>();
+builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+builder.Services.AddScoped<IFeedbackService, FeedbackService>();
 
 // Add configuration for Logging
 builder.Services.AddLogging(logging =>

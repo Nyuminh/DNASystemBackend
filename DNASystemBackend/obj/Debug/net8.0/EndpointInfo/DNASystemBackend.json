@@ -5,6 +5,229 @@
     "version": "v1"
   },
   "paths": {
+    "/api/Appointments": {
+      "get": {
+        "tags": [
+          "Appointments"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Booking"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Booking"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Booking"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Appointments"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Booking"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Booking"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Booking"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Appointments/{id}": {
+      "get": {
+        "tags": [
+          "Appointments"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Appointments"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Booking"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Booking"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Booking"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Appointments"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Appointments/schedule": {
+      "get": {
+        "tags": [
+          "Appointments"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Auth/login": {
       "post": {
         "tags": [
@@ -14,17 +237,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginModel"
+                "$ref": "#/components/schemas/LoginDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginModel"
+                "$ref": "#/components/schemas/LoginDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginModel"
+                "$ref": "#/components/schemas/LoginDto"
               }
             }
           }
@@ -45,17 +268,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegisterModel"
+                "$ref": "#/components/schemas/RegisterDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegisterModel"
+                "$ref": "#/components/schemas/RegisterDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/RegisterModel"
+                "$ref": "#/components/schemas/RegisterDto"
               }
             }
           }
@@ -79,10 +302,10 @@
         }
       }
     },
-    "/api/User": {
+    "/api/Feedbacks": {
       "get": {
         "tags": [
-          "User"
+          "Feedbacks"
         ],
         "responses": {
           "200": {
@@ -92,7 +315,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/User"
+                    "$ref": "#/components/schemas/Feedback"
                   }
                 }
               },
@@ -100,7 +323,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/User"
+                    "$ref": "#/components/schemas/Feedback"
                   }
                 }
               },
@@ -108,11 +331,701 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/User"
+                    "$ref": "#/components/schemas/Feedback"
                   }
                 }
               }
             }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Feedbacks"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Feedback"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Feedback"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Feedback"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Feedback"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Feedback"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Feedback"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Feedbacks/{id}": {
+      "get": {
+        "tags": [
+          "Feedbacks"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Feedback"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Feedback"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Feedback"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Feedbacks"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Feedback"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Feedback"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Feedback"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Feedbacks"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Kit": {
+      "get": {
+        "tags": [
+          "Kit"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Kit"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Kit"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Kit"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Kit"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Kit"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Kit"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Kit"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Kit"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Kit"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Kit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Kit/{id}": {
+      "get": {
+        "tags": [
+          "Kit"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Kit"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Kit"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Kit"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Kit"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Kit/tracking": {
+      "get": {
+        "tags": [
+          "Kit"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Kit"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Kit"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Kit"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Kit/collection": {
+      "get": {
+        "tags": [
+          "Kit"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Kit"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Kit"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Kit"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Services": {
+      "get": {
+        "tags": [
+          "Services"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Services"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Service"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Service"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Service"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Services/{id}": {
+      "get": {
+        "tags": [
+          "Services"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Services"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Service"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Service"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Service"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Services"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Services/categories": {
+      "get": {
+        "tags": [
+          "Services"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/TestResults": {
+      "get": {
+        "tags": [
+          "TestResults"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TestResult"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TestResult"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TestResult"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "TestResults"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TestResult"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TestResult"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TestResult"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/TestResults/{id}": {
+      "get": {
+        "tags": [
+          "TestResults"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TestResult"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "TestResults"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TestResult"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TestResult"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TestResult"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/User": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       },
@@ -124,41 +1037,24 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateUserModel"
+                "$ref": "#/components/schemas/CreateUserDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateUserModel"
+                "$ref": "#/components/schemas/CreateUserDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateUserModel"
+                "$ref": "#/components/schemas/CreateUserDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -170,33 +1066,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/User"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/User"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/User"
-                  }
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -208,24 +1078,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -271,17 +1124,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateUserModel"
+                "$ref": "#/components/schemas/UpdateUserDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateUserModel"
+                "$ref": "#/components/schemas/UpdateUserDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateUserModel"
+                "$ref": "#/components/schemas/UpdateUserDto"
               }
             }
           }
@@ -393,7 +1246,7 @@
         },
         "additionalProperties": false
       },
-      "CreateUserModel": {
+      "CreateUserDto": {
         "type": "object",
         "properties": {
           "username": {
@@ -568,7 +1421,7 @@
         },
         "additionalProperties": false
       },
-      "LoginModel": {
+      "LoginDto": {
         "type": "object",
         "properties": {
           "username": {
@@ -582,7 +1435,7 @@
         },
         "additionalProperties": false
       },
-      "RegisterModel": {
+      "RegisterDto": {
         "type": "object",
         "properties": {
           "username": {
@@ -740,7 +1593,7 @@
         },
         "additionalProperties": false
       },
-      "UpdateUserModel": {
+      "UpdateUserDto": {
         "type": "object",
         "properties": {
           "username": {
