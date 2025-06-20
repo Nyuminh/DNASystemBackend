@@ -14,7 +14,11 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DNASystemBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
+<<<<<<< Updated upstream:DNASystemBackend/obj/Debug/net8.0/DNASystemBackend.AssemblyInfo.cs
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+=======
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0f93ab6503f85c6e28e607caca03d0d33c9a942f")]
+>>>>>>> Stashed changes:obj/Debug/net8.0/DNASystemBackend.AssemblyInfo.cs
 [assembly: System.Reflection.AssemblyProductAttribute("DNASystemBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DNASystemBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

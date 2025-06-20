@@ -1,5 +1,6 @@
 {
   "Version": 1,
+<<<<<<< Updated upstream
   "WorkspaceRootPath": "C:\\Users\\Admin\\Desktop\\CN5\\DNASystemBackend\\",
   "Documents": [
     {
@@ -43,10 +44,15 @@
       "RelativeMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|solutionrelative:dnasystembackend\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
+=======
+  "WorkspaceRootPath": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\",
+  "Documents": [],
+>>>>>>> Stashed changes
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
+<<<<<<< Updated upstream
       "DocumentGroups": [
         {
           "DockedWidth": 200,
@@ -176,6 +182,9 @@
           ]
         }
       ]
+=======
+      "DocumentGroups": []
+>>>>>>> Stashed changes
     }
   ]
 }
