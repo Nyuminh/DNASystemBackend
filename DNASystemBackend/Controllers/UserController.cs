@@ -72,7 +72,7 @@ namespace DNASystemBackend.Controllers
 
         // PUT: /api/user/{id}
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public async Task<IActionResult> UpdateUser(string id, [FromBody] UpdateUserDto dto)
         {
             var (success, message) = await _userService.UpdateUserAsync(id, dto);
