@@ -125,8 +125,15 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddDbContext<DnasystemContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DNASystemDb")));
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+       policy => policy.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader());
+});
 var app = builder.Build();
+app.UseCors("AllowAll");
 app.UseSession();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

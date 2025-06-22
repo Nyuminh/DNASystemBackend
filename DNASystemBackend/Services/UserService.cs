@@ -39,20 +39,7 @@ public class UserService : IUserService
         if (!string.IsNullOrEmpty(dto.Email) && await _userRepo.EmailExistsAsync(dto.Email))
             return (false, "Email đã được sử dụng.", null);
 
-        var lastUserId = await _context.Users
-            .OrderByDescending(u => u.UserId)
-            .Select(u => u.UserId)
-            .FirstOrDefaultAsync();
-
-        string newUserId = "U001";
-
-        if (!string.IsNullOrEmpty(lastUserId) && lastUserId.StartsWith("U"))
-        {
-            if (int.TryParse(lastUserId.Substring(1), out int lastId))
-            {
-                newUserId = $"U{(lastId + 1):D03}";
-            }
-        }
+        string newUserId = await GenerateUniqueUserIdAsync();
 
         var defaultRole = await _context.Roles.FirstOrDefaultAsync(r => r.Rolename == "Customer")
                           ?? await _context.Roles.FirstOrDefaultAsync();
