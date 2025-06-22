@@ -1,5 +1,7 @@
-﻿using DNASystemBackend.Interfaces;
+﻿using DNASystemBackend.DTOs;
+using DNASystemBackend.Interfaces;
 using DNASystemBackend.Models;
+using DNASystemBackend.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DNASystemBackend.Controllers
@@ -30,27 +32,27 @@ namespace DNASystemBackend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Booking>> CreateAppointment(Booking booking)
+        public async Task<ActionResult<Booking>> CreateAppointment([FromBody] AppointmentDto dto)
         {
-            var created = await _service.CreateAsync(booking);
-            return CreatedAtAction(nameof(GetAppointment), new { id = created.BookingId }, created);
+            var (success, message) = await _service.CreateAsync(dto);
+            if (!success) return BadRequest(message);
+            return Ok(new { message = "Tạo lịch hẹn thành công." });
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAppointment(string id, Booking updated)
+        public async Task<IActionResult> UpdateAppointment(string id, UpdateAppointDto updated)
         {
-            if (id != updated.BookingId)
-                return BadRequest("ID không khớp.");
-
-            var result = await _service.UpdateAsync(id, updated);
-            return result ? NoContent() : NotFound();
+            var (success, message) = await _service.UpdateAsync(id, updated);
+            if (!success) return BadRequest(message);
+            return Ok(new { message = "Cập nhật lịch hẹn thành công." });
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAppointment(string id)
         {
-            var result = await _service.DeleteAsync(id);
-            return result ? Ok(new { message = "Hủy lịch hẹn thành công." }) : NotFound();
+            var (success, message) = await _service.DeleteAsync(id);
+            if (!success) return BadRequest(message);
+            return Ok(new { message });
         }
 
         [HttpGet("schedule")]

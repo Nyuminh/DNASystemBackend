@@ -1,4 +1,5 @@
 ﻿
+using DNASystemBackend.DTOs;
 using DNASystemBackend.Interfaces;
 using DNASystemBackend.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -17,41 +18,58 @@ namespace DNASystemBackend.Controllers
             _serviceService = serviceService;
         }
 
+        // GET: /api/services
         [HttpGet]
-        public async Task<IActionResult> GetAll() => Ok(await _serviceService.GetAllAsync());
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(string id)
+        public async Task<IActionResult> GetAllServices()
         {
-            var result = await _serviceService.GetByIdAsync(id);
-            return result != null ? Ok(result) : NotFound();
+            var services = await _serviceService.GetAllAsync();
+            return Ok(services);
         }
 
+        // GET: /api/services/{id}
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetServiceById(string id)
+        {
+            var service = await _serviceService.GetByIdAsync(id);
+            return service != null ? Ok(service) : NotFound("Không tìm thấy dịch vụ.");
+        }
+
+        // POST: /api/services
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create(Service model)
+        public async Task<IActionResult> CreateService([FromBody] ServiceDto model)
         {
-            var result = await _serviceService.CreateAsync(model);
-            return CreatedAtAction(nameof(GetById), new { id = result.ServiceId }, result);
+            var (success, message) = await _serviceService.CreateAsync(model);
+            if (!success) return BadRequest(message);
+            return Ok(new { message = "Tạo dịch vụ thành công." });
         }
 
+        // PUT: /api/services/{id}
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Update(string id, Service model)
+        public async Task<IActionResult> UpdateService(string id, [FromBody] UpdateServiceDto model)
         {
-            var success = await _serviceService.UpdateAsync(id, model);
-            return success ? NoContent() : NotFound();
+            var (success, message) = await _serviceService.UpdateAsync(id, model);
+            if (!success) return BadRequest(message);
+            return Ok(new { message });
         }
 
+        // DELETE: /api/services/{id}
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> DeleteService(string id)
         {
-            var success = await _serviceService.DeleteAsync(id);
-            return success ? Ok(new { message = "Xóa dịch vụ thành công." }) : NotFound();
+            var (success, message) = await _serviceService.DeleteAsync(id);
+            if (!success) return BadRequest(message);
+            return Ok(new { message });
         }
 
+        // GET: /api/services/categories
         [HttpGet("categories")]
-        public async Task<IActionResult> GetCategories() => Ok(await _serviceService.GetCategoriesAsync());
+        public async Task<IActionResult> GetCategories()
+        {
+            var categories = await _serviceService.GetCategoriesAsync();
+            return Ok(categories);
+        }
     }
 }

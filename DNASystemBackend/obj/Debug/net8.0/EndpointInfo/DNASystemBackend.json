@@ -50,17 +50,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Booking"
+                "$ref": "#/components/schemas/AppointmentDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Booking"
+                "$ref": "#/components/schemas/AppointmentDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Booking"
+                "$ref": "#/components/schemas/AppointmentDto"
               }
             }
           }
@@ -145,17 +145,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Booking"
+                "$ref": "#/components/schemas/UpdateAppointDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Booking"
+                "$ref": "#/components/schemas/UpdateAppointDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Booking"
+                "$ref": "#/components/schemas/UpdateAppointDto"
               }
             }
           }
@@ -741,17 +741,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Service"
+                "$ref": "#/components/schemas/ServiceDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Service"
+                "$ref": "#/components/schemas/ServiceDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Service"
+                "$ref": "#/components/schemas/ServiceDto"
               }
             }
           }
@@ -802,17 +802,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Service"
+                "$ref": "#/components/schemas/UpdateServiceDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Service"
+                "$ref": "#/components/schemas/UpdateServiceDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Service"
+                "$ref": "#/components/schemas/UpdateServiceDto"
               }
             }
           }
@@ -1169,6 +1169,33 @@
   },
   "components": {
     "schemas": {
+      "AppointmentDto": {
+        "type": "object",
+        "properties": {
+          "bookingId": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerId": {
+            "type": "string",
+            "nullable": true
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "staffId": {
+            "type": "string",
+            "nullable": true
+          },
+          "serviceId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "Booking": {
         "type": "object",
         "properties": {
@@ -1549,6 +1576,37 @@
         },
         "additionalProperties": false
       },
+      "ServiceDto": {
+        "type": "object",
+        "properties": {
+          "serviceId": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "image": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "TestResult": {
         "type": "object",
         "properties": {
@@ -1589,6 +1647,52 @@
           },
           "staff": {
             "$ref": "#/components/schemas/User"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateAppointDto": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "staffId": {
+            "type": "string",
+            "nullable": true
+          },
+          "serviceId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateServiceDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "image": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

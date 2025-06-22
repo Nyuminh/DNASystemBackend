@@ -1,4 +1,5 @@
-﻿using DNASystemBackend.Models;
+﻿using DNASystemBackend.DTOs;
+using DNASystemBackend.Models;
 
 namespace DNASystemBackend.Interfaces
 {
@@ -6,9 +7,9 @@ namespace DNASystemBackend.Interfaces
     {
         Task<IEnumerable<Booking>> GetAllAsync();
         Task<Booking?> GetByIdAsync(string id);
-        Task<Booking> CreateAsync(Booking booking);
-        Task<bool> UpdateAsync(string id, Booking updated);
-        Task<bool> DeleteAsync(string id);
+        Task<(bool success, string? message)> CreateAsync(AppointmentDto dto);
+        Task<(bool success, string? message)> UpdateAsync(string id, UpdateAppointDto updated);
+        Task<(bool success, string? message)> DeleteAsync(string id);
         Task<List<DateTime>> GetAvailableSchedulesAsync();
     }
 }

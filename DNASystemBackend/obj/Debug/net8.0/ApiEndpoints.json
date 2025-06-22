@@ -28,8 +28,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "booking",
-        "Type": "DNASystemBackend.Models.Booking",
+        "Name": "dto",
+        "Type": "DNASystemBackend.DTOs.AppointmentDto",
         "IsRequired": true
       }
     ],
@@ -86,7 +86,7 @@
       },
       {
         "Name": "updated",
-        "Type": "DNASystemBackend.Models.Booking",
+        "Type": "DNASystemBackend.DTOs.UpdateAppointDto",
         "IsRequired": true
       }
     ],
@@ -414,7 +414,7 @@
   },
   {
     "ContainingType": "DNASystemBackend.Controllers.ServicesController",
-    "Method": "GetAll",
+    "Method": "GetAllServices",
     "RelativePath": "api/Services",
     "HttpMethod": "GET",
     "IsController": true,
@@ -424,7 +424,7 @@
   },
   {
     "ContainingType": "DNASystemBackend.Controllers.ServicesController",
-    "Method": "Create",
+    "Method": "CreateService",
     "RelativePath": "api/Services",
     "HttpMethod": "POST",
     "IsController": true,
@@ -432,7 +432,7 @@
     "Parameters": [
       {
         "Name": "model",
-        "Type": "DNASystemBackend.Models.Service",
+        "Type": "DNASystemBackend.DTOs.ServiceDto",
         "IsRequired": true
       }
     ],
@@ -440,7 +440,7 @@
   },
   {
     "ContainingType": "DNASystemBackend.Controllers.ServicesController",
-    "Method": "GetById",
+    "Method": "GetServiceById",
     "RelativePath": "api/Services/{id}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -456,7 +456,7 @@
   },
   {
     "ContainingType": "DNASystemBackend.Controllers.ServicesController",
-    "Method": "Update",
+    "Method": "UpdateService",
     "RelativePath": "api/Services/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
@@ -469,7 +469,7 @@
       },
       {
         "Name": "model",
-        "Type": "DNASystemBackend.Models.Service",
+        "Type": "DNASystemBackend.DTOs.UpdateServiceDto",
         "IsRequired": true
       }
     ],
@@ -477,7 +477,7 @@
   },
   {
     "ContainingType": "DNASystemBackend.Controllers.ServicesController",
-    "Method": "Delete",
+    "Method": "DeleteService",
     "RelativePath": "api/Services/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
