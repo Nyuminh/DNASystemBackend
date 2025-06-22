@@ -1,4 +1,5 @@
-﻿using DNASystemBackend.Interfaces;
+﻿using DNASystemBackend.DTOs;
+using DNASystemBackend.Interfaces;
 using DNASystemBackend.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,12 +32,9 @@ namespace DNASystemBackend.Repositories
                 .FirstOrDefaultAsync(b => b.BookingId == id);
         }
 
-        public async Task<Booking> CreateAsync(Booking booking)
+        public async Task CreateAsync(Booking booking)
         {
-            booking.BookingId = await GenerateBookingIdAsync();
-            _context.Bookings.Add(booking);
-            await _context.SaveChangesAsync();
-            return booking;
+            await _context.Bookings.AddAsync(booking);
         }
 
         public async Task<bool> UpdateAsync(string id, Booking updated)
@@ -44,6 +42,7 @@ namespace DNASystemBackend.Repositories
             var booking = await _context.Bookings.FindAsync(id);
             if (booking == null) return false;
 
+            // Update properties from Booking
             booking.CustomerId = updated.CustomerId;
             booking.StaffId = updated.StaffId;
             booking.ServiceId = updated.ServiceId;
@@ -55,6 +54,7 @@ namespace DNASystemBackend.Repositories
 
         public async Task<bool> DeleteAsync(string id)
         {
+
             var booking = await _context.Bookings.FindAsync(id);
             if (booking == null) return false;
 
@@ -96,6 +96,10 @@ namespace DNASystemBackend.Repositories
             } while (existingIds.Contains(newId));
 
             return newId;
+        }
+        public async Task SaveAsync()
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }
