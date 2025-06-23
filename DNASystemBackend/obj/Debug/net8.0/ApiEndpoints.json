@@ -493,6 +493,22 @@
   },
   {
     "ContainingType": "DNASystemBackend.Controllers.ServicesController",
+    "Method": "DeleteWithCascade",
+    "RelativePath": "api/Services/{id}/cascade",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DNASystemBackend.Controllers.ServicesController",
     "Method": "GetCategories",
     "RelativePath": "api/Services/categories",
     "HttpMethod": "GET",

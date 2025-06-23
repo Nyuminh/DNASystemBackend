@@ -63,6 +63,16 @@ namespace DNASystemBackend.Controllers
             if (!success) return BadRequest(message);
             return Ok(new { message });
         }
+        [HttpDelete("{id}/cascade")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteWithCascade(string id)
+        {
+            var result = await _serviceService.DeleteWithCascadeAsync(id);
+            if (result.success)
+                return Ok(new { message = result.message });
+
+            return BadRequest(new { message = result.message });
+        }
 
         // GET: /api/services/categories
         [HttpGet("categories")]

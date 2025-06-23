@@ -32,10 +32,11 @@ namespace DNASystemBackend.Repositories
                 .FirstOrDefaultAsync(b => b.BookingId == id);
         }
 
-        public async Task CreateAsync(Booking booking)
-        {
-            await _context.Bookings.AddAsync(booking);
-        }
+       public async Task CreateAsync(Booking booking)
+    {
+        _context.Bookings.Add(booking);
+        await _context.SaveChangesAsync(); 
+    }
 
         public async Task<bool> UpdateAsync(string id, Booking updated)
         {
