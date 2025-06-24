@@ -16,13 +16,18 @@ public partial class Booking
     public string? ServiceId { get; set; }
 
     public string? Address { get; set; }
+
     public string? Method { get; set; }
 
     public virtual User? Customer { get; set; }
 
     public virtual ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
 
+    public virtual ICollection<Kit> Kits { get; set; } = new List<Kit>();
+
     public virtual Service? Service { get; set; }
 
     public virtual User? Staff { get; set; }
+
+    public virtual ICollection<TestResult> TestResults { get; set; } = new List<TestResult>();
 }
