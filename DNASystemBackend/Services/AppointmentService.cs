@@ -1,6 +1,7 @@
 ﻿using DNASystemBackend.DTOs;
 using DNASystemBackend.Interfaces;
 using DNASystemBackend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DNASystemBackend.Services
 {
@@ -29,7 +30,9 @@ namespace DNASystemBackend.Services
                     CustomerId = dto.CustomerId,
                     StaffId = dto.StaffId,
                     ServiceId = dto.ServiceId,
-                    Date = dto.Date
+                    Date = dto.Date,
+                    Address = dto.Address,
+                    Method = dto.Method
                 };
 
                 // Generate a new booking ID if not provided
@@ -41,12 +44,14 @@ namespace DNASystemBackend.Services
                 {
                     booking.BookingId = dto.BookingId;
                 }
-
+                Console.WriteLine($"Creating booking: ID={booking.BookingId}, Customer={booking.CustomerId}, Staff={booking.StaffId}");
                 await _repository.CreateAsync(booking);
+                Console.WriteLine("Repository CreateAsync completed");
                 return (true, "Tạo lịch hẹn thành công.");
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Error creating booking: {ex}");
                 return (false, $"Lỗi khi tạo đặt lịch: {ex.Message}");
             }
         }
@@ -61,6 +66,11 @@ namespace DNASystemBackend.Services
             booking.StaffId = updated.StaffId;
             booking.ServiceId = updated.ServiceId;
             booking.Date = updated.Date;
+            if (updated.Address != null)
+                booking.Address = updated.Address;
+
+            if (updated.Method != null)
+                booking.Method = updated.Method;
 
             try
             {
@@ -74,20 +84,56 @@ namespace DNASystemBackend.Services
         }
         public async Task<(bool success, string? message)> DeleteAsync(string id)
         {
-            var booking = await _repository.GetByIdAsync(id);
-            if (booking == null) return (false, "Không tìm thấy lịch hẹn.");
-
+            using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
+                var booking = await _repository.GetByIdAsync(id);
+                if (booking == null)
+                    return (false, "Không tìm thấy lịch hẹn.");
+
+                // Get related invoices
+                var invoices = await _context.Invoices
+                    .Where(i => i.BookingId == id)
+                    .ToListAsync();
+
+                // For each invoice, delete its invoice details first
+                foreach (var invoice in invoices)
+                {
+                    var invoiceDetails = await _context.InvoiceDetails
+                        .Where(d => d.InvoiceId == invoice.InvoiceId)
+                        .ToListAsync();
+
+                    if (invoiceDetails.Any())
+                    {
+                        _context.InvoiceDetails.RemoveRange(invoiceDetails);
+                    }
+                }
+
+                // Now delete all the invoices
+                if (invoices.Any())
+                {
+                    _context.Invoices.RemoveRange(invoices);
+                }
+
+                // Finally delete the booking
                 _context.Bookings.Remove(booking);
+
+                // Save all changes
                 await _context.SaveChangesAsync();
-                return (true, "Xóa lịch hẹn thành công.");
+
+                // Commit transaction
+                await transaction.CommitAsync();
+
+                return (true, "Xóa lịch hẹn và tất cả dữ liệu liên quan thành công.");
             }
             catch (Exception ex)
             {
+                // Rollback on error
+                await transaction.RollbackAsync();
                 return (false, $"Lỗi khi xóa lịch hẹn: {ex.Message}");
             }
         }
+
 
         public Task<List<DateTime>> GetAvailableSchedulesAsync()
             => _repository.GetAvailableSchedulesAsync();

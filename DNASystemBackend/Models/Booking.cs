@@ -15,6 +15,9 @@ public partial class Booking
 
     public string? ServiceId { get; set; }
 
+    public string? Address { get; set; }
+    public string? Method { get; set; }
+
     public virtual User? Customer { get; set; }
 
     public virtual ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();

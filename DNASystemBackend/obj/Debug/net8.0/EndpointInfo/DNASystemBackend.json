@@ -844,6 +844,28 @@
         }
       }
     },
+    "/api/Services/{id}/cascade": {
+      "delete": {
+        "tags": [
+          "Services"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Services/categories": {
       "get": {
         "tags": [
@@ -1192,6 +1214,14 @@
           "serviceId": {
             "type": "string",
             "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "method": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1217,6 +1247,14 @@
             "nullable": true
           },
           "serviceId": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "method": {
             "type": "string",
             "nullable": true
           },
@@ -1664,6 +1702,14 @@
             "nullable": true
           },
           "serviceId": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "method": {
             "type": "string",
             "nullable": true
           }

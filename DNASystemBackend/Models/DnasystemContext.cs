@@ -62,6 +62,12 @@ public partial class DnasystemContext : DbContext
             entity.Property(e => e.StaffId)
                 .HasMaxLength(10)
                 .HasColumnName("staffID");
+            entity.Property(e => e.Address)
+               .HasMaxLength(10)
+               .HasColumnName("address");
+            entity.Property(e => e.Method)
+               .HasMaxLength(10)
+               .HasColumnName("method");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.BookingCustomers)
                 .HasForeignKey(d => d.CustomerId)
