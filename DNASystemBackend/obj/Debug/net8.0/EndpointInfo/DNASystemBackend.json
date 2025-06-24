@@ -1268,11 +1268,25 @@
             },
             "nullable": true
           },
+          "kits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Kit"
+            },
+            "nullable": true
+          },
           "service": {
             "$ref": "#/components/schemas/Service"
           },
           "staff": {
             "$ref": "#/components/schemas/User"
+          },
+          "testResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TestResult"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1464,6 +1478,10 @@
             "type": "string",
             "nullable": true
           },
+          "bookingId": {
+            "type": "string",
+            "nullable": true
+          },
           "description": {
             "type": "string",
             "nullable": true
@@ -1476,6 +1494,9 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          },
+          "booking": {
+            "$ref": "#/components/schemas/Booking"
           },
           "customer": {
             "$ref": "#/components/schemas/User"
@@ -1664,6 +1685,10 @@
             "type": "string",
             "nullable": true
           },
+          "bookingId": {
+            "type": "string",
+            "nullable": true
+          },
           "date": {
             "type": "string",
             "format": "date-time",
@@ -1676,6 +1701,9 @@
           "status": {
             "type": "string",
             "nullable": true
+          },
+          "booking": {
+            "$ref": "#/components/schemas/Booking"
           },
           "customer": {
             "$ref": "#/components/schemas/User"

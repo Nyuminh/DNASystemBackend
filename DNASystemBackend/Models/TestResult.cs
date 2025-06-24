@@ -13,11 +13,15 @@ public partial class TestResult
 
     public string? ServiceId { get; set; }
 
+    public string? BookingId { get; set; }
+
     public DateTime? Date { get; set; }
 
     public string? Description { get; set; }
 
     public string? Status { get; set; }
+
+    public virtual Booking? Booking { get; set; }
 
     public virtual User? Customer { get; set; }
 

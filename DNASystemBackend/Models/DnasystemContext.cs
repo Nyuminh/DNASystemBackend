@@ -43,31 +43,31 @@ public partial class DnasystemContext : DbContext
     {
         modelBuilder.Entity<Booking>(entity =>
         {
-            entity.HasKey(e => e.BookingId).HasName("PK__Booking__C6D03BED7DEC36F2");
+            entity.HasKey(e => e.BookingId).HasName("PK__Booking__C6D03BED2A366500");
 
             entity.ToTable("Booking");
 
             entity.Property(e => e.BookingId)
                 .HasMaxLength(10)
                 .HasColumnName("bookingID");
+            entity.Property(e => e.Address)
+                .HasMaxLength(55)
+                .HasColumnName("address");
             entity.Property(e => e.CustomerId)
                 .HasMaxLength(10)
                 .HasColumnName("customerID");
             entity.Property(e => e.Date)
                 .HasColumnType("datetime")
                 .HasColumnName("date");
+            entity.Property(e => e.Method)
+                .HasMaxLength(20)
+                .HasColumnName("method");
             entity.Property(e => e.ServiceId)
                 .HasMaxLength(10)
                 .HasColumnName("serviceID");
             entity.Property(e => e.StaffId)
                 .HasMaxLength(10)
                 .HasColumnName("staffID");
-            entity.Property(e => e.Address)
-               .HasMaxLength(10)
-               .HasColumnName("address");
-            entity.Property(e => e.Method)
-               .HasMaxLength(10)
-               .HasColumnName("method");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.BookingCustomers)
                 .HasForeignKey(d => d.CustomerId)
@@ -84,7 +84,7 @@ public partial class DnasystemContext : DbContext
 
         modelBuilder.Entity<Course>(entity =>
         {
-            entity.HasKey(e => e.CourseId).HasName("PK__Course__2AA84FF1DBECDE9A");
+            entity.HasKey(e => e.CourseId).HasName("PK__Course__2AA84FF1808190D3");
 
             entity.ToTable("Course");
 
@@ -113,7 +113,7 @@ public partial class DnasystemContext : DbContext
 
         modelBuilder.Entity<Feedback>(entity =>
         {
-            entity.HasKey(e => e.FeedbackId).HasName("PK__Feedback__2613FDC4B749BF2C");
+            entity.HasKey(e => e.FeedbackId).HasName("PK__Feedback__2613FDC4AC492F8E");
 
             entity.ToTable("Feedback");
 
@@ -140,7 +140,7 @@ public partial class DnasystemContext : DbContext
 
         modelBuilder.Entity<Invoice>(entity =>
         {
-            entity.HasKey(e => e.InvoiceId).HasName("PK__Invoice__1252410C4834CE8B");
+            entity.HasKey(e => e.InvoiceId).HasName("PK__Invoice__1252410CAA4CB658");
 
             entity.ToTable("Invoice");
 
@@ -164,7 +164,7 @@ public partial class DnasystemContext : DbContext
 
         modelBuilder.Entity<InvoiceDetail>(entity =>
         {
-            entity.HasKey(e => e.InvoicedetailId).HasName("PK__InvoiceD__FDA5DC32D84EADAB");
+            entity.HasKey(e => e.InvoicedetailId).HasName("PK__InvoiceD__FDA5DC3276A14F29");
 
             entity.ToTable("InvoiceDetail");
 
@@ -190,13 +190,16 @@ public partial class DnasystemContext : DbContext
 
         modelBuilder.Entity<Kit>(entity =>
         {
-            entity.HasKey(e => e.KitId).HasName("PK__Kit__98C65C8066A586FD");
+            entity.HasKey(e => e.KitId).HasName("PK__Kit__98C65C80209E4C57");
 
             entity.ToTable("Kit");
 
             entity.Property(e => e.KitId)
                 .HasMaxLength(10)
                 .HasColumnName("kitID");
+            entity.Property(e => e.BookingId)
+                .HasMaxLength(10)
+                .HasColumnName("bookingID");
             entity.Property(e => e.CustomerId)
                 .HasMaxLength(10)
                 .HasColumnName("customerID");
@@ -212,6 +215,10 @@ public partial class DnasystemContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("status");
 
+            entity.HasOne(d => d.Booking).WithMany(p => p.Kits)
+                .HasForeignKey(d => d.BookingId)
+                .HasConstraintName("FK__Kit__bookingID__534D60F1");
+
             entity.HasOne(d => d.Customer).WithMany(p => p.KitCustomers)
                 .HasForeignKey(d => d.CustomerId)
                 .HasConstraintName("FK__Kit__customerID__5165187F");
@@ -223,7 +230,7 @@ public partial class DnasystemContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__Role__CD98460AF905C65E");
+            entity.HasKey(e => e.RoleId).HasName("PK__Role__CD98460A465A4159");
 
             entity.ToTable("Role");
 
@@ -237,7 +244,7 @@ public partial class DnasystemContext : DbContext
 
         modelBuilder.Entity<Service>(entity =>
         {
-            entity.HasKey(e => e.ServiceId).HasName("PK__Service__4550733FEB577886");
+            entity.HasKey(e => e.ServiceId).HasName("PK__Service__4550733FC25EC116");
 
             entity.ToTable("Service");
 
@@ -264,13 +271,16 @@ public partial class DnasystemContext : DbContext
 
         modelBuilder.Entity<TestResult>(entity =>
         {
-            entity.HasKey(e => e.ResultId).HasName("PK__TestResu__C6EADC7BB3693170");
+            entity.HasKey(e => e.ResultId).HasName("PK__TestResu__C6EADC7BA75A4A64");
 
             entity.ToTable("TestResult");
 
             entity.Property(e => e.ResultId)
                 .HasMaxLength(10)
                 .HasColumnName("resultID");
+            entity.Property(e => e.BookingId)
+                .HasMaxLength(10)
+                .HasColumnName("bookingID");
             entity.Property(e => e.CustomerId)
                 .HasMaxLength(10)
                 .HasColumnName("customerID");
@@ -289,22 +299,26 @@ public partial class DnasystemContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("status");
 
+            entity.HasOne(d => d.Booking).WithMany(p => p.TestResults)
+                .HasForeignKey(d => d.BookingId)
+                .HasConstraintName("FK__TestResul__booki__571DF1D5");
+
             entity.HasOne(d => d.Customer).WithMany(p => p.TestResultCustomers)
                 .HasForeignKey(d => d.CustomerId)
-                .HasConstraintName("FK__TestResul__custo__534D60F1");
+                .HasConstraintName("FK__TestResul__custo__5441852A");
 
             entity.HasOne(d => d.Service).WithMany(p => p.TestResults)
                 .HasForeignKey(d => d.ServiceId)
-                .HasConstraintName("FK__TestResul__servi__5441852A");
+                .HasConstraintName("FK__TestResul__servi__5535A963");
 
             entity.HasOne(d => d.Staff).WithMany(p => p.TestResultStaffs)
                 .HasForeignKey(d => d.StaffId)
-                .HasConstraintName("FK__TestResul__staff__5535A963");
+                .HasConstraintName("FK__TestResul__staff__5629CD9C");
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__CB9A1CDFE783B793");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__CB9A1CDF061C11A7");
 
             entity.Property(e => e.UserId)
                 .HasMaxLength(10)
@@ -344,7 +358,7 @@ public partial class DnasystemContext : DbContext
 
             entity.HasOne(d => d.Role).WithMany(p => p.Users)
                 .HasForeignKey(d => d.RoleId)
-                .HasConstraintName("FK__Users__roleID__5629CD9C");
+                .HasConstraintName("FK__Users__roleID__5812160E");
         });
 
         OnModelCreatingPartial(modelBuilder);
