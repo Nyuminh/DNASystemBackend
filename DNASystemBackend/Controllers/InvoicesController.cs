@@ -1,6 +1,7 @@
 ﻿using DNASystemBackend.DTOs;
 using DNASystemBackend.Interfaces;
 using DNASystemBackend.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DNASystemBackend.Controllers
@@ -62,6 +63,7 @@ namespace DNASystemBackend.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> UpdateInvoice(string id, [FromBody] Invoice invoice)
         {
             var updated = await _invoiceService.UpdateAsync(id, invoice);
@@ -69,6 +71,7 @@ namespace DNASystemBackend.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> DeleteInvoice(string id)
         {
             var deleted = await _invoiceService.DeleteAsync(id);

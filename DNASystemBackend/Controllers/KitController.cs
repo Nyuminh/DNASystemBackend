@@ -1,6 +1,7 @@
 ﻿using DNASystemBackend.DTOs;
 using DNASystemBackend.Interfaces;
 using DNASystemBackend.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DNASystemBackend.Controllers
@@ -31,6 +32,7 @@ namespace DNASystemBackend.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Staff")]
         public async Task<ActionResult<Kit>> CreateKit([FromBody] CreateKitDto kit)
         {
             var (success, message) = await _service.CreateAsync(kit);
@@ -39,6 +41,7 @@ namespace DNASystemBackend.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Staff")]
         public async Task<IActionResult> UpdateStatus(string id, [FromBody] string status)
         {
             var (success, message) = await _service.UpdateStatusAsync(id, status);
