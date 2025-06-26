@@ -1,4 +1,5 @@
-﻿using DNASystemBackend.Interfaces;
+﻿using DNASystemBackend.DTOs;
+using DNASystemBackend.Interfaces;
 using DNASystemBackend.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,17 +31,19 @@ namespace DNASystemBackend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Kit>> CreateKit([FromBody] Kit kit)
+        public async Task<ActionResult<Kit>> CreateKit([FromBody] CreateKitDto kit)
         {
-            var created = await _service.CreateAsync(kit);
-            return CreatedAtAction(nameof(GetKit), new { id = created.KitId }, created);
+            var (success, message) = await _service.CreateAsync(kit);
+            if (!success) return BadRequest(message);
+            return Ok(new { message = "Tạo kit thành công." });
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateStatus(string id, [FromBody] string status)
         {
-            var success = await _service.UpdateStatusAsync(id, status);
-            return success ? Ok(new { message = "Cập nhật trạng thái thành công." }) : NotFound();
+            var (success, message) = await _service.UpdateStatusAsync(id, status);
+            if (!success) return BadRequest(message);
+            return Ok(new { message = "Cập nhật trạng thái kit thành công." });
         }
 
         [HttpGet("tracking")]
