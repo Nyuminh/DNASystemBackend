@@ -1509,6 +1509,10 @@
           "method": {
             "type": "string",
             "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1542,6 +1546,10 @@
             "nullable": true
           },
           "method": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
             "type": "string",
             "nullable": true
           },
@@ -1624,6 +1632,10 @@
             "nullable": true
           },
           "staffId": {
+            "type": "string",
+            "nullable": true
+          },
+          "bookingId": {
             "type": "string",
             "nullable": true
           },
@@ -2098,6 +2110,10 @@
             "nullable": true
           },
           "method": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
             "type": "string",
             "nullable": true
           }
