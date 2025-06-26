@@ -10,7 +10,8 @@
         Task<bool> UpdateAsync(string id, TestResult updated);
         Task<bool> DeleteAsync(string id);
         Task<string> GenerateIdAsync();
-        Task<IEnumerable<TestResult>> GetByBookingIdAsync(string bookingId);
+        Task<TestResult?> GetByBookingIdAsync(string bookingId);
+
 
     }
 }

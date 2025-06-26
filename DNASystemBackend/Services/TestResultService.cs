@@ -15,17 +15,12 @@
             _repo = repo;
             _context = context;
         }
-
-        public async Task<IEnumerable<TestResult>> GetByBookingIdAsync(string bookingId)
+        public async Task<TestResult?> GetByBookingIdAsync(string bookingId)
         {
             return await _context.TestResults
                 .Where(r => r.BookingId == bookingId)
-                .ToListAsync();
+                .FirstOrDefaultAsync();
         }
-
-
-
-
 
         public Task<IEnumerable<TestResult>> GetAllAsync() => _repo.GetAllAsync();
         public Task<TestResult?> GetByIdAsync(string id) => _repo.GetByIdAsync(id);
