@@ -62,7 +62,6 @@ namespace DNASystemBackend.Controllers
 
         // GET: /api/user/{id}/edit
         [HttpGet("{id}/edit")]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetUserForEdit(string id)
         {
             var data = await _userService.GetUserForEditAsync(id);

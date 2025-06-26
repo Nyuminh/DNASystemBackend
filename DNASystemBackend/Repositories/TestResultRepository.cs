@@ -44,20 +44,27 @@ namespace DNASystemBackend.Repositories
             return true;
         }
 
+        private static readonly object _idLock = new object();
+
         public async Task<string> GenerateIdAsync()
         {
-            var lastId = await _context.TestResults
-                .OrderByDescending(r => r.ResultId)
-                .Select(r => r.ResultId)
-                .FirstOrDefaultAsync();
-
-            int nextId = 1;
-            if (!string.IsNullOrEmpty(lastId) && lastId.StartsWith("R") &&
-                int.TryParse(lastId.Substring(1), out var lastNum))
+            lock (_idLock)
             {
-                nextId = lastNum + 1;
+                var lastId = _context.TestResults
+                    .Where(r => r.ResultId.StartsWith("R") && r.ResultId.Length == 5)
+                    .OrderByDescending(r => r.ResultId)
+                    .Select(r => r.ResultId)
+                    .FirstOrDefault();
+
+                int nextId = 1;
+                if (!string.IsNullOrEmpty(lastId) && int.TryParse(lastId.Substring(1), out int lastNum))
+                {
+                    nextId = lastNum + 1;
+                }
+
+                return $"R{nextId:D4}";
             }
-            return $"R{nextId:D4}";
         }
+
     }
 }
