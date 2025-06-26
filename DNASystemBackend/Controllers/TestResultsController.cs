@@ -1,49 +1,71 @@
-﻿using DNASystemBackend.Interfaces;
+﻿using DNASystemBackend.DTOs;
+using DNASystemBackend.Interfaces;
 using DNASystemBackend.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DNASystemBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TestResultsController : ControllerBase
+    public class ResultsController : ControllerBase
     {
         private readonly ITestResultService _service;
 
-        public TestResultsController(ITestResultService service)
+        public ResultsController(ITestResultService service)
         {
             _service = service;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TestResult>>> GetResults()
+        public async Task<ActionResult<IEnumerable<TestResult>>> GetAll()
         {
             var results = await _service.GetAllAsync();
             return Ok(results);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<TestResult>> GetResult(string id)
+        public async Task<ActionResult<TestResult>> GetById(string id)
         {
             var result = await _service.GetByIdAsync(id);
             return result == null ? NotFound() : Ok(result);
         }
 
         [HttpPost]
-        public async Task<ActionResult<TestResult>> CreateResult([FromBody] TestResult result)
+        [Authorize(Roles = "Staff")]
+        public async Task<ActionResult<TestResult>> Create([FromBody] TestResultCreateDto dto)
         {
+            var id = await _service.GenerateIdAsync();
+            var result = new TestResult
+            {
+                ResultId = id,
+                CustomerId = dto.CustomerId,
+                StaffId = dto.StaffId,
+                ServiceId = dto.ServiceId,
+                BookingId = dto.BookingId,
+                Date = dto.Date,
+                Description = dto.Description,
+                Status = dto.Status
+            };
+
             var created = await _service.CreateAsync(result);
-            return CreatedAtAction(nameof(GetResult), new { id = created.ResultId }, created);
+            return CreatedAtAction(nameof(GetById), new { id = created.ResultId }, created);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateResult(string id, [FromBody] TestResult updated)
+        [Authorize(Roles = "Staff")]
+        public async Task<IActionResult> Update(string id, [FromBody] TestResult updatedResult)
         {
-            if (id != updated.ResultId)
-                return BadRequest("ID không khớp.");
+            var success = await _service.UpdateAsync(id, updatedResult);
+            return success ? Ok(new { message = "Cập nhật kết quả thành công." }) : NotFound();
+        }
 
-            var success = await _service.UpdateAsync(id, updated);
-            return success ? Ok(new { message = "Cập nhật thành công." }) : NotFound();
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Staff")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var deleted = await _service.DeleteAsync(id);
+            return deleted ? Ok(new { message = "Xóa kết quả thành công." }) : NotFound();
         }
     }
 }

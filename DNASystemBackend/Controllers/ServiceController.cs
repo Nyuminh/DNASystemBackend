@@ -36,7 +36,7 @@ namespace DNASystemBackend.Controllers
 
         // POST: /api/services
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> CreateService([FromBody] ServiceDto model)
         {
             var (success, message) = await _serviceService.CreateAsync(model);
@@ -46,7 +46,7 @@ namespace DNASystemBackend.Controllers
 
         // PUT: /api/services/{id}
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> UpdateService(string id, [FromBody] UpdateServiceDto model)
         {
             var (success, message) = await _serviceService.UpdateAsync(id, model);
@@ -56,7 +56,7 @@ namespace DNASystemBackend.Controllers
 
         // DELETE: /api/services/{id}
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> DeleteService(string id)
         {
             var (success, message) = await _serviceService.DeleteAsync(id);
@@ -64,7 +64,7 @@ namespace DNASystemBackend.Controllers
             return Ok(new { message });
         }
         [HttpDelete("{id}/cascade")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> DeleteWithCascade(string id)
         {
             var result = await _serviceService.DeleteWithCascadeAsync(id);

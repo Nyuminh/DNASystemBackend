@@ -36,14 +36,14 @@ public partial class DnasystemContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+#warning
         => optionsBuilder.UseSqlServer("Server=localhost;Database=DNASystem;User Id=sa;Password=12345;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Booking>(entity =>
         {
-            entity.HasKey(e => e.BookingId).HasName("PK__Booking__C6D03BED2A366500");
+            entity.HasKey(e => e.BookingId).HasName("PK__Booking__C6D03BED3D71970F");
 
             entity.ToTable("Booking");
 
@@ -68,6 +68,9 @@ public partial class DnasystemContext : DbContext
             entity.Property(e => e.StaffId)
                 .HasMaxLength(10)
                 .HasColumnName("staffID");
+            entity.Property(e => e.Status)
+                .HasMaxLength(20)
+                .HasColumnName("status");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.BookingCustomers)
                 .HasForeignKey(d => d.CustomerId)
@@ -84,7 +87,7 @@ public partial class DnasystemContext : DbContext
 
         modelBuilder.Entity<Course>(entity =>
         {
-            entity.HasKey(e => e.CourseId).HasName("PK__Course__2AA84FF1808190D3");
+            entity.HasKey(e => e.CourseId).HasName("PK__Course__2AA84FF1D01564E0");
 
             entity.ToTable("Course");
 
@@ -113,7 +116,7 @@ public partial class DnasystemContext : DbContext
 
         modelBuilder.Entity<Feedback>(entity =>
         {
-            entity.HasKey(e => e.FeedbackId).HasName("PK__Feedback__2613FDC4AC492F8E");
+            entity.HasKey(e => e.FeedbackId).HasName("PK__Feedback__2613FDC4934EC59B");
 
             entity.ToTable("Feedback");
 
@@ -140,7 +143,7 @@ public partial class DnasystemContext : DbContext
 
         modelBuilder.Entity<Invoice>(entity =>
         {
-            entity.HasKey(e => e.InvoiceId).HasName("PK__Invoice__1252410CAA4CB658");
+            entity.HasKey(e => e.InvoiceId).HasName("PK__Invoice__1252410C3C2110F4");
 
             entity.ToTable("Invoice");
 
@@ -164,7 +167,7 @@ public partial class DnasystemContext : DbContext
 
         modelBuilder.Entity<InvoiceDetail>(entity =>
         {
-            entity.HasKey(e => e.InvoicedetailId).HasName("PK__InvoiceD__FDA5DC3276A14F29");
+            entity.HasKey(e => e.InvoicedetailId).HasName("PK__InvoiceD__FDA5DC328F0320B0");
 
             entity.ToTable("InvoiceDetail");
 
@@ -190,7 +193,7 @@ public partial class DnasystemContext : DbContext
 
         modelBuilder.Entity<Kit>(entity =>
         {
-            entity.HasKey(e => e.KitId).HasName("PK__Kit__98C65C80209E4C57");
+            entity.HasKey(e => e.KitId).HasName("PK__Kit__98C65C80F78FE4BC");
 
             entity.ToTable("Kit");
 
@@ -230,7 +233,7 @@ public partial class DnasystemContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__Role__CD98460A465A4159");
+            entity.HasKey(e => e.RoleId).HasName("PK__Role__CD98460A7739AFF5");
 
             entity.ToTable("Role");
 
@@ -244,7 +247,7 @@ public partial class DnasystemContext : DbContext
 
         modelBuilder.Entity<Service>(entity =>
         {
-            entity.HasKey(e => e.ServiceId).HasName("PK__Service__4550733FC25EC116");
+            entity.HasKey(e => e.ServiceId).HasName("PK__Service__4550733FC14C703E");
 
             entity.ToTable("Service");
 
@@ -271,7 +274,7 @@ public partial class DnasystemContext : DbContext
 
         modelBuilder.Entity<TestResult>(entity =>
         {
-            entity.HasKey(e => e.ResultId).HasName("PK__TestResu__C6EADC7BA75A4A64");
+            entity.HasKey(e => e.ResultId).HasName("PK__TestResu__C6EADC7B6B179A7F");
 
             entity.ToTable("TestResult");
 
@@ -318,7 +321,7 @@ public partial class DnasystemContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__CB9A1CDF061C11A7");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__CB9A1CDFAE263982");
 
             entity.Property(e => e.UserId)
                 .HasMaxLength(10)

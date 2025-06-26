@@ -2,6 +2,7 @@
 using DNASystemBackend.Interfaces;
 using DNASystemBackend.Models;
 using DNASystemBackend.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DNASystemBackend.Controllers
@@ -40,6 +41,7 @@ namespace DNASystemBackend.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Staff")]
         public async Task<IActionResult> UpdateAppointment(string id, UpdateAppointDto updated)
         {
             var (success, message) = await _service.UpdateAsync(id, updated);

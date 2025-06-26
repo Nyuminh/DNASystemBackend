@@ -46,14 +46,11 @@ namespace DNASystemBackend.Controllers
             });
         }
 
-        /// <summary>
-        /// Đăng xuất
-        /// </summary>
         [HttpPost("logout")]
         [Authorize]
         public IActionResult Logout()
         {
-            HttpContext.Session.Clear(); // Nếu có dùng session
+            HttpContext.Session.Clear(); 
             return Ok(new { message = "Đăng xuất thành công." });
         }
     }

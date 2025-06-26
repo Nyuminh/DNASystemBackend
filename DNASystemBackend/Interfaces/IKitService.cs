@@ -1,4 +1,5 @@
-﻿using DNASystemBackend.Models;
+﻿using DNASystemBackend.DTOs;
+using DNASystemBackend.Models;
 
 namespace DNASystemBackend.Interfaces
 {
@@ -6,8 +7,9 @@ namespace DNASystemBackend.Interfaces
     {
         Task<IEnumerable<Kit>> GetAllAsync();
         Task<Kit?> GetByIdAsync(string id);
-        Task<Kit> CreateAsync(Kit kit);
-        Task<bool> UpdateStatusAsync(string id, string status);
+        Task<(bool success, string? message)> CreateAsync(CreateKitDto kit);
+        Task<(bool success, string? message)> UpdateStatusAsync(string id, string status);
+        Task<(bool success, string? message)> DeleteAsync(string id);
         Task<IEnumerable<Kit>> GetTrackingSamplesAsync();
         Task<IEnumerable<Kit>> GetCollectionSamplesAsync();
     }

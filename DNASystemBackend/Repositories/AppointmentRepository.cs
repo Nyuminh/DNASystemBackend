@@ -15,13 +15,9 @@ namespace DNASystemBackend.Repositories
         }
 
         public async Task<IEnumerable<Booking>> GetAllAsync()
-        {
-            return await _context.Bookings
-                .Include(b => b.Customer)
-                .Include(b => b.Staff)
-                .Include(b => b.Service)
-                .ToListAsync();
-        }
+              => await _context.Bookings.ToListAsync();
+            
+        
 
         public async Task<Booking?> GetByIdAsync(string id)
         {
@@ -48,6 +44,9 @@ namespace DNASystemBackend.Repositories
             booking.StaffId = updated.StaffId;
             booking.ServiceId = updated.ServiceId;
             booking.Date = updated.Date;
+            booking.Address = updated.Address;
+            booking.Method = updated.Method;
+            booking.Status = updated.Status;
 
             await _context.SaveChangesAsync();
             return true;
