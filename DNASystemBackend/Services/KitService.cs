@@ -35,6 +35,7 @@ namespace DNASystemBackend.Services
                 {
                     CustomerId = kit.CustomerId,
                     StaffId = kit.StaffId,
+                    BookingId=kit.BookingId,
                     Description = kit.Description,
                     Status = kit.Status,
                     Receivedate = kit.Receivedate,

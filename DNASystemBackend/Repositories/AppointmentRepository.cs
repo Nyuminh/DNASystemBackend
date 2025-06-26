@@ -15,13 +15,9 @@ namespace DNASystemBackend.Repositories
         }
 
         public async Task<IEnumerable<Booking>> GetAllAsync()
-        {
-            return await _context.Bookings
-                .Include(b => b.Customer)
-                .Include(b => b.Staff)
-                .Include(b => b.Service)
-                .ToListAsync();
-        }
+              => await _context.Bookings.ToListAsync();
+            
+        
 
         public async Task<Booking?> GetByIdAsync(string id)
         {

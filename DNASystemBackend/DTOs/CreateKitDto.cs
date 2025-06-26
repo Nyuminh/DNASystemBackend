@@ -7,6 +7,9 @@ namespace DNASystemBackend.DTOs
 
         public string? StaffId { get; set; }
 
+        public string? BookingId { get; set; }
+
+
         public string? Description { get; set; }
 
         public string? Status { get; set; }
