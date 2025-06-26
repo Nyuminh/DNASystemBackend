@@ -65,6 +65,7 @@ namespace DNASystemBackend.Repositories
                 return $"R{nextId:D4}";
             }
         }
+       
 
     }
 }

@@ -15,6 +15,7 @@ namespace DNASystemBackend.Controllers
         public ResultsController(ITestResultService service)
         {
             _service = service;
+
         }
 
         [HttpGet]
@@ -29,6 +30,16 @@ namespace DNASystemBackend.Controllers
         {
             var result = await _service.GetByIdAsync(id);
             return result == null ? NotFound() : Ok(result);
+        }
+        [HttpGet("{bookingId}")]
+        public async Task<ActionResult<IEnumerable<TestResult>>> GetByBookingId(string bookingId)
+        {
+            var results = await _service.GetByBookingIdAsync(bookingId);
+
+            if (results == null || !results.Any())
+                return NotFound(new { message = $"Không tìm thấy kết quả cho Booking ID = {bookingId}" });
+
+            return Ok(results);
         }
 
         [HttpPost]
