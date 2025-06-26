@@ -44,6 +44,9 @@ namespace DNASystemBackend.Repositories
             booking.StaffId = updated.StaffId;
             booking.ServiceId = updated.ServiceId;
             booking.Date = updated.Date;
+            booking.Address = updated.Address;
+            booking.Method = updated.Method;
+            booking.Status = updated.Status;
 
             await _context.SaveChangesAsync();
             return true;
