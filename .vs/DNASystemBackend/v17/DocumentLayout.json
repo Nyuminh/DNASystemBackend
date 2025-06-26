@@ -3,16 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|c:\\users\\admin\\desktop\\cn5\\back_end\\dnasystembackend\\dnasystembackend\\services\\appointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|solutionrelative:dnasystembackend\\services\\appointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|c:\\users\\admin\\desktop\\cn5\\back_end\\dnasystembackend\\dnasystembackend\\interfaces\\iappointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|solutionrelative:dnasystembackend\\interfaces\\iappointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|c:\\users\\admin\\desktop\\cn5\\back_end\\dnasystembackend\\dnasystembackend\\controllers\\appointmentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|solutionrelative:dnasystembackend\\controllers\\appointmentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|c:\\users\\admin\\desktop\\cn5\\back_end\\dnasystembackend\\dnasystembackend\\dtos\\updateappointdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|solutionrelative:dnasystembackend\\dtos\\updateappointdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|c:\\users\\admin\\desktop\\cn5\\back_end\\dnasystembackend\\dnasystembackend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|solutionrelative:dnasystembackend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|c:\\users\\admin\\desktop\\cn5\\back_end\\dnasystembackend\\dnasystembackend\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|solutionrelative:dnasystembackend\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|c:\\users\\admin\\desktop\\cn5\\back_end\\dnasystembackend\\dnasystembackend\\controllers\\appointmentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|solutionrelative:dnasystembackend\\controllers\\appointmentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|c:\\users\\admin\\desktop\\cn5\\back_end\\dnasystembackend\\dnasystembackend\\controllers\\feedbackscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -83,10 +95,6 @@
       "RelativeMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|solutionrelative:dnasystembackend\\dtos\\createcoursedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|c:\\users\\admin\\desktop\\cn5\\back_end\\dnasystembackend\\dnasystembackend\\services\\appointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|solutionrelative:dnasystembackend\\services\\appointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|c:\\users\\admin\\desktop\\cn5\\back_end\\dnasystembackend\\dnasystembackend\\repositories\\appointmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|solutionrelative:dnasystembackend\\repositories\\appointmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -99,16 +107,8 @@
       "RelativeMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|solutionrelative:dnasystembackend\\interfaces\\iappointmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|c:\\users\\admin\\desktop\\cn5\\back_end\\dnasystembackend\\dnasystembackend\\dtos\\updateappointdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|solutionrelative:dnasystembackend\\dtos\\updateappointdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|c:\\users\\admin\\desktop\\cn5\\back_end\\dnasystembackend\\dnasystembackend\\repositories\\kitrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|solutionrelative:dnasystembackend\\repositories\\kitrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|c:\\users\\admin\\desktop\\cn5\\back_end\\dnasystembackend\\dnasystembackend\\interfaces\\iappointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|solutionrelative:dnasystembackend\\interfaces\\iappointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{784FE6EC-C531-47EE-92A5-9C103310CEDA}|DNASystemBackend\\DNASystemBackend.csproj|c:\\users\\admin\\desktop\\cn5\\back_end\\dnasystembackend\\dnasystembackend\\models\\testresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -286,59 +286,20 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "CourseController.cs",
-              "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Controllers\\CourseController.cs",
-              "RelativeDocumentMoniker": "DNASystemBackend\\Controllers\\CourseController.cs",
-              "ToolTip": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Controllers\\CourseController.cs",
-              "RelativeToolTip": "DNASystemBackend\\Controllers\\CourseController.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAIwEIAAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-26T19:30:35.356Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "DnasystemContext.cs",
-              "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Models\\DnasystemContext.cs",
-              "RelativeDocumentMoniker": "DNASystemBackend\\Models\\DnasystemContext.cs",
-              "ToolTip": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Models\\DnasystemContext.cs",
-              "RelativeToolTip": "DNASystemBackend\\Models\\DnasystemContext.cs",
-              "ViewState": "AgIAABsAAAAAAAAAAAA8wCkAAABGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-20T08:27:45.143Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 2,
               "Title": "AppointmentsController.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Controllers\\AppointmentsController.cs",
               "RelativeDocumentMoniker": "DNASystemBackend\\Controllers\\AppointmentsController.cs",
               "ToolTip": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Controllers\\AppointmentsController.cs",
               "RelativeToolTip": "DNASystemBackend\\Controllers\\AppointmentsController.cs",
-              "ViewState": "AgIAACgAAAAAAAAAAAAiwCsAAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAACAAAAAAAAAAAAAYwC4AAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-20T10:46:06.4Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "ServiceController.cs",
-              "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Controllers\\ServiceController.cs",
-              "RelativeDocumentMoniker": "DNASystemBackend\\Controllers\\ServiceController.cs",
-              "ToolTip": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Controllers\\ServiceController.cs",
-              "RelativeToolTip": "DNASystemBackend\\Controllers\\ServiceController.cs",
-              "ViewState": "AgIAADoAAAAAAAAAAADwv0IAAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-20T09:45:59.545Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "InvoicesController.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Controllers\\InvoicesController.cs",
               "RelativeDocumentMoniker": "DNASystemBackend\\Controllers\\InvoicesController.cs",
@@ -346,12 +307,11 @@
               "RelativeToolTip": "DNASystemBackend\\Controllers\\InvoicesController.cs",
               "ViewState": "AgIAADUAAAAAAAAAAAAuwEkAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-26T13:56:18.741Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-26T13:56:18.741Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "TestResultsController.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Controllers\\TestResultsController.cs",
               "RelativeDocumentMoniker": "DNASystemBackend\\Controllers\\TestResultsController.cs",
@@ -359,12 +319,11 @@
               "RelativeToolTip": "DNASystemBackend\\Controllers\\TestResultsController.cs",
               "ViewState": "AgIAACsAAAAAAAAAAAAiwD8AAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-20T10:55:30.089Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-20T10:55:30.089Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "KitController.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Controllers\\KitController.cs",
               "RelativeDocumentMoniker": "DNASystemBackend\\Controllers\\KitController.cs",
@@ -372,12 +331,11 @@
               "RelativeToolTip": "DNASystemBackend\\Controllers\\KitController.cs",
               "ViewState": "AgIAACkAAAAAAAAAAAAuwDMAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-20T10:51:20.559Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-20T10:51:20.559Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "FeedbacksController.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Controllers\\FeedbacksController.cs",
               "RelativeDocumentMoniker": "DNASystemBackend\\Controllers\\FeedbacksController.cs",
@@ -385,12 +343,11 @@
               "RelativeToolTip": "DNASystemBackend\\Controllers\\FeedbacksController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-20T10:59:22.008Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-20T10:59:22.008Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "UserController.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Controllers\\UserController.cs",
               "RelativeDocumentMoniker": "DNASystemBackend\\Controllers\\UserController.cs",
@@ -398,25 +355,99 @@
               "RelativeToolTip": "DNASystemBackend\\Controllers\\UserController.cs",
               "ViewState": "AgIAAEIAAAAAAAAAAAAQwFMAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-20T08:27:45.137Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-20T08:27:45.137Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Program.cs",
               "RelativeDocumentMoniker": "DNASystemBackend\\Program.cs",
               "ToolTip": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Program.cs",
               "RelativeToolTip": "DNASystemBackend\\Program.cs",
-              "ViewState": "AgIAADwAAAAAAAAAAADwvysAAABKAAAAAAAAAA==",
+              "ViewState": "AgIAADYAAAAAAAAAAADwvysAAABKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-20T08:27:45.145Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 3,
+              "Title": "UpdateAppointDto.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\DTOs\\UpdateAppointDto.cs",
+              "RelativeDocumentMoniker": "DNASystemBackend\\DTOs\\UpdateAppointDto.cs",
+              "ToolTip": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\DTOs\\UpdateAppointDto.cs",
+              "RelativeToolTip": "DNASystemBackend\\DTOs\\UpdateAppointDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-22T14:53:41.88Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IAppointmentService.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Interfaces\\IAppointmentService.cs",
+              "RelativeDocumentMoniker": "DNASystemBackend\\Interfaces\\IAppointmentService.cs",
+              "ToolTip": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Interfaces\\IAppointmentService.cs",
+              "RelativeToolTip": "DNASystemBackend\\Interfaces\\IAppointmentService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-20T10:43:07.065Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AppointmentService.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Services\\AppointmentService.cs",
+              "RelativeDocumentMoniker": "DNASystemBackend\\Services\\AppointmentService.cs",
+              "ToolTip": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Services\\AppointmentService.cs",
+              "RelativeToolTip": "DNASystemBackend\\Services\\AppointmentService.cs",
+              "ViewState": "AgIAADEAAAAAAAAAAAAuwEoAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-20T10:45:29.748Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "ServiceController.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Controllers\\ServiceController.cs",
+              "RelativeDocumentMoniker": "DNASystemBackend\\Controllers\\ServiceController.cs",
+              "ToolTip": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Controllers\\ServiceController.cs",
+              "RelativeToolTip": "DNASystemBackend\\Controllers\\ServiceController.cs",
+              "ViewState": "AgIAADoAAAAAAAAAAADwv0IAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-20T09:45:59.545Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "DnasystemContext.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Models\\DnasystemContext.cs",
+              "RelativeDocumentMoniker": "DNASystemBackend\\Models\\DnasystemContext.cs",
+              "ToolTip": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Models\\DnasystemContext.cs",
+              "RelativeToolTip": "DNASystemBackend\\Models\\DnasystemContext.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAA8wCkAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-20T08:27:45.143Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CourseController.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Controllers\\CourseController.cs",
+              "RelativeDocumentMoniker": "DNASystemBackend\\Controllers\\CourseController.cs",
+              "ToolTip": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Controllers\\CourseController.cs",
+              "RelativeToolTip": "DNASystemBackend\\Controllers\\CourseController.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAIwEIAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-26T19:30:35.356Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
               "Title": "CreateCourseDto.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\DTOs\\CreateCourseDto.cs",
               "RelativeDocumentMoniker": "DNASystemBackend\\DTOs\\CreateCourseDto.cs",
@@ -428,7 +459,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 19,
               "Title": "ITestResultService.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Interfaces\\ITestResultService.cs",
               "RelativeDocumentMoniker": "DNASystemBackend\\Interfaces\\ITestResultService.cs",
@@ -440,7 +471,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 14,
               "Title": "UpdateUserDto.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\DTOs\\UpdateUserDto.cs",
               "RelativeDocumentMoniker": "DNASystemBackend\\DTOs\\UpdateUserDto.cs",
@@ -452,7 +483,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 15,
               "Title": "Register.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\DTOs\\Register.cs",
               "RelativeDocumentMoniker": "DNASystemBackend\\DTOs\\Register.cs",
@@ -464,7 +495,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 16,
               "Title": "LoginDto.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\DTOs\\LoginDto.cs",
               "RelativeDocumentMoniker": "DNASystemBackend\\DTOs\\LoginDto.cs",
@@ -476,7 +507,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 20,
               "Title": "ITestResultRepository.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Interfaces\\ITestResultRepository.cs",
               "RelativeDocumentMoniker": "DNASystemBackend\\Interfaces\\ITestResultRepository.cs",
@@ -488,7 +519,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 12,
               "Title": "AuthController.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "DNASystemBackend\\Controllers\\AuthController.cs",
@@ -496,12 +527,11 @@
               "RelativeToolTip": "DNASystemBackend\\Controllers\\AuthController.cs",
               "ViewState": "AgIAACUAAAAAAAAAAAAYwC8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-20T08:27:45.139Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-20T08:27:45.139Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 17,
               "Title": "TestResultService.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Services\\TestResultService.cs",
               "RelativeDocumentMoniker": "DNASystemBackend\\Services\\TestResultService.cs",
@@ -513,7 +543,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 18,
               "Title": "TestResultRepository.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Repositories\\TestResultRepository.cs",
               "RelativeDocumentMoniker": "DNASystemBackend\\Repositories\\TestResultRepository.cs",
@@ -525,19 +555,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "AppointmentService.cs",
-              "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Services\\AppointmentService.cs",
-              "RelativeDocumentMoniker": "DNASystemBackend\\Services\\AppointmentService.cs",
-              "ToolTip": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Services\\AppointmentService.cs",
-              "RelativeToolTip": "DNASystemBackend\\Services\\AppointmentService.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAuwCIAAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-20T10:45:29.748Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 23,
               "Title": "AppointmentRepository.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Repositories\\AppointmentRepository.cs",
               "RelativeDocumentMoniker": "DNASystemBackend\\Repositories\\AppointmentRepository.cs",
@@ -549,7 +567,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 21,
               "Title": "TestResultCreateDto.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\DTOs\\TestResultCreateDto.cs",
               "RelativeDocumentMoniker": "DNASystemBackend\\DTOs\\TestResultCreateDto.cs",
@@ -561,7 +579,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 25,
               "Title": "IAppointmentRepository.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Interfaces\\IAppointmentRepository.cs",
               "RelativeDocumentMoniker": "DNASystemBackend\\Interfaces\\IAppointmentRepository.cs",
@@ -574,18 +592,6 @@
             {
               "$type": "Document",
               "DocumentIndex": 24,
-              "Title": "UpdateAppointDto.cs",
-              "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\DTOs\\UpdateAppointDto.cs",
-              "RelativeDocumentMoniker": "DNASystemBackend\\DTOs\\UpdateAppointDto.cs",
-              "ToolTip": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\DTOs\\UpdateAppointDto.cs",
-              "RelativeToolTip": "DNASystemBackend\\DTOs\\UpdateAppointDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-22T14:53:41.88Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
               "Title": "AppointmentDto.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\DTOs\\AppointmentDto.cs",
               "RelativeDocumentMoniker": "DNASystemBackend\\DTOs\\AppointmentDto.cs",
@@ -597,7 +603,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 26,
               "Title": "KitRepository.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Repositories\\KitRepository.cs",
               "RelativeDocumentMoniker": "DNASystemBackend\\Repositories\\KitRepository.cs",
@@ -606,18 +612,6 @@
               "ViewState": "AgIAADEAAAAAAAAAAADwvxcAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-20T10:49:13.932Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 26,
-              "Title": "IAppointmentService.cs",
-              "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Interfaces\\IAppointmentService.cs",
-              "RelativeDocumentMoniker": "DNASystemBackend\\Interfaces\\IAppointmentService.cs",
-              "ToolTip": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\Interfaces\\IAppointmentService.cs",
-              "RelativeToolTip": "DNASystemBackend\\Interfaces\\IAppointmentService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-20T10:43:07.065Z"
             },
             {
               "$type": "Document",

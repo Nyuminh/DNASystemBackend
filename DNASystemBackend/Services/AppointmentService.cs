@@ -72,6 +72,7 @@ namespace DNASystemBackend.Services
 
             if (updated.Method != null)
                 booking.Method = updated.Method;
+            booking.Status = updated.Status;
 
             try
             {
