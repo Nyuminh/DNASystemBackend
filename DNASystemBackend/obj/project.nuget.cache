@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "c3XooL+vvhY=",
+  "dgSpecHash": "vIoRHuEfPZE=",
   "success": true,
-  "projectFilePath": "D:\\FPT\\SWP391\\DNASystemBackend\\DNASystemBackend\\DNASystemBackend.csproj",
+  "projectFilePath": "C:\\Users\\Admin\\Desktop\\CN5\\BACK_END\\DNASystemBackend\\DNASystemBackend\\DNASystemBackend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Admin\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
