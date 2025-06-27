@@ -19,7 +19,7 @@ namespace DNASystemBackend.Controllers
 
         // GET: /api/user
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllUsers()
         {
             var users = await _userService.GetAllUsersAsync();

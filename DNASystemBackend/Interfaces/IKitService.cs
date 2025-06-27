@@ -12,5 +12,6 @@ namespace DNASystemBackend.Interfaces
         Task<(bool success, string? message)> DeleteAsync(string id);
         Task<IEnumerable<Kit>> GetTrackingSamplesAsync();
         Task<IEnumerable<Kit>> GetCollectionSamplesAsync();
+        Task<Kit?> GetByBookingIdAsync(string bookingId);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using DNASystemBackend.DTOs;
 using DNASystemBackend.Interfaces;
 using DNASystemBackend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DNASystemBackend.Services
 {
@@ -15,6 +16,12 @@ namespace DNASystemBackend.Services
             _repository = repository;
         }
 
+        public async Task<Kit?> GetByBookingIdAsync(string bookingId)
+        {
+            return await _context.Kits
+                .Where(r => r.BookingId == bookingId)
+                .FirstOrDefaultAsync();
+        }
         public Task<IEnumerable<Kit>> GetAllAsync()
             => _repository.GetAllAsync();
 
