@@ -13,27 +13,12 @@ namespace DNASystemBackend.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<TestResult>> GetAllAsync()
-        {
-            return await _context.TestResults
-                .Include(r => r.Customer)
-                .Include(r => r.Staff)
-                .Include(r => r.Service)
-                .ToListAsync();
-        }
+        public async Task<IEnumerable<TestResult>> GetAllAsync() => await _context.TestResults.ToListAsync();
 
-        public async Task<TestResult?> GetByIdAsync(string id)
-        {
-            return await _context.TestResults
-                .Include(r => r.Customer)
-                .Include(r => r.Staff)
-                .Include(r => r.Service)
-                .FirstOrDefaultAsync(r => r.ResultId == id);
-        }
+        public async Task<TestResult?> GetByIdAsync(string id) => await _context.TestResults.FindAsync(id);
 
         public async Task<TestResult> CreateAsync(TestResult result)
         {
-            result.ResultId = await GenerateResultIdAsync();
             _context.TestResults.Add(result);
             await _context.SaveChangesAsync();
             return result;
@@ -41,33 +26,38 @@ namespace DNASystemBackend.Repositories
 
         public async Task<bool> UpdateAsync(string id, TestResult updated)
         {
-            var result = await _context.TestResults.FindAsync(id);
-            if (result == null) return false;
+            var existing = await _context.TestResults.FindAsync(id);
+            if (existing == null) return false;
 
-            result.Description = updated.Description;
-            result.Status = updated.Status;
-            result.Date = updated.Date;
-            result.StaffId = updated.StaffId;
-            result.ServiceId = updated.ServiceId;
-            result.CustomerId = updated.CustomerId;
-
+            _context.Entry(existing).CurrentValues.SetValues(updated);
             await _context.SaveChangesAsync();
             return true;
         }
 
-        public async Task<string> GenerateResultIdAsync()
+        public async Task<bool> DeleteAsync(string id)
         {
-            var existingIds = await _context.TestResults.Select(r => r.ResultId).ToListAsync();
-            int counter = 1;
-            string newId;
+            var result = await _context.TestResults.FindAsync(id);
+            if (result == null) return false;
 
-            do
+            _context.TestResults.Remove(result);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<string> GenerateIdAsync()
+        {
+            var lastId = await _context.TestResults
+                .OrderByDescending(r => r.ResultId)
+                .Select(r => r.ResultId)
+                .FirstOrDefaultAsync();
+
+            int nextId = 1;
+            if (!string.IsNullOrEmpty(lastId) && lastId.StartsWith("R") &&
+                int.TryParse(lastId.Substring(1), out var lastNum))
             {
-                newId = $"R{counter:D3}";
-                counter++;
-            } while (existingIds.Contains(newId));
-
-            return newId;
+                nextId = lastNum + 1;
+            }
+            return $"R{nextId:D4}";
         }
     }
 }

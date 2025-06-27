@@ -1,5 +1,6 @@
 using DNASystemBackend.DTOs;
 using DNASystemBackend.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DNASystemBackend.Controllers
@@ -41,6 +42,7 @@ namespace DNASystemBackend.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> CreateCourse([FromBody] CreateCourseDto course)
         {
             if (await _courseRepository.TitleExistsAsync(course.Title))
@@ -53,6 +55,7 @@ namespace DNASystemBackend.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> UpdateCourse(string id, [FromBody] UpdateCourseDto course)
         {
             var (success, message) = await _service.UpdateCourseAsync(id,course);
@@ -61,6 +64,7 @@ namespace DNASystemBackend.Controllers
         }
 
         [HttpDelete("{courseId}")]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> DeleteCourse(string courseId)
         {
             var (success, message) = await _service.DeleteCourseAsync(courseId);

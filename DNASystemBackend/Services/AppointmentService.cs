@@ -32,7 +32,8 @@ namespace DNASystemBackend.Services
                     ServiceId = dto.ServiceId,
                     Date = dto.Date,
                     Address = dto.Address,
-                    Method = dto.Method
+                    Method = dto.Method,
+                    Status =dto.Status
                 };
 
                 // Generate a new booking ID if not provided
@@ -71,6 +72,7 @@ namespace DNASystemBackend.Services
 
             if (updated.Method != null)
                 booking.Method = updated.Method;
+            booking.Status = updated.Status;
 
             try
             {
