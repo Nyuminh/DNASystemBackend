@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DNASystemBackend.Controllers
 {
+    [Route ("api/[controller]")]
+    [ApiController]
     public class CourseController : ControllerBase
     {
         private readonly ICourseRepository _courseRepository;
