@@ -51,20 +51,19 @@ namespace DNASystemBackend.Services
             var course = await _repository.GetByIdAsync(courseId);
             if (course == null)
                 return (false, "Không tìm thấy khóa học.");
-            var newCourse = new Course
-            {
-                ManagerId = updateCourseDto.ManagerId,
-                Description = updateCourseDto.Description,
-                Title = updateCourseDto.Title,
-                Date = updateCourseDto.Date,
-                Image = updateCourseDto.Image
-            };
+
+            course.Description = updateCourseDto.Description;
+            course.Title = updateCourseDto.Title;
+            course.Date = updateCourseDto.Date;
+            course.Image = updateCourseDto.Image;
+
             try
             {
-                await _repository.UpdateAsync(courseId, newCourse);
+                await _repository.UpdateAsync(courseId, course);
                 await _repository.SaveAsync();
                 return (true, "Cập nhật khóa học thành công.");
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return (false, $"Lỗi khi cập nhật khóa học: {ex.Message}");
             }

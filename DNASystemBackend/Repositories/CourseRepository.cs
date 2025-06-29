@@ -15,7 +15,7 @@ namespace DNASystemBackend.Repositories
 
         public async Task<Course?> GetByIdAsync(string courseId)
         {
-            return await _context.Courses.FindAsync(courseId);
+            return await _context.Courses.FirstOrDefaultAsync(c => c.CourseId == courseId);
         }
 
         public async Task<IEnumerable<Course>> GetAllAsync()
@@ -40,7 +40,7 @@ namespace DNASystemBackend.Repositories
             await _context.Courses.AddAsync(course);
         }
 
-        public async Task UpdateAsync(string id,Course course)
+        public async Task UpdateAsync(string courseId,Course course)
         {
             _context.Courses.Update(course);
             await _context.SaveChangesAsync();

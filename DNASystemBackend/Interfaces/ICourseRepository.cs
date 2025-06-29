@@ -9,7 +9,7 @@ namespace DNASystemBackend.Interfaces
         Task<IEnumerable<Course>> GetByManagerIdAsync(string managerId);
         Task<bool> TitleExistsAsync(string title);
         Task AddAsync(Course course);
-        Task UpdateAsync(string id,Course course);
+        Task UpdateAsync(string courseId,Course course);
         Task DeleteAsync(string courseId);
         Task SaveAsync();
     }

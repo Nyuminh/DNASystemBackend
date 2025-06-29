@@ -63,11 +63,11 @@ namespace DNASystemBackend.Controllers
             return Ok(new { message = "Tạo khóa học thành công." });
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{courseId}")]
         [Authorize(Roles = "Manager")]
-        public async Task<IActionResult> UpdateCourse(string id, [FromBody] UpdateCourseDto course)
+        public async Task<IActionResult> UpdateCourse(string courseId, [FromBody] UpdateCourseDto course)
         {
-            var (success, message) = await _service.UpdateCourseAsync(id,course);
+            var (success, message) = await _service.UpdateCourseAsync(courseId, course);
             if (!success) return BadRequest(message);
             return Ok(new { message = "Cập nhật khóa học thành công." });
         }
