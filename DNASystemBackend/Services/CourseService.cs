@@ -52,7 +52,6 @@ namespace DNASystemBackend.Services
             if (course == null)
                 return (false, "Không tìm thấy khóa học.");
 
-            course.ManagerId = updateCourseDto.ManagerId;
             course.Description = updateCourseDto.Description;
             course.Title = updateCourseDto.Title;
             course.Date = updateCourseDto.Date;
