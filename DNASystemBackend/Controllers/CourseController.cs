@@ -39,7 +39,6 @@ namespace DNASystemBackend.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error (or return it for debugging)
                 return StatusCode(500, ex.ToString());
             }
         }
@@ -57,11 +56,11 @@ namespace DNASystemBackend.Controllers
         {
             if (await _courseRepository.TitleExistsAsync(course.Title))
             {
-                return BadRequest("Course title already exists.");
+                return BadRequest("Tựa đề khóa học đã tồn tại.");
             }
             var (success, message) = await _service.CreateCourseAsync(course);
             if (!success) return BadRequest(message);
-            return Ok(new { message = "Tạo course thành công." });
+            return Ok(new { message = "Tạo khóa học thành công." });
         }
 
         [HttpPut("{id}")]
@@ -70,7 +69,7 @@ namespace DNASystemBackend.Controllers
         {
             var (success, message) = await _service.UpdateCourseAsync(id,course);
             if (!success) return BadRequest(message);
-            return Ok(new { message = "Cập nhật course thành công." });
+            return Ok(new { message = "Cập nhật khóa học thành công." });
         }
 
         [HttpDelete("{courseId}")]
@@ -79,7 +78,7 @@ namespace DNASystemBackend.Controllers
         {
             var (success, message) = await _service.DeleteCourseAsync(courseId);
             if (!success) return BadRequest(message);
-            return Ok(new { message = "Xóa course thành công." });
+            return Ok(new { message = "Xóa khóa học thành công." });
         }
     }
 }
