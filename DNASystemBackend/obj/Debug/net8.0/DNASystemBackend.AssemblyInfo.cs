@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DNASystemBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b298f480f6293550250d52c8d7d8c67ea59d0c7b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d85c73af7f39e8023b5bcb86abdc3fc13f30d999")]
 [assembly: System.Reflection.AssemblyProductAttribute("DNASystemBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DNASystemBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -17,7 +17,7 @@ namespace DNASystemBackend.Services
         }
         public async Task<(bool success, string? message)> CreateCourseAsync(CreateCourseDto course)
         {
-            string newUserId = await GenerateUniqueUserIdAsync();
+            
             var newCourse = new Course
             {
                 ManagerId = course.ManagerId,
@@ -26,7 +26,14 @@ namespace DNASystemBackend.Services
                 Date = course.Date,
                 Image = course.Image,
             };
-
+            if(string.IsNullOrEmpty(newCourse.CourseId))
+            {
+                newCourse.CourseId = await GenerateUniqueUserIdAsync();
+            }
+            if (string.IsNullOrEmpty(newCourse.ManagerId))
+            {
+                return (false, "ManagerId không được để trống.");
+            }
             try
             {
                 await _repository.AddAsync(newCourse);
