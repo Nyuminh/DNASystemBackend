@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using DNASystemBackend.DTOs;
 using DNASystemBackend.Models;
 
@@ -10,6 +11,6 @@ namespace DNASystemBackend.Interfaces
         Task<(bool success, string? message)> CreateCourseAsync(CreateCourseDto course);
         Task<(bool success, string? message)> UpdateCourseAsync(string courseId, UpdateCourseDto updateCourseDto);
         Task<(bool success, string? message)> DeleteCourseAsync(string courseId);
-        Task<IEnumerable<Course>> GetCoursesByManagerIdAsync(string managerId);
+        Task<List<Course>> GetCoursesByManagerIdAsync(string managerId);
     }
 }

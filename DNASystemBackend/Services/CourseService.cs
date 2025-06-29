@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using DNASystemBackend.DTOs;
 using DNASystemBackend.Interfaces;
 using DNASystemBackend.Models;
@@ -80,17 +81,16 @@ namespace DNASystemBackend.Services
             }
         }
 
-        public async Task<List<Course>> GetAllCoursesAsync()
-        {
-            return await _repository.GetAllAsync();
-        }
+        public Task<List<Course>> GetAllCoursesAsync()
+            => _repository.GetAllAsync();
+
 
         public Task<Course?> GetCourseByIdAsync(string courseId)
         {
             return _repository.GetByIdAsync(courseId);
         }
 
-        public async Task<IEnumerable<Course>> GetCoursesByManagerIdAsync(string managerId)
+        public async Task<List<Course>> GetCoursesByManagerIdAsync(string managerId)
         {
             return await _repository.GetByManagerIdAsync(managerId);
         }
