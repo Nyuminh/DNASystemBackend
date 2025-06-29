@@ -28,7 +28,7 @@ namespace DNASystemBackend.Services
             };
             if(string.IsNullOrEmpty(newCourse.CourseId))
             {
-                newCourse.CourseId = await GenerateUniqueUserIdAsync();
+                newCourse.CourseId = await GenerateUniqueCourseIdAsync();
             }
             if (string.IsNullOrEmpty(newCourse.ManagerId))
             {
@@ -102,27 +102,27 @@ namespace DNASystemBackend.Services
         }
 
 
-        private async Task<string> GenerateUniqueUserIdAsync()
+        private async Task<string> GenerateUniqueCourseIdAsync()
         {
-            var existingIds = await _context.Users
-            .Select(u => u.UserId)
-            .Where(id => id.StartsWith("C") && id.Length == 3)
-            .ToListAsync();
+            var existingIds = await _context.Courses
+                .Select(c => c.CourseId)
+                .Where(id => id.StartsWith("C") && id.Length == 4)
+                .ToListAsync();
 
-        int counter = 1;
-        string newId;
-        do
-        {
-            newId = $"C{counter:D03}";
-            counter++;
-        } while (existingIds.Contains(newId) && counter < 1000);
+            int counter = 1;
+            string newId;
+            do
+            {
+                newId = $"C{counter:D03}";
+                counter++;
+            } while (existingIds.Contains(newId) && counter < 1000);
 
-        if (counter >= 1000)
-        {
-            newId = $"C{DateTime.Now.Ticks % 1000000:D06}";
-        }
+            if (counter >= 1000)
+            {
+                newId = $"C{DateTime.Now.Ticks % 1000000:D06}";
+            }
 
-        return newId;
+            return newId;
         }
     }
 }
