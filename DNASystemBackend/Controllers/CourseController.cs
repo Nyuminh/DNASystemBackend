@@ -70,7 +70,7 @@ namespace DNASystemBackend.Controllers
         {
             var (success, message) = await _service.UpdateCourseAsync(id,course);
             if (!success) return BadRequest(message);
-            return Ok(new { message = "Tạo course thành công." });
+            return Ok(new { message = "Cập nhật course thành công." });
         }
 
         [HttpDelete("{courseId}")]
