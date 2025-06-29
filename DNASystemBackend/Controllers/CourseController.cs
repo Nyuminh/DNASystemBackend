@@ -32,8 +32,16 @@ namespace DNASystemBackend.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllCourses()
         {
-            var courses = await _courseRepository.GetAllAsync();
-            return Ok(courses);
+            try
+            {
+                var courses = await _courseRepository.GetAllAsync();
+                return Ok(courses);
+            }
+            catch (Exception ex)
+            {
+                // Log the error (or return it for debugging)
+                return StatusCode(500, ex.ToString());
+            }
         }
 
         [HttpGet("manager/{managerId}")]

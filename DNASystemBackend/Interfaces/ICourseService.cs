@@ -6,11 +6,11 @@ namespace DNASystemBackend.Interfaces
 {
     public interface ICourseService
     {
-        Task<List<Course>> GetAllCoursesAsync();
+        Task<IEnumerable<Course>> GetAllCoursesAsync();
         Task<Course?> GetCourseByIdAsync(string courseId);
         Task<(bool success, string? message)> CreateCourseAsync(CreateCourseDto course);
         Task<(bool success, string? message)> UpdateCourseAsync(string courseId, UpdateCourseDto updateCourseDto);
         Task<(bool success, string? message)> DeleteCourseAsync(string courseId);
-        Task<List<Course>> GetCoursesByManagerIdAsync(string managerId);
+        Task<IEnumerable<Course>> GetCoursesByManagerIdAsync(string managerId);
     }
 }

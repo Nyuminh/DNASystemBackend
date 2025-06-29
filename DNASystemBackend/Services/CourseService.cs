@@ -81,7 +81,7 @@ namespace DNASystemBackend.Services
             }
         }
 
-        public Task<List<Course>> GetAllCoursesAsync()
+        public Task<IEnumerable<Course>> GetAllCoursesAsync()
             => _repository.GetAllAsync();
 
 
@@ -90,7 +90,7 @@ namespace DNASystemBackend.Services
             return _repository.GetByIdAsync(courseId);
         }
 
-        public async Task<List<Course>> GetCoursesByManagerIdAsync(string managerId)
+        public async Task<IEnumerable<Course>> GetCoursesByManagerIdAsync(string managerId)
         {
             return await _repository.GetByManagerIdAsync(managerId);
         }
