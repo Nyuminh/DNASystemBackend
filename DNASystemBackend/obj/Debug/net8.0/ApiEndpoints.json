@@ -536,6 +536,32 @@
   },
   {
     "ContainingType": "DNASystemBackend.Controllers.KitController",
+    "Method": "GetByBookingId",
+    "RelativePath": "api/Kit/by-booking/{bookingId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "bookingId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "DNASystemBackend.Models.Kit",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "DNASystemBackend.Controllers.KitController",
     "Method": "GetSamplesForCollection",
     "RelativePath": "api/Kit/collection",
     "HttpMethod": "GET",
@@ -682,6 +708,32 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DNASystemBackend.Controllers.ResultsController",
+    "Method": "GetByBookingId",
+    "RelativePath": "api/Results/by-booking/{bookingId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "bookingId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "DNASystemBackend.Models.TestResult",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "DNASystemBackend.Controllers.ServicesController",
