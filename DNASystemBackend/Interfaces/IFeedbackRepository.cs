@@ -12,5 +12,6 @@ namespace DNASystemBackend.Interfaces
         Task<bool> UpdateAsync(string id, Feedback updated);
         Task<bool> DeleteAsync(string id);
         Task<string> GenerateFeedbackIdAsync();
+        Task<Feedback?> GetByServiceIdAsync(string serviceId);
     }
 }

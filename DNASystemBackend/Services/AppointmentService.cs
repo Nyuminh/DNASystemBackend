@@ -57,6 +57,12 @@ namespace DNASystemBackend.Services
             }
         }
 
+        public async Task<Booking?> GetByServiceIdAsync(string serviceId)
+        {
+            return await _context.Bookings
+                .Where(r => r.ServiceId == serviceId)
+                .FirstOrDefaultAsync();
+        }
         public async Task<(bool success, string? message)> UpdateAsync(string id, UpdateAppointDto updated)
         {
             var booking = await _repository.GetByIdAsync(id);

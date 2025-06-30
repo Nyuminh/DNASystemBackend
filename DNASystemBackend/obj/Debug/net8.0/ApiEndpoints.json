@@ -163,6 +163,32 @@
   },
   {
     "ContainingType": "DNASystemBackend.Controllers.AppointmentsController",
+    "Method": "GetByServiceId",
+    "RelativePath": "api/Appointments/by-service/{serviceID}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "serviceID",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "DNASystemBackend.Models.Booking",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "DNASystemBackend.Controllers.AppointmentsController",
     "Method": "GetAvailableSchedules",
     "RelativePath": "api/Appointments/schedule",
     "HttpMethod": "GET",
@@ -331,6 +357,32 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DNASystemBackend.Controllers.FeedbacksController",
+    "Method": "GetByServiceId",
+    "RelativePath": "api/Feedbacks/by-service/{serviceID}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "serviceID",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "DNASystemBackend.Models.Feedback",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "DNASystemBackend.Controllers.InvoicesController",

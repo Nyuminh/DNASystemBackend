@@ -31,6 +31,15 @@ namespace DNASystemBackend.Controllers
             var booking = await _service.GetByIdAsync(id);
             return booking == null ? NotFound() : Ok(booking);
         }
+        [HttpGet("by-service/{serviceID}")]
+        public async Task<ActionResult<Booking>> GetByServiceId(string serviceID)
+        {
+            var result = await _service.GetByServiceIdAsync(serviceID);
+            if (result == null)
+                return NotFound(new { message = $"Không tìm thấy {serviceID}" });
+
+            return Ok(result);
+        }
 
         [HttpPost]
         public async Task<ActionResult<Booking>> CreateAppointment([FromBody] AppointmentDto dto)

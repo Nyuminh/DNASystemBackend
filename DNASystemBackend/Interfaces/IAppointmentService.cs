@@ -11,5 +11,6 @@ namespace DNASystemBackend.Interfaces
         Task<(bool success, string? message)> UpdateAsync(string id, UpdateAppointDto updated);
         Task<(bool success, string? message)> DeleteAsync(string id);
         Task<List<DateTime>> GetAvailableSchedulesAsync();
+        Task<Booking?> GetByServiceIdAsync(string serviceId);
     }
 }

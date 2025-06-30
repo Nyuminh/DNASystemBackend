@@ -31,7 +31,12 @@ namespace DNASystemBackend.Repositories
                 .Include(f => f.Service)
                 .FirstOrDefaultAsync(f => f.FeedbackId == id);
         }
-
+        public async Task<Feedback?> GetByServiceIdAsync(string serviceId)
+        {
+            return await _context.Feedbacks
+                .Where(r => r.ServiceId == serviceId)
+                .FirstOrDefaultAsync();
+        }
         public async Task<Feedback> CreateAsync(Feedback feedback)
         {
             feedback.FeedbackId = await GenerateFeedbackIdAsync();
