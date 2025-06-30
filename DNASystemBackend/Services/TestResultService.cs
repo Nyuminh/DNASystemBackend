@@ -3,17 +3,24 @@
     using DNASystemBackend.Interfaces;
     using DNASystemBackend.Models;
     using DNASystemBackend.Repositories;
+    using Microsoft.EntityFrameworkCore;
 
     public class TestResultService : ITestResultService
     {
         private readonly ITestResultRepository _repo;
+        private readonly DnasystemContext _context;
 
-        public TestResultService(ITestResultRepository repo)
+        public TestResultService(ITestResultRepository repo, DnasystemContext context)
         {
             _repo = repo;
+            _context = context;
         }
-
-
+        public async Task<TestResult?> GetByBookingIdAsync(string bookingId)
+        {
+            return await _context.TestResults
+                .Where(r => r.BookingId == bookingId)
+                .FirstOrDefaultAsync();
+        }
 
         public Task<IEnumerable<TestResult>> GetAllAsync() => _repo.GetAllAsync();
         public Task<TestResult?> GetByIdAsync(string id) => _repo.GetByIdAsync(id);

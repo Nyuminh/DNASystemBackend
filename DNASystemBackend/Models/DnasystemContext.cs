@@ -37,7 +37,13 @@ public partial class DnasystemContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning
-        => optionsBuilder.UseSqlServer("Server=localhost;Database=DNASystem;User Id=sa;Password=12345;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer(GetConnectionString());
+    private string GetConnectionString() {
+        return new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
+            .Build()
+            .GetConnectionString("DNASystemDb");
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

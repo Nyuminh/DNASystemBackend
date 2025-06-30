@@ -10,5 +10,6 @@ namespace DNASystemBackend.Interfaces
         Task<bool> UpdateAsync(string id, TestResult updated);
         Task<bool> DeleteAsync(string id);
         Task<string> GenerateIdAsync();
+       
     }
 }

@@ -15,12 +15,24 @@ namespace DNASystemBackend.Repositories
 
         public async Task<Course?> GetByIdAsync(string courseId)
         {
-            return await _context.Courses.FindAsync(courseId);
+            return await _context.Courses.FirstOrDefaultAsync(c => c.CourseId == courseId);
         }
 
-        public async Task<List<Course>> GetAllAsync()
+        public async Task<IEnumerable<Course>> GetAllAsync()
         {
             return await _context.Courses.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Course>> GetByManagerIdAsync(string managerId)
+        {
+            return await _context.Courses
+                .Where(c => c.ManagerId == managerId)
+                .ToListAsync();
+        }
+
+        public async Task<bool> TitleExistsAsync(string title)
+        {
+            return await _context.Courses.AnyAsync(c => c.Title == title);
         }
 
         public async Task AddAsync(Course course)
@@ -28,7 +40,7 @@ namespace DNASystemBackend.Repositories
             await _context.Courses.AddAsync(course);
         }
 
-        public async Task UpdateAsync(string id,Course course)
+        public async Task UpdateAsync(string courseId,Course course)
         {
             _context.Courses.Update(course);
             await _context.SaveChangesAsync();
@@ -42,16 +54,6 @@ namespace DNASystemBackend.Repositories
                 _context.Courses.Remove(course);
                 await _context.SaveChangesAsync();
             }
-        }
-
-        public Task<List<Course>> GetByManagerIdAsync(string managerId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> TitleExistsAsync(string title)
-        {
-            throw new NotImplementedException();
         }
 
         public Task SaveAsync()

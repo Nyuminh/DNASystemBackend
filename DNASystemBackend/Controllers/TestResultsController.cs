@@ -1,6 +1,7 @@
 ﻿using DNASystemBackend.DTOs;
 using DNASystemBackend.Interfaces;
 using DNASystemBackend.Models;
+using DNASystemBackend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,7 @@ namespace DNASystemBackend.Controllers
         public ResultsController(ITestResultService service)
         {
             _service = service;
+
         }
 
         [HttpGet]
@@ -30,6 +32,16 @@ namespace DNASystemBackend.Controllers
             var result = await _service.GetByIdAsync(id);
             return result == null ? NotFound() : Ok(result);
         }
+        [HttpGet("by-booking/{bookingId}")]
+        public async Task<ActionResult<TestResult>> GetByBookingId(string bookingId)
+        {
+            var result = await _service.GetByBookingIdAsync(bookingId);
+            if (result == null)
+                return NotFound(new { message = $"Không tìm thấy kết quả xét nghiệm cho lịch hẹn {bookingId}" });
+
+            return Ok(result);
+        }
+
 
         [HttpPost]
         [Authorize(Roles = "Staff")]

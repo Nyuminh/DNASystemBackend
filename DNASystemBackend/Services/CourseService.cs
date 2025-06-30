@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using DNASystemBackend.DTOs;
 using DNASystemBackend.Interfaces;
 using DNASystemBackend.Models;
@@ -16,7 +17,7 @@ namespace DNASystemBackend.Services
         }
         public async Task<(bool success, string? message)> CreateCourseAsync(CreateCourseDto course)
         {
-            string newUserId = await GenerateUniqueUserIdAsync();
+            
             var newCourse = new Course
             {
                 ManagerId = course.ManagerId,
@@ -25,7 +26,14 @@ namespace DNASystemBackend.Services
                 Date = course.Date,
                 Image = course.Image,
             };
-
+            if(string.IsNullOrEmpty(newCourse.CourseId))
+            {
+                newCourse.CourseId = await GenerateUniqueCourseIdAsync();
+            }
+            if (string.IsNullOrEmpty(newCourse.ManagerId))
+            {
+                return (false, "ManagerId không được để trống.");
+            }
             try
             {
                 await _repository.AddAsync(newCourse);
@@ -43,20 +51,19 @@ namespace DNASystemBackend.Services
             var course = await _repository.GetByIdAsync(courseId);
             if (course == null)
                 return (false, "Không tìm thấy khóa học.");
-            var newCourse = new Course
-            {
-                ManagerId = updateCourseDto.ManagerId,
-                Description = updateCourseDto.Description,
-                Title = updateCourseDto.Title,
-                Date = updateCourseDto.Date,
-                Image = updateCourseDto.Image
-            };
+
+            course.Description = updateCourseDto.Description;
+            course.Title = updateCourseDto.Title;
+            course.Date = updateCourseDto.Date;
+            course.Image = updateCourseDto.Image;
+
             try
             {
-                await _repository.UpdateAsync(courseId, newCourse);
+                await _repository.UpdateAsync(courseId, course);
                 await _repository.SaveAsync();
                 return (true, "Cập nhật khóa học thành công.");
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return (false, $"Lỗi khi cập nhật khóa học: {ex.Message}");
             }
@@ -80,10 +87,9 @@ namespace DNASystemBackend.Services
             }
         }
 
-        public async Task<List<Course>> GetAllCoursesAsync()
-        {
-            return await _repository.GetAllAsync();
-        }
+        public Task<IEnumerable<Course>> GetAllCoursesAsync()
+            => _repository.GetAllAsync();
+
 
         public Task<Course?> GetCourseByIdAsync(string courseId)
         {
@@ -96,27 +102,27 @@ namespace DNASystemBackend.Services
         }
 
 
-        private async Task<string> GenerateUniqueUserIdAsync()
+        private async Task<string> GenerateUniqueCourseIdAsync()
         {
-            var existingIds = await _context.Users
-            .Select(u => u.UserId)
-            .Where(id => id.StartsWith("C") && id.Length == 3)
-            .ToListAsync();
+            var existingIds = await _context.Courses
+                .Select(c => c.CourseId)
+                .Where(id => id.StartsWith("C") && id.Length == 4)
+                .ToListAsync();
 
-        int counter = 1;
-        string newId;
-        do
-        {
-            newId = $"C{counter:D03}";
-            counter++;
-        } while (existingIds.Contains(newId) && counter < 1000);
+            int counter = 1;
+            string newId;
+            do
+            {
+                newId = $"C{counter:D03}";
+                counter++;
+            } while (existingIds.Contains(newId) && counter < 1000);
 
-        if (counter >= 1000)
-        {
-            newId = $"C{DateTime.Now.Ticks % 1000000:D06}";
-        }
+            if (counter >= 1000)
+            {
+                newId = $"C{DateTime.Now.Ticks % 1000000:D06}";
+            }
 
-        return newId;
+            return newId;
         }
     }
 }

@@ -1,1 +1,11 @@
-{"Version":1,"Hash":"2n9iyric5P9RTRdiwiUVAlrLAtqxVnFT7kvQgOubu5Y=","Source":"DNASystemBackend","BasePath":"_content/DNASystemBackend","Mode":"Default","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}
+{
+  "Version": 1,
+  "Hash": "JEwBN/Qvj8H6RBmeAaZRme0BnHEsPSzqdMVU0t6iLU0=",
+  "Source": "DNASystemBackend",
+  "BasePath": "_content/DNASystemBackend",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

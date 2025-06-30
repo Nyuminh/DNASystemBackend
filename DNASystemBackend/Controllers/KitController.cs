@@ -30,7 +30,15 @@ namespace DNASystemBackend.Controllers
             var kit = await _service.GetByIdAsync(id);
             return kit == null ? NotFound() : Ok(kit);
         }
+        [HttpGet("by-booking/{bookingId}")]
+        public async Task<ActionResult<Kit>> GetByBookingId(string bookingId)
+        {
+            var result = await _service.GetByBookingIdAsync(bookingId);
+            if (result == null)
+                return NotFound(new { message = $"Không tìm thấy Kit lịch hẹn {bookingId}" });
 
+            return Ok(result);
+        }
         [HttpPost]
         [Authorize(Roles = "Staff")]
         public async Task<ActionResult<Kit>> CreateKit([FromBody] CreateKitDto kit)
