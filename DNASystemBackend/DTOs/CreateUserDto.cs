@@ -11,6 +11,8 @@
         public string? Address { get; set; }
         public string? RoleId { get; set; }
         public string? RoleName { get; set; }
+        public string? Image { get; set; }
+        public DateOnly? Birthdate { get; set; }
     }
 
 }

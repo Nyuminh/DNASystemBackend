@@ -11,10 +11,12 @@ namespace DNASystemBackend.Controllers
     public class FeedbacksController : ControllerBase
     {
         private readonly IFeedbackService _service;
+        private readonly IFeedbackRepository _repo;
 
-        public FeedbacksController(IFeedbackService service)
+        public FeedbacksController(IFeedbackService service , IFeedbackRepository repo)
         {
             _service = service;
+            _repo= repo;
         }
 
         [HttpGet]
@@ -29,6 +31,15 @@ namespace DNASystemBackend.Controllers
         {
             var feedback = await _service.GetByIdAsync(id);
             return feedback == null ? NotFound() : Ok(feedback);
+        }
+        [HttpGet("by-service/{serviceID}")]
+        public async Task<ActionResult<Feedback>> GetByServiceId(string serviceID)
+        {
+            var result = await _repo.GetByServiceIdAsync(serviceID);
+            if (result == null)
+                return NotFound(new { message = $"Không tìm thấy {serviceID}" });
+
+            return Ok(result);
         }
 
         [HttpPost]

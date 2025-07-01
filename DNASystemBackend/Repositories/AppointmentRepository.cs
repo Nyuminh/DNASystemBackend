@@ -16,8 +16,9 @@ namespace DNASystemBackend.Repositories
 
         public async Task<IEnumerable<Booking>> GetAllAsync()
               => await _context.Bookings.ToListAsync();
-            
-        
+
+        public async Task<IEnumerable<Booking>> GetByServiceIdAsync(string serviceId)
+          => await _context.Bookings.Where(r => r.ServiceId == serviceId).ToListAsync();
 
         public async Task<Booking?> GetByIdAsync(string id)
         {
