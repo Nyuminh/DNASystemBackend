@@ -39,7 +39,6 @@ namespace DNASystemBackend.Services
                     Status =dto.Status
                 };
 
-                // Generate a new booking ID if not provided
                 if (string.IsNullOrEmpty(dto.BookingId))
                 {
                     booking.BookingId = await _repository.GenerateBookingIdAsync();
@@ -66,8 +65,6 @@ namespace DNASystemBackend.Services
         {
             var booking = await _repository.GetByIdAsync(id);
             if (booking == null) return (false, "Không tìm thấy lịch hẹn.");
-
-            // Update properties from UpdateAppointDto
 
             booking.StaffId = updated.StaffId;
             booking.ServiceId = updated.ServiceId;
@@ -98,12 +95,10 @@ namespace DNASystemBackend.Services
                 if (booking == null)
                     return (false, "Không tìm thấy lịch hẹn.");
 
-                // Get related invoices
                 var invoices = await _context.Invoices
                     .Where(i => i.BookingId == id)
                     .ToListAsync();
 
-                // For each invoice, delete its invoice details first
                 foreach (var invoice in invoices)
                 {
                     var invoiceDetails = await _context.InvoiceDetails
@@ -116,26 +111,22 @@ namespace DNASystemBackend.Services
                     }
                 }
 
-                // Now delete all the invoices
                 if (invoices.Any())
                 {
                     _context.Invoices.RemoveRange(invoices);
                 }
 
-                // Finally delete the booking
                 _context.Bookings.Remove(booking);
 
-                // Save all changes
                 await _context.SaveChangesAsync();
 
-                // Commit transaction
                 await transaction.CommitAsync();
 
                 return (true, "Xóa lịch hẹn và tất cả dữ liệu liên quan thành công.");
             }
             catch (Exception ex)
             {
-                // Rollback on error
+
                 await transaction.RollbackAsync();
                 return (false, $"Lỗi khi xóa lịch hẹn: {ex.Message}");
             }

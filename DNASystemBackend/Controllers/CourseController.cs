@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DNASystemBackend.Controllers
 {
+    [Route ("api/[controller]")]
+    [ApiController]
     public class CourseController : ControllerBase
     {
         private readonly ICourseRepository _courseRepository;
@@ -30,8 +32,15 @@ namespace DNASystemBackend.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllCourses()
         {
-            var courses = await _courseRepository.GetAllAsync();
-            return Ok(courses);
+            try
+            {
+                var courses = await _courseRepository.GetAllAsync();
+                return Ok(courses);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.ToString());
+            }
         }
 
         [HttpGet("manager/{managerId}")]
@@ -47,20 +56,20 @@ namespace DNASystemBackend.Controllers
         {
             if (await _courseRepository.TitleExistsAsync(course.Title))
             {
-                return BadRequest("Course title already exists.");
+                return BadRequest("Tựa đề khóa học đã tồn tại.");
             }
             var (success, message) = await _service.CreateCourseAsync(course);
             if (!success) return BadRequest(message);
-            return Ok(new { message = "Tạo course thành công." });
+            return Ok(new { message = "Tạo khóa học thành công." });
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{courseId}")]
         [Authorize(Roles = "Manager")]
-        public async Task<IActionResult> UpdateCourse(string id, [FromBody] UpdateCourseDto course)
+        public async Task<IActionResult> UpdateCourse(string courseId, [FromBody] UpdateCourseDto course)
         {
-            var (success, message) = await _service.UpdateCourseAsync(id,course);
+            var (success, message) = await _service.UpdateCourseAsync(courseId, course);
             if (!success) return BadRequest(message);
-            return Ok(new { message = "Tạo course thành công." });
+            return Ok(new { message = "Cập nhật khóa học thành công." });
         }
 
         [HttpDelete("{courseId}")]
@@ -69,7 +78,7 @@ namespace DNASystemBackend.Controllers
         {
             var (success, message) = await _service.DeleteCourseAsync(courseId);
             if (!success) return BadRequest(message);
-            return Ok(new { message = "Xóa course thành công." });
+            return Ok(new { message = "Xóa khóa học thành công." });
         }
     }
 }
