@@ -54,7 +54,9 @@ public class UserService : IUserService
             Phone = dto.Phone,
             Gender = dto.Gender,
             Address = dto.Address,
-            RoleId = defaultRole?.RoleId
+            RoleId = defaultRole?.RoleId,
+            Birthdate = dto.Birthdate,
+            Image = dto.Image
         };
 
         await _userRepo.AddAsync(user);
@@ -120,7 +122,8 @@ public class UserService : IUserService
             Phone = dto.Phone,
             Gender = dto.Gender,
             Address = dto.Address,
-            RoleId = role.RoleId
+            RoleId = role.RoleId,
+            Birthdate = dto.Birthdate,
         };
 
         try
@@ -159,6 +162,10 @@ public class UserService : IUserService
         user.Username = dto.Username;
         user.Password = dto.Password; // TODO: Hash password
         user.RoleId = dto.RoleId;
+        user.Birthdate = dto.Birthdate;
+        user.Image = dto.Image;
+        user.Address = dto.Address;
+
 
         if (!string.IsNullOrEmpty(dto.Email)) user.Email = dto.Email;
         if (!string.IsNullOrEmpty(dto.Fullname)) user.Fullname = dto.Fullname;
