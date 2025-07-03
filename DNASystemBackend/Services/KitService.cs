@@ -65,16 +65,16 @@ namespace DNASystemBackend.Services
             }
         }
 
-        public async Task<(bool success, string? message)> UpdateStatusAsync(string id, string status)
+        public async Task<(bool success, string? message)> UpdateStatusAsync(string id, UpdateKitDto status)
         {
             var kit = await _repository.GetByIdAsync(id);
             if (kit == null) return (false, "Không tìm thấy kit.");
 
-            kit.Status = status;
+            kit.Status = status.Status;
 
             try
             {
-                await _repository.UpdateStatusAsync(id, status);
+                await _repository.UpdateStatusAsync(id, kit);
                 await _context.SaveChangesAsync();
                 return (true, "Cập nhật trạng thái kit thành công.");
             }

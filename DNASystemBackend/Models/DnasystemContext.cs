@@ -221,7 +221,6 @@ public partial class DnasystemContext : DbContext
                 .HasColumnName("staffID");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
-                .IsUnicode(false)
                 .HasColumnName("status");
 
             entity.HasOne(d => d.Booking).WithMany(p => p.Kits)
@@ -261,7 +260,7 @@ public partial class DnasystemContext : DbContext
                 .HasMaxLength(10)
                 .HasColumnName("serviceID");
             entity.Property(e => e.Description)
-                .HasColumnType("text")
+                .HasColumnType("nvarchar(max)")
                 .HasColumnName("description");
             entity.Property(e => e.Image)
                 .HasMaxLength(255)

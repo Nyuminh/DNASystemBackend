@@ -8,7 +8,7 @@ namespace DNASystemBackend.Interfaces
         Task<IEnumerable<Kit>> GetAllAsync();
         Task<Kit?> GetByIdAsync(string id);
         Task<(bool success, string? message)> CreateAsync(CreateKitDto kit);
-        Task<(bool success, string? message)> UpdateStatusAsync(string id, string status);
+        Task<(bool success, string? message)> UpdateStatusAsync(string id, UpdateKitDto status);
         Task<(bool success, string? message)> DeleteAsync(string id);
         Task<IEnumerable<Kit>> GetTrackingSamplesAsync();
         Task<IEnumerable<Kit>> GetCollectionSamplesAsync();
