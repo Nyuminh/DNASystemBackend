@@ -75,31 +75,51 @@ namespace DNASystemBackend.Services
                 if (service == null)
                     return (false, "Không tìm thấy dịch vụ.");
 
-                // Delete related Bookings
+                // Lấy danh sách các bookings liên quan đến service
                 var bookings = await _context.Bookings.Where(b => b.ServiceId == id).ToListAsync();
-                if (bookings.Any())
-                    _context.Bookings.RemoveRange(bookings);
+                var bookingIds = bookings.Select(b => b.BookingId).ToList();
 
-                // Delete related Feedbacks
+                // 1. Xóa TestResult liên quan đến các booking
+                var testResultsByBooking = await _context.TestResults
+                    .Where(tr => bookingIds.Contains(tr.BookingId)).ToListAsync();
+                if (testResultsByBooking.Any()) _context.TestResults.RemoveRange(testResultsByBooking);
+
+                // 2. Xóa TestResult liên quan trực tiếp đến Service
+                var testResultsByService = await _context.TestResults
+                    .Where(tr => tr.ServiceId == id && !bookingIds.Contains(tr.BookingId ?? "")).ToListAsync();
+                if (testResultsByService.Any()) _context.TestResults.RemoveRange(testResultsByService);
+
+                // 3. Xóa Kits liên quan đến Booking
+                var kits = await _context.Kits
+                    .Where(k => bookingIds.Contains(k.BookingId)).ToListAsync();
+                if (kits.Any()) _context.Kits.RemoveRange(kits);
+
+                // 4. Xóa Invoices liên quan đến Booking
+                var invoices = await _context.Invoices
+                    .Where(i => bookingIds.Contains(i.BookingId)).ToListAsync();
+                var invoiceIds = invoices.Select(i => i.InvoiceId).ToList();
+
+                // 5. Xóa InvoiceDetails liên quan đến Service
+                var invoiceDetails = await _context.InvoiceDetails
+                    .Where(d => d.ServiceId == id || invoiceIds.Contains(d.InvoiceId)).ToListAsync();
+                if (invoiceDetails.Any()) _context.InvoiceDetails.RemoveRange(invoiceDetails);
+
+                if (invoices.Any()) _context.Invoices.RemoveRange(invoices);
+
+                // 6. Xóa Bookings
+                if (bookings.Any()) _context.Bookings.RemoveRange(bookings);
+
+                // 7. Xóa Feedbacks
                 var feedbacks = await _context.Feedbacks.Where(f => f.ServiceId == id).ToListAsync();
-                if (feedbacks.Any())
-                    _context.Feedbacks.RemoveRange(feedbacks);
+                if (feedbacks.Any()) _context.Feedbacks.RemoveRange(feedbacks);
 
-                // Delete related InvoiceDetails
-                var invoiceDetails = await _context.InvoiceDetails.Where(i => i.ServiceId == id).ToListAsync();
-                if (invoiceDetails.Any())
-                    _context.InvoiceDetails.RemoveRange(invoiceDetails);
-
-                // Delete related TestResults
-                var testResults = await _context.TestResults.Where(t => t.ServiceId == id).ToListAsync();
-                if (testResults.Any())
-                    _context.TestResults.RemoveRange(testResults);
-
-                // Now delete the service
+                // 8. Xóa Service
                 await _repository.DeleteAsync(id);
 
+                await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
-                return (true, "Xóa dịch vụ và dữ liệu liên quan thành công.");
+
+                return (true, "Xóa dịch vụ và toàn bộ dữ liệu liên quan thành công.");
             }
             catch (Exception ex)
             {
@@ -107,6 +127,7 @@ namespace DNASystemBackend.Services
                 return (false, $"Lỗi khi xóa dịch vụ: {ex.Message}");
             }
         }
+
 
         public async Task<(bool success, string? message)> DeleteAsync(string id)
         {

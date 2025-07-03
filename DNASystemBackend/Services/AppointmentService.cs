@@ -98,6 +98,7 @@ namespace DNASystemBackend.Services
                 var invoices = await _context.Invoices
                     .Where(i => i.BookingId == id)
                     .ToListAsync();
+                
 
                 foreach (var invoice in invoices)
                 {
@@ -115,7 +116,12 @@ namespace DNASystemBackend.Services
                 {
                     _context.Invoices.RemoveRange(invoices);
                 }
-
+                var kits = await _context.Kits.Where(f => f.BookingId == id).ToListAsync();
+                if (kits.Any())
+                    _context.Kits.RemoveRange(kits);
+                var testResults = await _context.TestResults.Where(t => t.BookingId == id).ToListAsync();
+                if (testResults.Any())
+                    _context.TestResults.RemoveRange(testResults);
                 _context.Bookings.Remove(booking);
 
                 await _context.SaveChangesAsync();
