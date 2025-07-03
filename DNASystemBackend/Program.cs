@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.Json.Serialization;
+using System.Security.Claims;
 using DNASystemBackend.Interfaces;
 using DNASystemBackend.Models;
 using DNASystemBackend.Repositories;
@@ -55,6 +56,19 @@ builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultSignInScheme = "Cookies";
+})
+.AddCookie("Cookies", options =>
+{
+    options.LoginPath = "/api/AuthGoogle/signin-google";
+    options.LogoutPath = "/api/AuthGoogle/signout";
+    options.Cookie.Name = "GoogleAuth";
+    options.Cookie.HttpOnly = true;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+    options.Cookie.SameSite = SameSiteMode.Lax;
+    options.Cookie.IsEssential = true;
+    options.ExpireTimeSpan = TimeSpan.FromHours(1);
+    options.SlidingExpiration = true;
 })
 .AddJwtBearer(options =>
 {
@@ -67,7 +81,7 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = jwtSettings["Issuer"],
         ValidAudience = jwtSettings["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"] ?? throw new InvalidOperationException("JWT Key not configured")))
     };
     options.Events = new JwtBearerEvents
     {
@@ -81,6 +95,80 @@ builder.Services.AddAuthentication(options =>
             Console.WriteLine("OnTokenValidated: " + context.SecurityToken);
             return Task.CompletedTask;
         }
+    };
+})
+.AddGoogle(options =>
+{
+    var googleSettings = builder.Configuration.GetSection("Authentication:Google");
+    options.ClientId = googleSettings["ClientId"] ?? throw new InvalidOperationException("Google ClientId not configured");
+    options.ClientSecret = googleSettings["ClientSecret"] ?? throw new InvalidOperationException("Google ClientSecret not configured");
+    
+    // Essential scopes only
+    options.Scope.Clear();
+    options.Scope.Add("openid");
+    options.Scope.Add("profile");
+    options.Scope.Add("email");
+    
+    options.SaveTokens = true;
+    options.SignInScheme = "Cookies";
+    
+    // Add callback path explicitly
+    options.CallbackPath = new PathString("/api/AuthGoogle/google-callback");
+    
+    // Configure cookies for better compatibility
+    options.CorrelationCookie.Name = "GoogleCorrelation";
+    options.CorrelationCookie.HttpOnly = true;
+    options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+    options.CorrelationCookie.SameSite = SameSiteMode.Lax;
+    options.CorrelationCookie.IsEssential = true;
+    
+    // Add events for debugging
+    options.Events.OnCreatingTicket = context =>
+    {
+        Console.WriteLine($"Google OnCreatingTicket: {context.Principal?.Identity?.Name}");
+        return Task.CompletedTask;
+    };
+    
+    options.Events.OnRemoteFailure = context =>
+    {
+        Console.WriteLine($"Google OnRemoteFailure: {context.Failure?.Message}");
+        
+        // Redirect to error page with details
+        context.Response.Redirect($"/error-handler.html?error={Uri.EscapeDataString(context.Failure?.Message ?? "Unknown error")}");
+        context.HandleResponse();
+        return Task.CompletedTask;
+    };
+    
+    options.Events.OnAccessDenied = context =>
+    {
+        Console.WriteLine("Google OnAccessDenied");
+        context.Response.Redirect("/error-handler.html?error=access_denied");
+        context.HandleResponse();
+        return Task.CompletedTask;
+    };
+    
+    options.Events.OnTicketReceived = context =>
+    {
+        Console.WriteLine("Google OnTicketReceived - Success!");
+        
+        // Extract user information from the successful authentication
+        var claims = context.Principal?.Identity as ClaimsIdentity;
+        var email = claims?.FindFirst(ClaimTypes.Email)?.Value;
+        var name = claims?.FindFirst(ClaimTypes.Name)?.Value;
+        var googleId = claims?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        
+        Console.WriteLine($"Authenticated user - Email: {email}, Name: {name}");
+        
+        // Store the user info in session to pass to our callback
+        context.HttpContext.Session.SetString("GoogleEmail", email ?? "");
+        context.HttpContext.Session.SetString("GoogleName", name ?? "");
+        context.HttpContext.Session.SetString("GoogleId", googleId ?? "");
+        
+        // Redirect to our custom success handler instead of continuing with OAuth
+        context.Response.Redirect("/api/AuthGoogle/success-callback");
+        context.HandleResponse(); // This prevents further OAuth processing
+        
+        return Task.CompletedTask;
     };
 });
 
@@ -120,11 +208,14 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 builder.Services.AddDistributedMemoryCache();
+builder.Services.AddDataProtection();
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+    options.Cookie.SameSite = SameSiteMode.Lax;
     }
 );
 
@@ -140,6 +231,10 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 app.UseCors("AllowAll");
 app.UseSession();
+
+// Enable static files
+app.UseStaticFiles();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -147,7 +242,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// Comment out HTTPS redirection for localhost testing
+// app.UseHttpsRedirection();
 
 app.UseAuthentication(); // <-- Thêm dòng này cho JWT
 app.UseAuthorization();

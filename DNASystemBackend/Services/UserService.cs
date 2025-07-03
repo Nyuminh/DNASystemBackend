@@ -82,59 +82,90 @@ public class UserService : IUserService
         return await _userRepo.GetByIdAsync(userId);
     }
 
-    public async Task<(bool success, string? message)> CreateUserAsync(CreateUserDto dto)
+    public async Task<User?> GetUserByEmailAsync(string email)
     {
-        if (await _userRepo.UsernameExistsAsync(dto.Username))
-            return (false, "Tên đăng nhập đã tồn tại.");
+        return await _context.Users
+            .Include(u => u.Role)
+            .FirstOrDefaultAsync(u => u.Email == email);
+    }
 
-        if (!string.IsNullOrEmpty(dto.Email) && await _userRepo.EmailExistsAsync(dto.Email))
-            return (false, "Email đã được sử dụng.");
-
-        string newUserId = await GenerateUniqueUserIdAsync();
-
-        Role? role = null;
-        if (!string.IsNullOrEmpty(dto.RoleId))
-        {
-            role = await _context.Roles.FindAsync(dto.RoleId);
-            if (role == null)
-                return (false, "Role không tồn tại.");
-        }
-        else if (!string.IsNullOrEmpty(dto.RoleName))
-        {
-            role = await _context.Roles.FirstOrDefaultAsync(r => r.Rolename == dto.RoleName);
-            if (role == null)
-                return (false, $"Role '{dto.RoleName}' không tồn tại.");
-        }
-        else
-        {
-            role = await _context.Roles.FirstOrDefaultAsync(r => r.Rolename == "Customer");
-            if (role == null)
-                return (false, "Không thể tìm thấy role mặc định.");
-        }
-
-        var user = new User
-        {
-            UserId = newUserId,
-            Username = dto.Username,
-            Password = dto.Password, // TODO: Hash password
-            Fullname = dto.Fullname,
-            Email = dto.Email,
-            Phone = dto.Phone,
-            Gender = dto.Gender,
-            Address = dto.Address,
-            RoleId = role.RoleId,
-            Birthdate = dto.Birthdate,
-        };
-
+    public async Task<(bool success, string? message)> CreateAsync(User user)
+    {
         try
         {
+            // Check if user with email already exists
+            if (!string.IsNullOrEmpty(user.Email))
+            {
+                var existingUser = await GetUserByEmailAsync(user.Email);
+                if (existingUser != null)
+                    return (false, "User with this email already exists.");
+            }
+
+            // Check if username already exists
+            if (!string.IsNullOrEmpty(user.Username))
+            {
+                if (await _userRepo.UsernameExistsAsync(user.Username))
+                    return (false, "Username already exists.");
+            }
+
+            // Generate unique user ID if not provided
+            if (string.IsNullOrEmpty(user.UserId))
+            {
+                user.UserId = await GenerateUniqueUserIdAsync();
+            }
+
+            // Set default role if not provided
+            if (string.IsNullOrEmpty(user.RoleId))
+            {
+                Console.WriteLine("Looking for default role 'Customer'");
+                var defaultRole = await _context.Roles.FirstOrDefaultAsync(r => r.Rolename == "Customer");
+                
+                if (defaultRole != null)
+                {
+                    Console.WriteLine($"Found default role: {defaultRole.RoleId} - {defaultRole.Rolename}");
+                    user.RoleId = defaultRole.RoleId;
+                }
+                else
+                {
+                    Console.WriteLine("No 'Customer' role found, checking all available roles...");
+                    var allRoles = await _context.Roles.ToListAsync();
+                    foreach (var role in allRoles)
+                    {
+                        Console.WriteLine($"Available role: {role.RoleId} - {role.Rolename}");
+                    }
+                    
+                    // Try to find any role that might be a customer/user role
+                    var fallbackRole = allRoles.FirstOrDefault(r => 
+                        r.Rolename?.ToLower().Contains("customer") == true ||
+                        r.Rolename?.ToLower().Contains("user") == true ||
+                        r.Rolename?.ToLower().Contains("member") == true);
+                        
+                    if (fallbackRole != null)
+                    {
+                        Console.WriteLine($"Using fallback role: {fallbackRole.RoleId} - {fallbackRole.Rolename}");
+                        user.RoleId = fallbackRole.RoleId;
+                    }
+                    else if (allRoles.Any())
+                    {
+                        // Use the first available role as a last resort
+                        var firstRole = allRoles.First();
+                        Console.WriteLine($"Using first available role: {firstRole.RoleId} - {firstRole.Rolename}");
+                        user.RoleId = firstRole.RoleId;
+                    }
+                    else
+                    {
+                        return (false, "No roles found in the database. Please ensure the Role table is populated.");
+                    }
+                }
+            }
+
             await _userRepo.AddAsync(user);
             await _userRepo.SaveAsync();
             return (true, null);
         }
         catch (Exception ex)
         {
-            return (false, $"Lỗi khi tạo người dùng: {ex.Message}");
+            return (false, $"Error creating user: {ex.Message}");
         }
     }
 
@@ -213,7 +244,7 @@ public class UserService : IUserService
                 u.Username,
                 u.Password,
                 u.RoleId,
-                RoleName = u.Role.Rolename
+                RoleName = u.Role != null ? u.Role.Rolename : "Unknown"
             })
             .FirstOrDefaultAsync();
 
@@ -279,5 +310,61 @@ public class UserService : IUserService
         }
 
         return newId;
+    }
+
+    public async Task<(bool success, string? message)> CreateUserAsync(CreateUserDto dto)
+    {
+        if (await _userRepo.UsernameExistsAsync(dto.Username))
+            return (false, "Tên đăng nhập đã tồn tại.");
+
+        if (!string.IsNullOrEmpty(dto.Email) && await _userRepo.EmailExistsAsync(dto.Email))
+            return (false, "Email đã được sử dụng.");
+
+        string newUserId = await GenerateUniqueUserIdAsync();
+
+        Role? role = null;
+        if (!string.IsNullOrEmpty(dto.RoleId))
+        {
+            role = await _context.Roles.FindAsync(dto.RoleId);
+            if (role == null)
+                return (false, "Role không tồn tại.");
+        }
+        else if (!string.IsNullOrEmpty(dto.RoleName))
+        {
+            role = await _context.Roles.FirstOrDefaultAsync(r => r.Rolename == dto.RoleName);
+            if (role == null)
+                return (false, $"Role '{dto.RoleName}' không tồn tại.");
+        }
+        else
+        {
+            role = await _context.Roles.FirstOrDefaultAsync(r => r.Rolename == "Customer");
+            if (role == null)
+                return (false, "Không thể tìm thấy role mặc định.");
+        }
+
+        var user = new User
+        {
+            UserId = newUserId,
+            Username = dto.Username,
+            Password = dto.Password, // TODO: Hash password
+            Fullname = dto.Fullname,
+            Email = dto.Email,
+            Phone = dto.Phone,
+            Gender = dto.Gender,
+            Address = dto.Address,
+            RoleId = role.RoleId,
+            Birthdate = dto.Birthdate,
+        };
+
+        try
+        {
+            await _userRepo.AddAsync(user);
+            await _userRepo.SaveAsync();
+            return (true, null);
+        }
+        catch (Exception ex)
+        {
+            return (false, $"Lỗi khi tạo người dùng: {ex.Message}");
+        }
     }
 }
