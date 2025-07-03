@@ -95,48 +95,45 @@ namespace DNASystemBackend.Services
                 if (booking == null)
                     return (false, "Không tìm thấy lịch hẹn.");
 
+                // Invoices & InvoiceDetails
                 var invoices = await _context.Invoices
                     .Where(i => i.BookingId == id)
                     .ToListAsync();
-                
 
-                foreach (var invoice in invoices)
-                {
-                    var invoiceDetails = await _context.InvoiceDetails
-                        .Where(d => d.InvoiceId == invoice.InvoiceId)
-                        .ToListAsync();
-
-                    if (invoiceDetails.Any())
-                    {
-                        _context.InvoiceDetails.RemoveRange(invoiceDetails);
-                    }
-                }
-
+                var invoiceIds = invoices.Select(i => i.InvoiceId).ToList();
+                var invoiceDetails = await _context.InvoiceDetails
+                    .Where(d => invoiceIds.Contains(d.InvoiceId))
+                    .ToListAsync();
+                if (invoiceDetails.Any())
+                    _context.InvoiceDetails.RemoveRange(invoiceDetails);
                 if (invoices.Any())
-                {
                     _context.Invoices.RemoveRange(invoices);
-                }
+
+                // Kits
                 var kits = await _context.Kits.Where(f => f.BookingId == id).ToListAsync();
                 if (kits.Any())
                     _context.Kits.RemoveRange(kits);
+
+                // TestResults
                 var testResults = await _context.TestResults.Where(t => t.BookingId == id).ToListAsync();
                 if (testResults.Any())
                     _context.TestResults.RemoveRange(testResults);
+
+                // Cuối cùng: Booking
                 _context.Bookings.Remove(booking);
 
                 await _context.SaveChangesAsync();
-
                 await transaction.CommitAsync();
 
                 return (true, "Xóa lịch hẹn và tất cả dữ liệu liên quan thành công.");
             }
             catch (Exception ex)
             {
-
                 await transaction.RollbackAsync();
                 return (false, $"Lỗi khi xóa lịch hẹn: {ex.Message}");
             }
         }
+        
 
 
         public Task<List<DateTime>> GetAvailableSchedulesAsync()

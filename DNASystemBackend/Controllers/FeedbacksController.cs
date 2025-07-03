@@ -1,4 +1,5 @@
-﻿using DNASystemBackend.Interfaces;
+﻿using DNASystemBackend.DTOs;
+using DNASystemBackend.Interfaces;
 using DNASystemBackend.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -43,7 +44,7 @@ namespace DNASystemBackend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Feedback>> CreateFeedback([FromBody] Feedback feedback)
+        public async Task<ActionResult<Feedback>> CreateFeedback([FromBody] CreateFeedbackDto feedback)
         {
             var created = await _service.CreateAsync(feedback);
             return CreatedAtAction(nameof(GetFeedback), new { id = created.FeedbackId }, created);
