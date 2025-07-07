@@ -43,6 +43,9 @@ builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 builder.Services.AddScoped<IInvoiceDetailService, InvoiceDetailService>();
+builder.Services.AddScoped<IRelativeRepository, RelativeRepository>();
+builder.Services.AddScoped<IRelativeService, RelativeService>();
+
 
 // Add configuration for Logging
 builder.Services.AddLogging(logging =>

@@ -1,0 +1,55 @@
+﻿using DNASystemBackend.DTOs;
+using DNASystemBackend.Interfaces;
+using DNASystemBackend.Models;
+using Microsoft.AspNetCore.Mvc;
+
+namespace DNASystemBackend.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class RelativesController : ControllerBase
+    {
+        private readonly IRelativeService _service;
+
+        public RelativesController(IRelativeService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Relative>>> GetAll()
+        {
+            var list = await _service.GetAllAsync();
+            return Ok(list);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Relative>> GetById(string id)
+        {
+            var relative = await _service.GetByIdAsync(id);
+            return relative == null ? NotFound() : Ok(relative);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Relative>> Create([FromBody] RelativeCreateDto dto)
+        {
+            var created = await _service.CreateAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id = created.RelativeId }, created);
+        }
+
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(string id, Relative updated)
+        {
+            var success = await _service.UpdateAsync(id, updated);
+            return success ? Ok(new { message = "Cập nhật thành công." }) : NotFound();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var success = await _service.DeleteAsync(id);
+            return success ? Ok(new { message = "Xóa thành công." }) : NotFound();
+        }
+    }
+}

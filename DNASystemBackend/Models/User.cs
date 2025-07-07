@@ -39,6 +39,8 @@ public partial class User
 
     public virtual ICollection<Kit> KitStaffs { get; set; } = new List<Kit>();
 
+    public virtual ICollection<Relative> Relatives { get; set; } = new List<Relative>();
+
     public virtual Role? Role { get; set; }
 
     public virtual ICollection<TestResult> TestResultCustomers { get; set; } = new List<TestResult>();

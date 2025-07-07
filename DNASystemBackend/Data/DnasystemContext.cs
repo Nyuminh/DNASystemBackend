@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using DNASystemBackend.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace DNASystemBackend.Models;
+namespace DNASystemBackend.Data;
 
 public partial class DnasystemContext : DbContext
 {
@@ -27,6 +28,8 @@ public partial class DnasystemContext : DbContext
 
     public virtual DbSet<Kit> Kits { get; set; }
 
+    public virtual DbSet<Relative> Relatives { get; set; }
+
     public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<Service> Services { get; set; }
@@ -36,7 +39,7 @@ public partial class DnasystemContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-=> optionsBuilder.UseSqlServer("Server=localhost;Database=DNASystem;User Id=sa;Password=12345;TrustServerCertificate=True;");
+      => optionsBuilder.UseSqlServer("Server=localhost;Database=DNASystem;User Id=sa;Password=12345;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -227,6 +230,41 @@ public partial class DnasystemContext : DbContext
             entity.HasOne(d => d.Staff).WithMany(p => p.KitStaffs)
                 .HasForeignKey(d => d.StaffId)
                 .HasConstraintName("FK__Kit__staffID__30C33EC3");
+        });
+
+        modelBuilder.Entity<Relative>(entity =>
+        {
+            entity.HasKey(e => e.RelativeId).HasName("PK__Relative__67BC160D7CAF50DA");
+
+            entity.Property(e => e.RelativeId)
+                .HasMaxLength(10)
+                .HasColumnName("relativeID");
+            entity.Property(e => e.Address)
+                .HasMaxLength(100)
+                .HasColumnName("address");
+            entity.Property(e => e.Birthdate).HasColumnName("birthdate");
+            entity.Property(e => e.Fullname)
+                .HasMaxLength(50)
+                .HasColumnName("fullname");
+            entity.Property(e => e.Gender)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("gender");
+            entity.Property(e => e.Phone)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("phone");
+            entity.Property(e => e.Relationship)
+                .HasMaxLength(50)
+                .HasColumnName("relationship");
+            entity.Property(e => e.UserId)
+                .HasMaxLength(10)
+                .HasColumnName("userID");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Relatives)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Relatives_Users");
         });
 
         modelBuilder.Entity<Role>(entity =>
