@@ -29,7 +29,15 @@ namespace DNASystemBackend.Controllers
             var relative = await _service.GetByIdAsync(id);
             return relative == null ? NotFound() : Ok(relative);
         }
+        [HttpGet("by-user/{userId}")]
+        public async Task<ActionResult<Relative>> GetByUserId(string userId)
+        {
+            var result = await _service.GetByUserIdAsync(userId);
+            if (result == null)
+                return NotFound(new { message = $"Không tìm thấy {userId}" });
 
+            return Ok(result);
+        }
         [HttpPost]
         public async Task<ActionResult<Relative>> Create([FromBody] RelativeCreateDto dto)
         {

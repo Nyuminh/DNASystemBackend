@@ -1,6 +1,7 @@
 ﻿using DNASystemBackend.DTOs;
 using DNASystemBackend.Interfaces;
 using DNASystemBackend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DNASystemBackend.Services
 {
@@ -21,6 +22,11 @@ namespace DNASystemBackend.Services
         public async Task<Relative?> GetByIdAsync(string id)
         {
             return await _repository.GetByIdAsync(id);
+        }
+        public async Task<Relative?> GetByUserIdAsync(string userId)
+        {
+            return await _repository.GetByUserIdAsync(userId);
+            
         }
 
         public async Task<Relative> CreateAsync(RelativeCreateDto dto)

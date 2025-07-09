@@ -7,6 +7,7 @@ namespace DNASystemBackend.Interfaces
     {
         Task<IEnumerable<Relative>> GetAllAsync();
         Task<Relative?> GetByIdAsync(string id);
+        Task<Relative?> GetByUserIdAsync(string userId);
         Task<Relative> CreateAsync(RelativeCreateDto relative);
         Task<bool> UpdateAsync(string id, Relative updated);
         Task<bool> DeleteAsync(string id);

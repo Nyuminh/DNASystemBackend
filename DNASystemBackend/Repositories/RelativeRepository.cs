@@ -22,7 +22,12 @@ namespace DNASystemBackend.Repositories
         {
             return await _context.Relatives.FindAsync(id);
         }
-
+        public async Task<Relative?> GetByUserIdAsync(string userId)
+        {
+            return await _context.Relatives
+                .Where(r => r.UserId == userId)
+                .FirstOrDefaultAsync();
+        }
         public async Task<Relative> CreateAsync(Relative relative)
         {
             _context.Relatives.Add(relative);
