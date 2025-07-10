@@ -15,6 +15,10 @@ public class UserService : IUserService
     private readonly IUserRepository _userRepo;
     private readonly DnasystemContext _context;
     private readonly IConfiguration _config;
+    
+    // Store reset tokens with expiration times and associated usernames
+    private static readonly Dictionary<string, DateTime> _resetTokens = new Dictionary<string, DateTime>();
+    private static readonly Dictionary<string, string> _tokenToUsername = new Dictionary<string, string>();
 
     public UserService(IUserRepository userRepo, DnasystemContext context, IConfiguration config)
     {
@@ -365,6 +369,141 @@ public class UserService : IUserService
         catch (Exception ex)
         {
             return (false, $"Lỗi khi tạo người dùng: {ex.Message}");
+        }
+    }
+
+    public async Task<(bool success, string? message)> ForgotPasswordAsync(ForgotPasswordDto dto)
+    {
+        try
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == dto.Username);
+            if (user == null)
+                return (false, "Tên đăng nhập không tồn tại trong hệ thống.");
+
+            var resetToken = GenerateResetToken();
+            
+            // Store token with expiration time (30 minutes from now) and associated username
+            var expirationTime = DateTime.Now.AddMinutes(30);
+            _resetTokens[resetToken] = expirationTime;
+            _tokenToUsername[resetToken] = dto.Username;
+            
+            // Clean up expired tokens
+            CleanupExpiredTokens();
+            
+            return (true, $"Đã tạo mã reset mật khẩu. Mã xác thực: {resetToken}\nMã này sẽ hết hạn sau 30 phút.");
+        }
+        catch (Exception ex)
+        {
+            return (false, $"Lỗi khi xử lý quên mật khẩu: {ex.Message}");
+        }
+    }
+
+    public async Task<(bool success, string? message)> ResetPasswordAsync(ResetPasswordDto dto)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(dto.Token))
+            {
+                return (false, "Token không hợp lệ.");
+            }
+
+            // Validate 6-digit code
+            if (dto.Token.Length != 6 || !int.TryParse(dto.Token, out _))
+            {
+                return (false, "Mã xác thực phải là 6 chữ số.");
+            }
+
+            // Check if token exists and is not expired
+            if (!_resetTokens.ContainsKey(dto.Token))
+            {
+                return (false, "Mã xác thực không hợp lệ hoặc đã được sử dụng.");
+            }
+
+            if (DateTime.Now > _resetTokens[dto.Token])
+            {
+                // Remove expired token
+                _resetTokens.Remove(dto.Token);
+                _tokenToUsername.Remove(dto.Token);
+                return (false, "Mã xác thực đã hết hạn. Vui lòng yêu cầu mã mới.");
+            }
+
+            // Get the username associated with this token
+            var username = _tokenToUsername[dto.Token];
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+            if (user == null)
+            {
+                // Clean up invalid token
+                _resetTokens.Remove(dto.Token);
+                _tokenToUsername.Remove(dto.Token);
+                return (false, "Người dùng không tồn tại.");
+            }
+
+            if (string.IsNullOrEmpty(dto.NewPassword))
+                return (false, "Mật khẩu mới không được để trống.");
+
+            // Update password and remove used token
+            user.Password = dto.NewPassword;
+            await _userRepo.UpdateAsync(user);
+            await _userRepo.SaveAsync();
+            
+            // Remove used token from both dictionaries
+            _resetTokens.Remove(dto.Token);
+            _tokenToUsername.Remove(dto.Token);
+
+            return (true, "Đặt lại mật khẩu thành công.");
+        }
+        catch (Exception ex)
+        {
+            return (false, $"Lỗi khi đặt lại mật khẩu: {ex.Message}");
+        }
+    }
+
+    public async Task<(bool success, string? message)> ChangePasswordAsync(string userId, ChangePasswordDto dto)
+    {
+        try
+        {
+            var user = await _userRepo.GetByIdAsync(userId);
+            if (user == null)
+                return (false, "Người dùng không tồn tại.");
+
+            // Verify current password
+            if (user.Password != dto.CurrentPassword) // TODO: Use proper password hashing comparison
+                return (false, "Mật khẩu hiện tại không chính xác.");
+
+            if (string.IsNullOrEmpty(dto.NewPassword))
+                return (false, "Mật khẩu mới không được để trống.");
+
+            // Update password
+            user.Password = dto.NewPassword; // TODO: Hash password in production
+            await _userRepo.UpdateAsync(user);
+            await _userRepo.SaveAsync();
+
+            return (true, "Đổi mật khẩu thành công.");
+        }
+        catch (Exception ex)
+        {
+            return (false, $"Lỗi khi đổi mật khẩu: {ex.Message}");
+        }
+    }
+
+    private string GenerateResetToken()
+    {
+        // Generate a random 6-digit code for password reset
+        Random random = new Random();
+        return random.Next(100000, 999999).ToString();
+    }
+
+    private void CleanupExpiredTokens()
+    {
+        // Remove expired tokens to prevent memory leaks
+        var expiredTokens = _resetTokens.Where(kvp => DateTime.Now > kvp.Value)
+                                       .Select(kvp => kvp.Key)
+                                       .ToList();
+        
+        foreach (var token in expiredTokens)
+        {
+            _resetTokens.Remove(token);
+            _tokenToUsername.Remove(token);
         }
     }
 }

@@ -17,6 +17,11 @@
         Task<(bool success, string? message)> UpdateUserAsync(string userId, UpdateUserDto dto);
         Task<(bool success, string? message)> DeleteUserAsync(string userId, string currentUserId);
         Task<object?> GetUserForEditAsync(string userId);
+        
+        // Password related methods
+        Task<(bool success, string? message)> ForgotPasswordAsync(ForgotPasswordDto dto);
+        Task<(bool success, string? message)> ResetPasswordAsync(ResetPasswordDto dto);
+        Task<(bool success, string? message)> ChangePasswordAsync(string userId, ChangePasswordDto dto);
     }
 
 
