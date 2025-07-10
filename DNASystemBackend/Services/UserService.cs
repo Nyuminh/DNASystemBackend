@@ -15,16 +15,18 @@ public class UserService : IUserService
     private readonly IUserRepository _userRepo;
     private readonly DnasystemContext _context;
     private readonly IConfiguration _config;
+    private readonly IEmailService _emailService;
     
     // Store reset tokens with expiration times and associated usernames
     private static readonly Dictionary<string, DateTime> _resetTokens = new Dictionary<string, DateTime>();
     private static readonly Dictionary<string, string> _tokenToUsername = new Dictionary<string, string>();
 
-    public UserService(IUserRepository userRepo, DnasystemContext context, IConfiguration config)
+    public UserService(IUserRepository userRepo, DnasystemContext context, IConfiguration config, IEmailService emailService)
     {
         _userRepo = userRepo;
         _context = context;
         _config = config;
+        _emailService = emailService;
     }
 
     public async Task<string?> AuthenticateAsync(LoginDto loginDto)
@@ -380,17 +382,31 @@ public class UserService : IUserService
             if (user == null)
                 return (false, "Tên đăng nhập không tồn tại trong hệ thống.");
 
+            if (string.IsNullOrEmpty(user.Email))
+                return (false, "Tài khoản này chưa có email. Vui lòng liên hệ quản trị viên.");
+
             var resetToken = GenerateResetToken();
-            
+
             // Store token with expiration time (30 minutes from now) and associated username
             var expirationTime = DateTime.Now.AddMinutes(30);
             _resetTokens[resetToken] = expirationTime;
             _tokenToUsername[resetToken] = dto.Username;
-            
+
             // Clean up expired tokens
             CleanupExpiredTokens();
-            
-            return (true, $"Đã tạo mã reset mật khẩu. Mã xác thực: {resetToken}\nMã này sẽ hết hạn sau 30 phút.");
+
+            // Send email with reset code
+            bool emailSent = await _emailService.SendResetPasswordEmailAsync(user.Email, resetToken, user.Username);
+
+            if (emailSent)
+            {
+                return (true, $"Mã xác thực đã được gửi đến email: {MaskEmail(user.Email)}\nMã sẽ hết hạn sau 30 phút.");
+            }
+            else
+            {
+                // If email fails, still return the code for testing/fallback
+                return (true, $"Không thể gửi email. Mã xác thực của bạn là: {resetToken}\nMã này sẽ hết hạn sau 30 phút.");
+            }
         }
         catch (Exception ex)
         {
@@ -505,5 +521,22 @@ public class UserService : IUserService
             _resetTokens.Remove(token);
             _tokenToUsername.Remove(token);
         }
+    }
+
+    private string MaskEmail(string email)
+    {
+        if (string.IsNullOrEmpty(email) || !email.Contains("@"))
+            return email;
+
+        var parts = email.Split('@');
+        var localPart = parts[0];
+        var domain = parts[1];
+
+        if (localPart.Length <= 3)
+        {
+            return $"{localPart[0]}***@{domain}";
+        }
+
+        return $"{localPart.Substring(0, 2)}***{localPart[^1]}@{domain}";
     }
 }

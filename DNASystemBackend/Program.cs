@@ -42,6 +42,7 @@ builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 builder.Services.AddScoped<IInvoiceDetailService, InvoiceDetailService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 // Add configuration for Logging
 builder.Services.AddLogging(logging =>
