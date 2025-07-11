@@ -17,9 +17,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers()
     .AddJsonOptions(x =>
     {
-        x.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+        x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
         x.JsonSerializerOptions.WriteIndented = true;
+        x.JsonSerializerOptions.Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
     });
+
 
 // Add Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
@@ -43,6 +45,8 @@ builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 builder.Services.AddScoped<IInvoiceDetailService, InvoiceDetailService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IRelativeRepository, RelativeRepository>();
+builder.Services.AddScoped<IRelativeService, RelativeService>();
 
 // Add configuration for Logging
 builder.Services.AddLogging(logging =>
@@ -230,7 +234,23 @@ builder.Services.AddCors(options =>
                        .AllowAnyHeader());
 });
 var app = builder.Build();
+
+
 app.UseCors("AllowAll");
+
+
+app.Use(async (context, next) =>
+{
+    if (context.Request.ContentType != null &&
+        context.Request.ContentType.StartsWith("application/json", StringComparison.OrdinalIgnoreCase) &&
+        !context.Request.ContentType.Contains("charset"))
+    {
+        context.Request.ContentType = "application/json; charset=utf-8";
+    }
+
+    await next();
+});
+
 app.UseSession();
 
 // Enable static files

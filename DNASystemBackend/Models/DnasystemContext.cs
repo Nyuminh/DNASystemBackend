@@ -27,6 +27,8 @@ public partial class DnasystemContext : DbContext
 
     public virtual DbSet<Kit> Kits { get; set; }
 
+    public virtual DbSet<Relative> Relatives { get; set; }
+
     public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<Service> Services { get; set; }
@@ -36,20 +38,14 @@ public partial class DnasystemContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning
-        => optionsBuilder.UseSqlServer(GetConnectionString());
-    private string GetConnectionString() {
-        return new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json")
-            .Build()
-            .GetConnectionString("DNASystemDb");
-    }
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=localhost;Database=DNASystem;User Id=sa;Password=12345;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Booking>(entity =>
         {
-            entity.HasKey(e => e.BookingId).HasName("PK__Booking__C6D03BED3D71970F");
+            entity.HasKey(e => e.BookingId).HasName("PK__Booking__C6D03BEDBC0383B6");
 
             entity.ToTable("Booking");
 
@@ -57,7 +53,7 @@ public partial class DnasystemContext : DbContext
                 .HasMaxLength(10)
                 .HasColumnName("bookingID");
             entity.Property(e => e.Address)
-                .HasMaxLength(55)
+                .HasMaxLength(100)
                 .HasColumnName("address");
             entity.Property(e => e.CustomerId)
                 .HasMaxLength(10)
@@ -80,20 +76,20 @@ public partial class DnasystemContext : DbContext
 
             entity.HasOne(d => d.Customer).WithMany(p => p.BookingCustomers)
                 .HasForeignKey(d => d.CustomerId)
-                .HasConstraintName("FK__Booking__custome__48CFD27E");
+                .HasConstraintName("FK__Booking__custome__2739D489");
 
             entity.HasOne(d => d.Service).WithMany(p => p.Bookings)
                 .HasForeignKey(d => d.ServiceId)
-                .HasConstraintName("FK__Booking__service__49C3F6B7");
+                .HasConstraintName("FK__Booking__service__282DF8C2");
 
             entity.HasOne(d => d.Staff).WithMany(p => p.BookingStaffs)
                 .HasForeignKey(d => d.StaffId)
-                .HasConstraintName("FK__Booking__staffID__4AB81AF0");
+                .HasConstraintName("FK__Booking__staffID__29221CFB");
         });
 
         modelBuilder.Entity<Course>(entity =>
         {
-            entity.HasKey(e => e.CourseId).HasName("PK__Course__2AA84FF1D01564E0");
+            entity.HasKey(e => e.CourseId).HasName("PK__Course__2AA84FF1FB1A1BF7");
 
             entity.ToTable("Course");
 
@@ -117,12 +113,12 @@ public partial class DnasystemContext : DbContext
 
             entity.HasOne(d => d.Manager).WithMany(p => p.Courses)
                 .HasForeignKey(d => d.ManagerId)
-                .HasConstraintName("FK__Course__managerI__4BAC3F29");
+                .HasConstraintName("FK__Course__managerI__2A164134");
         });
 
         modelBuilder.Entity<Feedback>(entity =>
         {
-            entity.HasKey(e => e.FeedbackId).HasName("PK__Feedback__2613FDC4934EC59B");
+            entity.HasKey(e => e.FeedbackId).HasName("PK__Feedback__2613FDC4A6FF49A0");
 
             entity.ToTable("Feedback");
 
@@ -144,12 +140,12 @@ public partial class DnasystemContext : DbContext
 
             entity.HasOne(d => d.Service).WithMany(p => p.Feedbacks)
                 .HasForeignKey(d => d.ServiceId)
-                .HasConstraintName("FK__Feedback__servic__4D94879B");
+                .HasConstraintName("FK__Feedback__servic__2BFE89A6");
         });
 
         modelBuilder.Entity<Invoice>(entity =>
         {
-            entity.HasKey(e => e.InvoiceId).HasName("PK__Invoice__1252410C3C2110F4");
+            entity.HasKey(e => e.InvoiceId).HasName("PK__Invoice__1252410CEBF3D6F7");
 
             entity.ToTable("Invoice");
 
@@ -168,12 +164,12 @@ public partial class DnasystemContext : DbContext
 
             entity.HasOne(d => d.Booking).WithMany(p => p.Invoices)
                 .HasForeignKey(d => d.BookingId)
-                .HasConstraintName("FK__Invoice__booking__4E88ABD4");
+                .HasConstraintName("FK__Invoice__booking__2CF2ADDF");
         });
 
         modelBuilder.Entity<InvoiceDetail>(entity =>
         {
-            entity.HasKey(e => e.InvoicedetailId).HasName("PK__InvoiceD__FDA5DC328F0320B0");
+            entity.HasKey(e => e.InvoicedetailId).HasName("PK__InvoiceD__FDA5DC324B6CD873");
 
             entity.ToTable("InvoiceDetail");
 
@@ -194,12 +190,12 @@ public partial class DnasystemContext : DbContext
 
             entity.HasOne(d => d.Service).WithMany(p => p.InvoiceDetails)
                 .HasForeignKey(d => d.ServiceId)
-                .HasConstraintName("FK__InvoiceDe__servi__5070F446");
+                .HasConstraintName("FK__InvoiceDe__servi__2EDAF651");
         });
 
         modelBuilder.Entity<Kit>(entity =>
         {
-            entity.HasKey(e => e.KitId).HasName("PK__Kit__98C65C80F78FE4BC");
+            entity.HasKey(e => e.KitId).HasName("PK__Kit__98C65C8031FC837A");
 
             entity.ToTable("Kit");
 
@@ -221,25 +217,66 @@ public partial class DnasystemContext : DbContext
                 .HasColumnName("staffID");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
-                .IsUnicode(false)
                 .HasColumnName("status");
 
             entity.HasOne(d => d.Booking).WithMany(p => p.Kits)
                 .HasForeignKey(d => d.BookingId)
-                .HasConstraintName("FK__Kit__bookingID__534D60F1");
+                .HasConstraintName("FK__Kit__bookingID__31B762FC");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.KitCustomers)
                 .HasForeignKey(d => d.CustomerId)
-                .HasConstraintName("FK__Kit__customerID__5165187F");
+                .HasConstraintName("FK__Kit__customerID__2FCF1A8A");
 
             entity.HasOne(d => d.Staff).WithMany(p => p.KitStaffs)
                 .HasForeignKey(d => d.StaffId)
-                .HasConstraintName("FK__Kit__staffID__52593CB8");
+                .HasConstraintName("FK__Kit__staffID__30C33EC3");
+        });
+
+        modelBuilder.Entity<Relative>(entity =>
+        {
+            entity.HasKey(e => e.RelativeId).HasName("PK__Relative__67BC160D7CAF50DA");
+
+            entity.Property(e => e.RelativeId)
+                .HasMaxLength(10)
+                .HasColumnName("relativeID");
+            entity.Property(e => e.Address)
+                .HasMaxLength(100)
+                .HasColumnName("address");
+            entity.Property(e => e.Birthdate).HasColumnName("birthdate");
+            entity.Property(e => e.BookingId)
+                .HasMaxLength(10)
+                .HasColumnName("bookingID");
+            entity.Property(e => e.Fullname)
+                .HasMaxLength(50)
+                .HasColumnName("fullname");
+            entity.Property(e => e.Gender)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("gender");
+            entity.Property(e => e.Phone)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("phone");
+            entity.Property(e => e.Relationship)
+                .HasMaxLength(50)
+                .HasColumnName("relationship");
+            entity.Property(e => e.UserId)
+                .HasMaxLength(10)
+                .HasColumnName("userID");
+
+            entity.HasOne(d => d.Booking).WithMany(p => p.Relatives)
+                .HasForeignKey(d => d.BookingId)
+                .HasConstraintName("FK_Relatives_Booking");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Relatives)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Relatives_Users");
         });
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__Role__CD98460A7739AFF5");
+            entity.HasKey(e => e.RoleId).HasName("PK__Role__CD98460A0267DDC4");
 
             entity.ToTable("Role");
 
@@ -253,16 +290,14 @@ public partial class DnasystemContext : DbContext
 
         modelBuilder.Entity<Service>(entity =>
         {
-            entity.HasKey(e => e.ServiceId).HasName("PK__Service__4550733FC14C703E");
+            entity.HasKey(e => e.ServiceId).HasName("PK__Service__4550733F121AD4A3");
 
             entity.ToTable("Service");
 
             entity.Property(e => e.ServiceId)
                 .HasMaxLength(10)
                 .HasColumnName("serviceID");
-            entity.Property(e => e.Description)
-                .HasColumnType("text")
-                .HasColumnName("description");
+            entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.Image)
                 .HasMaxLength(255)
                 .IsUnicode(false)
@@ -280,7 +315,7 @@ public partial class DnasystemContext : DbContext
 
         modelBuilder.Entity<TestResult>(entity =>
         {
-            entity.HasKey(e => e.ResultId).HasName("PK__TestResu__C6EADC7B6B179A7F");
+            entity.HasKey(e => e.ResultId).HasName("PK__TestResu__C6EADC7BE2440D27");
 
             entity.ToTable("TestResult");
 
@@ -305,29 +340,28 @@ public partial class DnasystemContext : DbContext
                 .HasColumnName("staffID");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
-                .IsUnicode(false)
                 .HasColumnName("status");
 
             entity.HasOne(d => d.Booking).WithMany(p => p.TestResults)
                 .HasForeignKey(d => d.BookingId)
-                .HasConstraintName("FK__TestResul__booki__571DF1D5");
+                .HasConstraintName("FK__TestResul__booki__3587F3E0");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.TestResultCustomers)
                 .HasForeignKey(d => d.CustomerId)
-                .HasConstraintName("FK__TestResul__custo__5441852A");
+                .HasConstraintName("FK__TestResul__custo__32AB8735");
 
             entity.HasOne(d => d.Service).WithMany(p => p.TestResults)
                 .HasForeignKey(d => d.ServiceId)
-                .HasConstraintName("FK__TestResul__servi__5535A963");
+                .HasConstraintName("FK__TestResul__servi__339FAB6E");
 
             entity.HasOne(d => d.Staff).WithMany(p => p.TestResultStaffs)
                 .HasForeignKey(d => d.StaffId)
-                .HasConstraintName("FK__TestResul__staff__5629CD9C");
+                .HasConstraintName("FK__TestResul__staff__3493CFA7");
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__CB9A1CDFAE263982");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__CB9A1CDFBB6ADB74");
 
             entity.Property(e => e.UserId)
                 .HasMaxLength(10)

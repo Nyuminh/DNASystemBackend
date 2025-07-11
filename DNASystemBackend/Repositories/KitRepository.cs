@@ -1,4 +1,5 @@
-﻿using DNASystemBackend.Interfaces;
+﻿using DNASystemBackend.DTOs;
+using DNASystemBackend.Interfaces;
 using DNASystemBackend.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -37,12 +38,12 @@ namespace DNASystemBackend.Repositories
             return kit;
         }
 
-        public async Task<bool> UpdateStatusAsync(string id, string status)
+        public async Task<bool> UpdateStatusAsync(string id, Kit status)
         {
             var kit = await _context.Kits.FindAsync(id);
             if (kit == null) return false;
 
-            kit.Status = status;
+            kit.Status = status.Status;
             await _context.SaveChangesAsync();
             return true;
         }
