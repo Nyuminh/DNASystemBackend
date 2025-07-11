@@ -28,7 +28,11 @@ namespace DNASystemBackend.Services
             return await _repository.GetByUserIdAsync(userId);
             
         }
-
+        public async Task<Relative?> GetByBookingIdAsync(string bookingId)
+        {
+            return await _repository.GetByBookingIdAsync(bookingId);
+               
+        }
         public async Task<Relative> CreateAsync(RelativeCreateDto dto)
         {
             var newRelative = new Relative
@@ -40,7 +44,9 @@ namespace DNASystemBackend.Services
                 Gender = dto.Gender,
                 Birthdate = dto.Birthdate,
                 Phone = dto.Phone,
-                Address = dto.Address
+                Address = dto.Address,
+                BookingId=dto.BookingId
+                
             };
 
             return await _repository.CreateAsync(newRelative);

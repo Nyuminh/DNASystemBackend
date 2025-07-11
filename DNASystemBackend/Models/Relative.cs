@@ -21,5 +21,9 @@ public partial class Relative
 
     public string? Address { get; set; }
 
+    public string? BookingId { get; set; }
+
+    public virtual Booking? Booking { get; set; }
+
     public virtual User User { get; set; } = null!;
 }

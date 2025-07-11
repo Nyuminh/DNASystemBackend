@@ -11,5 +11,7 @@ namespace DNASystemBackend.Interfaces
         Task<Relative> CreateAsync(RelativeCreateDto relative);
         Task<bool> UpdateAsync(string id, Relative updated);
         Task<bool> DeleteAsync(string id);
+
+        Task<Relative?> GetByBookingIdAsync(string bookingId);
     }
 }

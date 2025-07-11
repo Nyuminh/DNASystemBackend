@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using DNASystemBackend.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DNASystemBackend.Models;
@@ -39,7 +38,8 @@ public partial class DnasystemContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-      => optionsBuilder.UseSqlServer("Server=localhost;Database=DNASystem;User Id=sa;Password=12345;TrustServerCertificate=True;");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=localhost;Database=DNASystem;User Id=sa;Password=12345;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -243,6 +243,9 @@ public partial class DnasystemContext : DbContext
                 .HasMaxLength(100)
                 .HasColumnName("address");
             entity.Property(e => e.Birthdate).HasColumnName("birthdate");
+            entity.Property(e => e.BookingId)
+                .HasMaxLength(10)
+                .HasColumnName("bookingID");
             entity.Property(e => e.Fullname)
                 .HasMaxLength(50)
                 .HasColumnName("fullname");
@@ -260,6 +263,10 @@ public partial class DnasystemContext : DbContext
             entity.Property(e => e.UserId)
                 .HasMaxLength(10)
                 .HasColumnName("userID");
+
+            entity.HasOne(d => d.Booking).WithMany(p => p.Relatives)
+                .HasForeignKey(d => d.BookingId)
+                .HasConstraintName("FK_Relatives_Booking");
 
             entity.HasOne(d => d.User).WithMany(p => p.Relatives)
                 .HasForeignKey(d => d.UserId)

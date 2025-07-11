@@ -28,6 +28,12 @@ namespace DNASystemBackend.Repositories
                 .Where(r => r.UserId == userId)
                 .FirstOrDefaultAsync();
         }
+        public async Task<Relative?> GetByBookingIdAsync(string bookingId)
+        {
+            return await _context.Relatives
+                .Where(r => r.BookingId == bookingId)
+                .FirstOrDefaultAsync();
+        }
         public async Task<Relative> CreateAsync(Relative relative)
         {
             _context.Relatives.Add(relative);

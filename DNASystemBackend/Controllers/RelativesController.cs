@@ -22,7 +22,15 @@ namespace DNASystemBackend.Controllers
             var list = await _service.GetAllAsync();
             return Ok(list);
         }
+        [HttpGet("by-booking/{bookingId}")]
+        public async Task<ActionResult<Relative>> GetByBookingId(string bookingId)
+        {
+            var result = await _service.GetByBookingIdAsync(bookingId);
+            if (result == null)
+                return NotFound(new { message = $"Không tìm thấy Relatives cho lịch hẹn {bookingId}" });
 
+            return Ok(result);
+        }
         [HttpGet("{id}")]
         public async Task<ActionResult<Relative>> GetById(string id)
         {

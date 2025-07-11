@@ -27,6 +27,8 @@ public partial class Booking
 
     public virtual ICollection<Kit> Kits { get; set; } = new List<Kit>();
 
+    public virtual ICollection<Relative> Relatives { get; set; } = new List<Relative>();
+
     public virtual Service? Service { get; set; }
 
     public virtual User? Staff { get; set; }
