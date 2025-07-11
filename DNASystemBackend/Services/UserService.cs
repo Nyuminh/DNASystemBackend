@@ -15,12 +15,18 @@ public class UserService : IUserService
     private readonly IUserRepository _userRepo;
     private readonly DnasystemContext _context;
     private readonly IConfiguration _config;
+    private readonly IEmailService _emailService;
+    
+    // Store reset tokens with expiration times and associated usernames
+    private static readonly Dictionary<string, DateTime> _resetTokens = new Dictionary<string, DateTime>();
+    private static readonly Dictionary<string, string> _tokenToUsername = new Dictionary<string, string>();
 
-    public UserService(IUserRepository userRepo, DnasystemContext context, IConfiguration config)
+    public UserService(IUserRepository userRepo, DnasystemContext context, IConfiguration config, IEmailService emailService)
     {
         _userRepo = userRepo;
         _context = context;
         _config = config;
+        _emailService = emailService;
     }
 
     public async Task<string?> AuthenticateAsync(LoginDto loginDto)
@@ -82,59 +88,90 @@ public class UserService : IUserService
         return await _userRepo.GetByIdAsync(userId);
     }
 
-    public async Task<(bool success, string? message)> CreateUserAsync(CreateUserDto dto)
+    public async Task<User?> GetUserByEmailAsync(string email)
     {
-        if (await _userRepo.UsernameExistsAsync(dto.Username))
-            return (false, "Tên đăng nhập đã tồn tại.");
+        return await _context.Users
+            .Include(u => u.Role)
+            .FirstOrDefaultAsync(u => u.Email == email);
+    }
 
-        if (!string.IsNullOrEmpty(dto.Email) && await _userRepo.EmailExistsAsync(dto.Email))
-            return (false, "Email đã được sử dụng.");
-
-        string newUserId = await GenerateUniqueUserIdAsync();
-
-        Role? role = null;
-        if (!string.IsNullOrEmpty(dto.RoleId))
-        {
-            role = await _context.Roles.FindAsync(dto.RoleId);
-            if (role == null)
-                return (false, "Role không tồn tại.");
-        }
-        else if (!string.IsNullOrEmpty(dto.RoleName))
-        {
-            role = await _context.Roles.FirstOrDefaultAsync(r => r.Rolename == dto.RoleName);
-            if (role == null)
-                return (false, $"Role '{dto.RoleName}' không tồn tại.");
-        }
-        else
-        {
-            role = await _context.Roles.FirstOrDefaultAsync(r => r.Rolename == "Customer");
-            if (role == null)
-                return (false, "Không thể tìm thấy role mặc định.");
-        }
-
-        var user = new User
-        {
-            UserId = newUserId,
-            Username = dto.Username,
-            Password = dto.Password, // TODO: Hash password
-            Fullname = dto.Fullname,
-            Email = dto.Email,
-            Phone = dto.Phone,
-            Gender = dto.Gender,
-            Address = dto.Address,
-            RoleId = role.RoleId,
-            Birthdate = dto.Birthdate,
-        };
-
+    public async Task<(bool success, string? message)> CreateAsync(User user)
+    {
         try
         {
+            // Check if user with email already exists
+            if (!string.IsNullOrEmpty(user.Email))
+            {
+                var existingUser = await GetUserByEmailAsync(user.Email);
+                if (existingUser != null)
+                    return (false, "User with this email already exists.");
+            }
+
+            // Check if username already exists
+            if (!string.IsNullOrEmpty(user.Username))
+            {
+                if (await _userRepo.UsernameExistsAsync(user.Username))
+                    return (false, "Username already exists.");
+            }
+
+            // Generate unique user ID if not provided
+            if (string.IsNullOrEmpty(user.UserId))
+            {
+                user.UserId = await GenerateUniqueUserIdAsync();
+            }
+
+            // Set default role if not provided
+            if (string.IsNullOrEmpty(user.RoleId))
+            {
+                Console.WriteLine("Looking for default role 'Customer'");
+                var defaultRole = await _context.Roles.FirstOrDefaultAsync(r => r.Rolename == "Customer");
+                
+                if (defaultRole != null)
+                {
+                    Console.WriteLine($"Found default role: {defaultRole.RoleId} - {defaultRole.Rolename}");
+                    user.RoleId = defaultRole.RoleId;
+                }
+                else
+                {
+                    Console.WriteLine("No 'Customer' role found, checking all available roles...");
+                    var allRoles = await _context.Roles.ToListAsync();
+                    foreach (var role in allRoles)
+                    {
+                        Console.WriteLine($"Available role: {role.RoleId} - {role.Rolename}");
+                    }
+                    
+                    // Try to find any role that might be a customer/user role
+                    var fallbackRole = allRoles.FirstOrDefault(r => 
+                        r.Rolename?.ToLower().Contains("customer") == true ||
+                        r.Rolename?.ToLower().Contains("user") == true ||
+                        r.Rolename?.ToLower().Contains("member") == true);
+                        
+                    if (fallbackRole != null)
+                    {
+                        Console.WriteLine($"Using fallback role: {fallbackRole.RoleId} - {fallbackRole.Rolename}");
+                        user.RoleId = fallbackRole.RoleId;
+                    }
+                    else if (allRoles.Any())
+                    {
+                        // Use the first available role as a last resort
+                        var firstRole = allRoles.First();
+                        Console.WriteLine($"Using first available role: {firstRole.RoleId} - {firstRole.Rolename}");
+                        user.RoleId = firstRole.RoleId;
+                    }
+                    else
+                    {
+                        return (false, "No roles found in the database. Please ensure the Role table is populated.");
+                    }
+                }
+            }
+
             await _userRepo.AddAsync(user);
             await _userRepo.SaveAsync();
             return (true, null);
         }
         catch (Exception ex)
         {
-            return (false, $"Lỗi khi tạo người dùng: {ex.Message}");
+            return (false, $"Error creating user: {ex.Message}");
         }
     }
 
@@ -213,7 +250,7 @@ public class UserService : IUserService
                 u.Username,
                 u.Password,
                 u.RoleId,
-                RoleName = u.Role.Rolename
+                RoleName = u.Role != null ? u.Role.Rolename : "Unknown"
             })
             .FirstOrDefaultAsync();
 
@@ -279,5 +316,227 @@ public class UserService : IUserService
         }
 
         return newId;
+    }
+
+    public async Task<(bool success, string? message)> CreateUserAsync(CreateUserDto dto)
+    {
+        if (await _userRepo.UsernameExistsAsync(dto.Username))
+            return (false, "Tên đăng nhập đã tồn tại.");
+
+        if (!string.IsNullOrEmpty(dto.Email) && await _userRepo.EmailExistsAsync(dto.Email))
+            return (false, "Email đã được sử dụng.");
+
+        string newUserId = await GenerateUniqueUserIdAsync();
+
+        Role? role = null;
+        if (!string.IsNullOrEmpty(dto.RoleId))
+        {
+            role = await _context.Roles.FindAsync(dto.RoleId);
+            if (role == null)
+                return (false, "Role không tồn tại.");
+        }
+        else if (!string.IsNullOrEmpty(dto.RoleName))
+        {
+            role = await _context.Roles.FirstOrDefaultAsync(r => r.Rolename == dto.RoleName);
+            if (role == null)
+                return (false, $"Role '{dto.RoleName}' không tồn tại.");
+        }
+        else
+        {
+            role = await _context.Roles.FirstOrDefaultAsync(r => r.Rolename == "Customer");
+            if (role == null)
+                return (false, "Không thể tìm thấy role mặc định.");
+        }
+
+        var user = new User
+        {
+            UserId = newUserId,
+            Username = dto.Username,
+            Password = dto.Password, // TODO: Hash password
+            Fullname = dto.Fullname,
+            Email = dto.Email,
+            Phone = dto.Phone,
+            Gender = dto.Gender,
+            Address = dto.Address,
+            RoleId = role.RoleId,
+            Birthdate = dto.Birthdate,
+        };
+
+        try
+        {
+            await _userRepo.AddAsync(user);
+            await _userRepo.SaveAsync();
+            return (true, null);
+        }
+        catch (Exception ex)
+        {
+            return (false, $"Lỗi khi tạo người dùng: {ex.Message}");
+        }
+    }
+
+    public async Task<(bool success, string? message)> ForgotPasswordAsync(ForgotPasswordDto dto)
+    {
+        try
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == dto.Username);
+            if (user == null)
+                return (false, "Tên đăng nhập không tồn tại trong hệ thống.");
+
+            if (string.IsNullOrEmpty(user.Email))
+                return (false, "Tài khoản này chưa có email. Vui lòng liên hệ quản trị viên.");
+
+            var resetToken = GenerateResetToken();
+
+            // Store token with expiration time (30 minutes from now) and associated username
+            var expirationTime = DateTime.Now.AddMinutes(30);
+            _resetTokens[resetToken] = expirationTime;
+            _tokenToUsername[resetToken] = dto.Username;
+
+            // Clean up expired tokens
+            CleanupExpiredTokens();
+
+            // Send email with reset code
+            bool emailSent = await _emailService.SendResetPasswordEmailAsync(user.Email, resetToken, user.Username);
+
+            if (emailSent)
+            {
+                return (true, $"Mã xác thực đã được gửi đến email: {MaskEmail(user.Email)}\nMã sẽ hết hạn sau 30 phút.");
+            }
+            else
+            {
+                // If email fails, still return the code for testing/fallback
+                return (true, $"Không thể gửi email. Mã xác thực của bạn là: {resetToken}\nMã này sẽ hết hạn sau 30 phút.");
+            }
+        }
+        catch (Exception ex)
+        {
+            return (false, $"Lỗi khi xử lý quên mật khẩu: {ex.Message}");
+        }
+    }
+
+    public async Task<(bool success, string? message)> ResetPasswordAsync(ResetPasswordDto dto)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(dto.Token))
+            {
+                return (false, "Token không hợp lệ.");
+            }
+
+            // Validate 6-digit code
+            if (dto.Token.Length != 6 || !int.TryParse(dto.Token, out _))
+            {
+                return (false, "Mã xác thực phải là 6 chữ số.");
+            }
+
+            // Check if token exists and is not expired
+            if (!_resetTokens.ContainsKey(dto.Token))
+            {
+                return (false, "Mã xác thực không hợp lệ hoặc đã được sử dụng.");
+            }
+
+            if (DateTime.Now > _resetTokens[dto.Token])
+            {
+                // Remove expired token
+                _resetTokens.Remove(dto.Token);
+                _tokenToUsername.Remove(dto.Token);
+                return (false, "Mã xác thực đã hết hạn. Vui lòng yêu cầu mã mới.");
+            }
+
+            // Get the username associated with this token
+            var username = _tokenToUsername[dto.Token];
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+            if (user == null)
+            {
+                // Clean up invalid token
+                _resetTokens.Remove(dto.Token);
+                _tokenToUsername.Remove(dto.Token);
+                return (false, "Người dùng không tồn tại.");
+            }
+
+            if (string.IsNullOrEmpty(dto.NewPassword))
+                return (false, "Mật khẩu mới không được để trống.");
+
+            // Update password and remove used token
+            user.Password = dto.NewPassword;
+            await _userRepo.UpdateAsync(user);
+            await _userRepo.SaveAsync();
+            
+            // Remove used token from both dictionaries
+            _resetTokens.Remove(dto.Token);
+            _tokenToUsername.Remove(dto.Token);
+
+            return (true, "Đặt lại mật khẩu thành công.");
+        }
+        catch (Exception ex)
+        {
+            return (false, $"Lỗi khi đặt lại mật khẩu: {ex.Message}");
+        }
+    }
+
+    public async Task<(bool success, string? message)> ChangePasswordAsync(string userId, ChangePasswordDto dto)
+    {
+        try
+        {
+            var user = await _userRepo.GetByIdAsync(userId);
+            if (user == null)
+                return (false, "Người dùng không tồn tại.");
+
+            // Verify current password
+            if (user.Password != dto.CurrentPassword) // TODO: Use proper password hashing comparison
+                return (false, "Mật khẩu hiện tại không chính xác.");
+
+            if (string.IsNullOrEmpty(dto.NewPassword))
+                return (false, "Mật khẩu mới không được để trống.");
+
+            // Update password
+            user.Password = dto.NewPassword; // TODO: Hash password in production
+            await _userRepo.UpdateAsync(user);
+            await _userRepo.SaveAsync();
+
+            return (true, "Đổi mật khẩu thành công.");
+        }
+        catch (Exception ex)
+        {
+            return (false, $"Lỗi khi đổi mật khẩu: {ex.Message}");
+        }
+    }
+
+    private string GenerateResetToken()
+    {
+        // Generate a random 6-digit code for password reset
+        Random random = new Random();
+        return random.Next(100000, 999999).ToString();
+    }
+
+    private void CleanupExpiredTokens()
+    {
+        // Remove expired tokens to prevent memory leaks
+        var expiredTokens = _resetTokens.Where(kvp => DateTime.Now > kvp.Value)
+                                       .Select(kvp => kvp.Key)
+                                       .ToList();
+        
+        foreach (var token in expiredTokens)
+        {
+            _resetTokens.Remove(token);
+            _tokenToUsername.Remove(token);
+        }
+    }
+
+    private string MaskEmail(string email)
+    {
+        if (string.IsNullOrEmpty(email) || !email.Contains("@"))
+            return email;
+
+        var parts = email.Split('@');
+        var localPart = parts[0];
+        var domain = parts[1];
+
+        if (localPart.Length <= 3)
+        {
+            return $"{localPart[0]}***@{domain}";
+        }
+
+        return $"{localPart.Substring(0, 2)}***{localPart[^1]}@{domain}";
     }
 }
