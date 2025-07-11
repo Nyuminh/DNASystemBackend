@@ -24,7 +24,7 @@ namespace DNASystemBackend.Services
         public Task<Booking?> GetByIdAsync(string id)
             => _repository.GetByIdAsync(id);
 
-        public async Task<(bool success, string? message)> CreateAsync(AppointmentDto dto)
+        public async Task<(bool success, string? message, Booking? booking)> CreateAsync(AppointmentDto dto)
         {
             try
             {
@@ -50,12 +50,13 @@ namespace DNASystemBackend.Services
                 Console.WriteLine($"Creating booking: ID={booking.BookingId}, Customer={booking.CustomerId}, Staff={booking.StaffId}");
                 await _repository.CreateAsync(booking);
                 Console.WriteLine("Repository CreateAsync completed");
-                return (true, "Tạo lịch hẹn thành công.");
+                return (true, "Tạo lịch hẹn thành công.", booking);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error creating booking: {ex}");
-                return (false, $"Lỗi khi tạo đặt lịch: {ex.Message}");
+                return (false, "Đã xảy ra lỗi: " + ex.Message, null);
+
             }
         }
 

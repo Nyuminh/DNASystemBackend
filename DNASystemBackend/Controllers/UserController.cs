@@ -85,7 +85,42 @@ namespace DNASystemBackend.Controllers
         public async Task<IActionResult> DeleteUser(string id)
         {
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(currentUserId))
+                return Unauthorized("Không xác định được người dùng.");
+
             var (success, message) = await _userService.DeleteUserAsync(id, currentUserId);
+            if (!success) return BadRequest(message);
+            return Ok(new { message });
+        }
+
+        // POST: /api/user/forgot-password
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto dto)
+        {
+            var (success, message) = await _userService.ForgotPasswordAsync(dto);
+            if (!success) return BadRequest(message);
+            return Ok(new { message });
+        }
+
+        // POST: /api/user/reset-password
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
+        {
+            var (success, message) = await _userService.ResetPasswordAsync(dto);
+            if (!success) return BadRequest(message);
+            return Ok(new { message });
+        }
+
+        // POST: /api/user/change-password
+        [HttpPost("change-password")]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto dto)
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(currentUserId))
+                return Unauthorized("Không xác định được người dùng.");
+
+            var (success, message) = await _userService.ChangePasswordAsync(currentUserId, dto);
             if (!success) return BadRequest(message);
             return Ok(new { message });
         }
