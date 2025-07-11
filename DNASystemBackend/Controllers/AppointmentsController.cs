@@ -44,10 +44,18 @@ namespace DNASystemBackend.Controllers
         [HttpPost]
         public async Task<ActionResult<Booking>> CreateAppointment([FromBody] AppointmentDto dto)
         {
-            var (success, message) = await _service.CreateAsync(dto);
-            if (!success) return BadRequest(message);
-            return Ok(new { message = "Tạo lịch hẹn thành công." });
+            var (success, message, createdBooking) = await _service.CreateAsync(dto); 
+
+            if (!success)
+                return BadRequest(message);
+
+            return Ok(new
+            {
+                message = "Tạo lịch hẹn thành công.",
+                data = createdBooking
+            });
         }
+
 
         [HttpPut("{id}")]
         [Authorize(Roles = "Staff")]
