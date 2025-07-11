@@ -251,7 +251,6 @@ public partial class DnasystemContext : DbContext
                 .HasColumnName("fullname");
             entity.Property(e => e.Gender)
                 .HasMaxLength(10)
-                .IsUnicode(false)
                 .HasColumnName("gender");
             entity.Property(e => e.Phone)
                 .HasMaxLength(20)
