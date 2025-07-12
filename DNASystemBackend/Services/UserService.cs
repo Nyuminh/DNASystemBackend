@@ -185,24 +185,20 @@ public class UserService : IUserService
         if (string.IsNullOrEmpty(dto.Username))
             return (false, "Username không được để trống.");
 
-        if (string.IsNullOrEmpty(dto.Password))
-            return (false, "Password không được để trống.");
+        
 
-        if (string.IsNullOrEmpty(dto.RoleId))
-            return (false, "Role không được để trống.");
+        
 
         if (await _context.Users.AnyAsync(u => u.Username == dto.Username && u.UserId != userId))
             return (false, "Tên đăng nhập đã tồn tại.");
 
-        var role = await _context.Roles.FindAsync(dto.RoleId);
-        if (role == null)
-            return (false, "Role không tồn tại.");
+       
 
         user.Username = dto.Username;
-        user.Password = dto.Password; // TODO: Hash password
-        user.RoleId = dto.RoleId;
+       
+       
         user.Birthdate = dto.Birthdate;
-        user.Image = dto.Image;
+        
         user.Address = dto.Address;
 
 
