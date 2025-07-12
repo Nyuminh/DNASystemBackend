@@ -2,7 +2,7 @@ namespace DNASystemBackend.DTOs
 {
     public class CreateCourseDto
     {
-        public string CourseId { get; set; } = null!;
+        
 
         public string? ManagerId { get; set; }
 

@@ -2,7 +2,6 @@
 {
     public class ServiceDto
     {
-        public string ServiceId { get; set; } = null!;
 
         public string? Type { get; set; }
 
