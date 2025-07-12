@@ -12,5 +12,7 @@
 
         public string? Image { get; set; }
 
+        public IFormFile? picture { get; set; }
+
     }
 }

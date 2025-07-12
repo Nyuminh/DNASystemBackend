@@ -52,7 +52,7 @@ namespace DNASystemBackend.Services
             }
         }
 
-        public async Task<(bool success, string? message)> UpdateAsync(string id, UpdateServiceDto model)
+        public async Task<(bool success, string? message)> UpdateAsync(string id, [FromForm] UpdateServiceDto model)
         {
             var service = await _repository.GetByIdAsync(id);
             if (service == null) return (false, "Không tìm thấy dịch vụ.");
@@ -62,8 +62,15 @@ namespace DNASystemBackend.Services
             if (!string.IsNullOrEmpty(model.Name)) service.Name = model.Name;
             if (!string.IsNullOrEmpty(model.Description)) service.Description = model.Description;
             if (model.Price.HasValue) service.Price = model.Price;
-            if (!string.IsNullOrEmpty(model.Image)) service.Image = model.Image;
-
+            if (model.picture.Length > 0)
+            {
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", model.picture.FileName);
+                using (var stream = System.IO.File.Create(path))
+                {
+                    model.picture.CopyToAsync(stream);
+                }
+                service.Image = "/images/" + model.picture.FileName; // Assuming you want to store the filename in the database
+            }
             try
             {
                 await _repository.UpdateAsync(id, service);
