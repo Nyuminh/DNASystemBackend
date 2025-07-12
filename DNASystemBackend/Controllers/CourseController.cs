@@ -52,7 +52,7 @@ namespace DNASystemBackend.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Manager")]
-        public async Task<IActionResult> CreateCourse([FromBody] CreateCourseDto course)
+        public async Task<IActionResult> CreateCourse([FromForm] CreateCourseDto course)
         {
             if (await _courseRepository.TitleExistsAsync(course.Title))
             {

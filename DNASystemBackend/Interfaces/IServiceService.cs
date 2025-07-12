@@ -1,6 +1,7 @@
 ﻿
 using DNASystemBackend.DTOs;
 using DNASystemBackend.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DNASystemBackend.Interfaces
 {
@@ -8,7 +9,7 @@ namespace DNASystemBackend.Interfaces
     {
         Task<IEnumerable<Service>> GetAllAsync();
         Task<Service?> GetByIdAsync(string id);
-        Task<(bool success, string? message)> CreateAsync(ServiceDto model);
+        Task<(bool success, string? message)> CreateAsync([FromForm] ServiceDto model);
         Task<(bool success, string? message)> UpdateAsync(string id, UpdateServiceDto model);
         Task<(bool success, string? message)> DeleteAsync(string id);
 

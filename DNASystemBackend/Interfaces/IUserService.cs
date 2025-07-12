@@ -2,6 +2,7 @@
 {
     using DNASystemBackend.DTOs;
     using DNASystemBackend.Models;
+    using Microsoft.AspNetCore.Mvc;
 
     public interface IUserService
     {
@@ -15,6 +16,8 @@
         Task<(bool success, string? message)> CreateAsync(User user);
         Task<(bool success, string? message)> CreateUserAsync(CreateUserDto dto);
         Task<(bool success, string? message)> UpdateUserAsync(string userId, UpdateUserDto dto);
+
+        Task<IActionResult> UpdateUserImageAsync(string id, [FromForm] UpdateUserImageDto dto);
         Task<(bool success, string? message)> DeleteUserAsync(string userId, string currentUserId);
         Task<object?> GetUserForEditAsync(string userId);
         

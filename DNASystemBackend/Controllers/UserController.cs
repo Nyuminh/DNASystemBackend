@@ -78,7 +78,14 @@ namespace DNASystemBackend.Controllers
             if (!success) return BadRequest(message);
             return Ok(new { message = "Cập nhật người dùng thành công." });
         }
-
+        [HttpPut("update-image/{id}")]
+        [Authorize]
+        public async Task<IActionResult> UpdateUserImage(string id, [FromForm] UpdateUserImageDto dto)
+        {
+             await _userService.UpdateUserImageAsync(id, dto);
+            
+            return Ok(new { message = "Cập nhật hình ảnh người dùng thành công." });
+        }
         // DELETE: /api/user/{id}
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]

@@ -37,7 +37,7 @@ namespace DNASystemBackend.Controllers
         // POST: /api/services
         [HttpPost]
         [Authorize(Roles = "Manager")]
-        public async Task<IActionResult> CreateService([FromBody] ServiceDto model)
+        public async Task<IActionResult> CreateService([FromForm] ServiceDto model)
         {
             var (success, message) = await _serviceService.CreateAsync(model);
             if (!success) return BadRequest(message);
