@@ -33,7 +33,7 @@ namespace DNASystemBackend.Services
                     Description = model.Description,
                     Price = model.Price,
                 };
-                if (model.picture.Length > 0)
+                if (model.picture != null && model.picture.Length > 0)
                 {
                     var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", model.picture.FileName);
                     using (var stream = System.IO.File.Create(path))
@@ -62,7 +62,7 @@ namespace DNASystemBackend.Services
             if (!string.IsNullOrEmpty(model.Name)) service.Name = model.Name;
             if (!string.IsNullOrEmpty(model.Description)) service.Description = model.Description;
             if (model.Price.HasValue) service.Price = model.Price;
-            if (model.picture.Length > 0)
+            if (model.picture != null && model.picture.Length > 0)
             {
                 var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", model.picture.FileName);
                 using (var stream = System.IO.File.Create(path))

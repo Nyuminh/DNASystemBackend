@@ -226,7 +226,7 @@ public class UserService : IUserService
         if (UpdatedUser == null)
             return new NotFoundObjectResult(new { message = "Không tìm thấy người dùng." });
 
-        if (dto.picture.Length > 0) {
+        if (dto.picture!= null && dto.picture.Length > 0) {
             var path = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot", "images", dto.picture.FileName);
             using (var stream = System.IO.File.Create(path))
             {

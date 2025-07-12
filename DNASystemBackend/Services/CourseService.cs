@@ -34,7 +34,7 @@ namespace DNASystemBackend.Services
             {
                 return (false, "ManagerId không được để trống.");
             }
-            if (course.picture.Length > 0)
+            if (course.picture != null && course.picture.Length > 0)
             {
                 var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", course.picture.FileName);
                 using (var stream = System.IO.File.Create(path))
@@ -67,7 +67,7 @@ namespace DNASystemBackend.Services
             course.Title = updateCourseDto.Title;
             course.Date = updateCourseDto.Date;
             
-            if (updateCourseDto.picture.Length > 0)
+            if (updateCourseDto.picture != null && updateCourseDto.picture.Length > 0)
             {
                 var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", updateCourseDto.picture.FileName);
                 using (var stream = System.IO.File.Create(path))
