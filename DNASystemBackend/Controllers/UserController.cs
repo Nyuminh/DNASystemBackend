@@ -99,6 +99,17 @@ namespace DNASystemBackend.Controllers
             
             return Ok(new { message = "Cập nhật hình ảnh người dùng thành công." });
         }
+        [HttpPut("update-image")]
+        [Authorize]
+        public async Task<IActionResult> UpdateUserImageProfile( [FromForm] UpdateUserImageDto dto)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized("Không xác định được người dùng.");
+            await _userService.UpdateUserImageAsync(userId, dto);
+
+            return Ok(new { message = "Cập nhật hình ảnh người dùng thành công." });
+        }
         // DELETE: /api/user/{id}
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
