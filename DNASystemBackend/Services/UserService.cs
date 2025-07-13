@@ -6,6 +6,8 @@ using System.Text;
 using DNASystemBackend.DTOs;
 using DNASystemBackend.Interfaces;
 using DNASystemBackend.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -183,24 +185,20 @@ public class UserService : IUserService
         if (string.IsNullOrEmpty(dto.Username))
             return (false, "Username không được để trống.");
 
-        if (string.IsNullOrEmpty(dto.Password))
-            return (false, "Password không được để trống.");
+        
 
-        if (string.IsNullOrEmpty(dto.RoleId))
-            return (false, "Role không được để trống.");
+        
 
         if (await _context.Users.AnyAsync(u => u.Username == dto.Username && u.UserId != userId))
             return (false, "Tên đăng nhập đã tồn tại.");
 
-        var role = await _context.Roles.FindAsync(dto.RoleId);
-        if (role == null)
-            return (false, "Role không tồn tại.");
+       
 
         user.Username = dto.Username;
-        user.Password = dto.Password; // TODO: Hash password
-        user.RoleId = dto.RoleId;
+       
+       
         user.Birthdate = dto.Birthdate;
-        user.Image = dto.Image;
+        
         user.Address = dto.Address;
 
 
@@ -217,6 +215,31 @@ public class UserService : IUserService
         {
             return (false, $"Lỗi khi cập nhật người dùng: {ex.Message}");
         }
+    }
+    public async Task<IActionResult> UpdateUserImageAsync(string id, [FromForm] UpdateUserImageDto dto)
+    {
+        var UpdatedUser = await _userRepo.GetByIdAsync(id);
+        if (UpdatedUser == null)
+            return new NotFoundObjectResult(new { message = "Không tìm thấy người dùng." });
+
+        if (dto.picture!= null && dto.picture.Length > 0) {
+            var path = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot", "images", dto.picture.FileName);
+            using (var stream = System.IO.File.Create(path))
+            {
+                dto.picture.CopyToAsync(stream);
+            }
+            UpdatedUser.Image = "/images/" + dto.picture.FileName; // Assuming you want to store the filename in the database
+        }
+        else
+        {
+            UpdatedUser.Image = null; // Clear image if no file is provided
+        }
+
+
+            await _userRepo.UpdateAsync(UpdatedUser);
+             await _userRepo.SaveAsync();
+           return new OkObjectResult(new { message = "Cập nhật hình ảnh người dùng thành công.", user = UpdatedUser });
+
     }
 
     public async Task<(bool success, string? message)> DeleteUserAsync(string userId, string? currentUserId)

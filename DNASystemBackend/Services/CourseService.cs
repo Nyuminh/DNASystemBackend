@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using DNASystemBackend.DTOs;
 using DNASystemBackend.Interfaces;
 using DNASystemBackend.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace DNASystemBackend.Services
@@ -15,7 +16,7 @@ namespace DNASystemBackend.Services
             _context = context;
             _repository = repository;
         }
-        public async Task<(bool success, string? message)> CreateCourseAsync(CreateCourseDto course)
+        public async Task<(bool success, string? message)> CreateCourseAsync([FromForm] CreateCourseDto course)
         {
             
             var newCourse = new Course
@@ -24,7 +25,6 @@ namespace DNASystemBackend.Services
                 Description = course.Description,
                 Title = course.Title,
                 Date = course.Date,
-                Image = course.Image,
             };
             if(string.IsNullOrEmpty(newCourse.CourseId))
             {
@@ -34,6 +34,17 @@ namespace DNASystemBackend.Services
             {
                 return (false, "ManagerId không được để trống.");
             }
+            if (course.picture != null && course.picture.Length > 0)
+            {
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", course.picture.FileName);
+                using (var stream = System.IO.File.Create(path))
+                {
+                    course.picture.CopyToAsync(stream);
+                }
+                newCourse.Image = "/images/" + course.picture.FileName; // Assuming you want to store the filename in the database
+            }
+
+
             try
             {
                 await _repository.AddAsync(newCourse);
@@ -46,7 +57,7 @@ namespace DNASystemBackend.Services
             }
         }
 
-        public async Task<(bool success, string? message)> UpdateCourseAsync(string courseId, UpdateCourseDto updateCourseDto)
+        public async Task<(bool success, string? message)> UpdateCourseAsync( string courseId, [FromForm] UpdateCourseDto updateCourseDto)
         {
             var course = await _repository.GetByIdAsync(courseId);
             if (course == null)
@@ -55,8 +66,16 @@ namespace DNASystemBackend.Services
             course.Description = updateCourseDto.Description;
             course.Title = updateCourseDto.Title;
             course.Date = updateCourseDto.Date;
-            course.Image = updateCourseDto.Image;
-
+            
+            if (updateCourseDto.picture != null && updateCourseDto.picture.Length > 0)
+            {
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", updateCourseDto.picture.FileName);
+                using (var stream = System.IO.File.Create(path))
+                {
+                    updateCourseDto.picture.CopyToAsync(stream);
+                }
+                course.Image = "/images/" + updateCourseDto.picture.FileName; // Assuming you want to store the filename in the database
+            }
             try
             {
                 await _repository.UpdateAsync(courseId, course);

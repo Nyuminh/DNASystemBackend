@@ -10,6 +10,8 @@ namespace DNASystemBackend.DTOs
         public string? Description { get; set; }
 
         public string? Image { get; set; }
-    
+
+        public IFormFile? picture { get; set; }
+
     }
 }

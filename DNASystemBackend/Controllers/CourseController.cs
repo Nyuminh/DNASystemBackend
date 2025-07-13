@@ -52,7 +52,7 @@ namespace DNASystemBackend.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Manager")]
-        public async Task<IActionResult> CreateCourse([FromBody] CreateCourseDto course)
+        public async Task<IActionResult> CreateCourse([FromForm] CreateCourseDto course)
         {
             if (await _courseRepository.TitleExistsAsync(course.Title))
             {
@@ -65,7 +65,7 @@ namespace DNASystemBackend.Controllers
 
         [HttpPut("{courseId}")]
         [Authorize(Roles = "Manager")]
-        public async Task<IActionResult> UpdateCourse(string courseId, [FromBody] UpdateCourseDto course)
+        public async Task<IActionResult> UpdateCourse(string courseId, [FromForm] UpdateCourseDto course)
         {
             var (success, message) = await _service.UpdateCourseAsync(courseId, course);
             if (!success) return BadRequest(message);

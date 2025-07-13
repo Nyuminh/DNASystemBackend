@@ -2,7 +2,7 @@ namespace DNASystemBackend.DTOs
 {
     public class CreateCourseDto
     {
-        public string CourseId { get; set; } = null!;
+        
 
         public string? ManagerId { get; set; }
 
@@ -13,6 +13,8 @@ namespace DNASystemBackend.DTOs
         public string? Description { get; set; }
 
         public string? Image { get; set; }
-    
+
+        public IFormFile? picture { get; set; }
+
     }
 }
