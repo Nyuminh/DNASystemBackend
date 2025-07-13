@@ -16,6 +16,7 @@
         Task<(bool success, string? message)> CreateAsync(User user);
         Task<(bool success, string? message)> CreateUserAsync(CreateUserDto dto);
         Task<(bool success, string? message)> UpdateUserAsync(string userId, UpdateUserDto dto);
+        Task<(bool success, string? message)> UpdateProfileAsync(string userId, UpdateProfileDto dto);
 
         Task<IActionResult> UpdateUserImageAsync(string id, [FromForm] UpdateUserImageDto dto);
         Task<(bool success, string? message)> DeleteUserAsync(string userId, string currentUserId);

@@ -184,23 +184,13 @@ public class UserService : IUserService
 
         if (string.IsNullOrEmpty(dto.Username))
             return (false, "Username không được để trống.");
-
-        
-
-        
-
         if (await _context.Users.AnyAsync(u => u.Username == dto.Username && u.UserId != userId))
             return (false, "Tên đăng nhập đã tồn tại.");
 
-       
-
         user.Username = dto.Username;
-       
-       
+        user.RoleId = dto.RoleId;
         user.Birthdate = dto.Birthdate;
-        
         user.Address = dto.Address;
-
 
         if (!string.IsNullOrEmpty(dto.Email)) user.Email = dto.Email;
         if (!string.IsNullOrEmpty(dto.Fullname)) user.Fullname = dto.Fullname;
@@ -561,5 +551,35 @@ public class UserService : IUserService
         }
 
         return $"{localPart.Substring(0, 2)}***{localPart[^1]}@{domain}";
+    }
+
+    public async Task<(bool success, string? message)> UpdateProfileAsync(string userId, UpdateProfileDto dto)
+    {
+        var user = await _userRepo.GetByIdAsync(userId);
+        if (user == null) return (false, "Không tìm thấy người dùng.");
+
+        if (string.IsNullOrEmpty(dto.Username))
+            return (false, "Username không được để trống.");
+        if (await _context.Users.AnyAsync(u => u.Username == dto.Username && u.UserId != userId))
+            return (false, "Tên đăng nhập đã tồn tại.");
+            
+        user.Username = dto.Username;
+        user.Fullname = dto.Fullname;
+        user.Phone = dto.Phone;
+        user.Birthdate = dto.Birthdate;
+        user.Address = dto.Address;
+
+        if (!string.IsNullOrEmpty(dto.Email)) user.Email = dto.Email;
+        if (!string.IsNullOrEmpty(dto.Phone)) user.Phone = dto.Phone;
+
+        try
+        {
+            await _userRepo.SaveAsync();
+            return (true, null);
+        }
+        catch (Exception ex)
+        {
+            return (false, $"Lỗi khi cập nhật người dùng: {ex.Message}");
+        }
     }
 }
