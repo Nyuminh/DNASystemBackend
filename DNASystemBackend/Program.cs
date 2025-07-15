@@ -47,6 +47,8 @@ builder.Services.AddScoped<IInvoiceDetailService, InvoiceDetailService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IRelativeRepository, RelativeRepository>();
 builder.Services.AddScoped<IRelativeService, RelativeService>();
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
 // Add configuration for Logging
 builder.Services.AddLogging(logging =>

@@ -7,7 +7,7 @@ using Microsoft.Data.Sql;
 using System;
 using System.Threading.Tasks;
 
-namespace DnaTestingApi.Controllers
+namespace DNASystemBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
