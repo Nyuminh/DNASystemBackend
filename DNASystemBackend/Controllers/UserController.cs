@@ -49,6 +49,19 @@ namespace DNASystemBackend.Controllers
 
             return Ok(user);
         }
+        [HttpPut("profile")]
+        [Authorize]
+        public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileDto dto)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized("Không xác định được người dùng.");
+
+            var (success, message) = await _userService.UpdateProfileAsync(userId, dto);
+            if (!success) return BadRequest(message);
+
+            return Ok(new { message = "Cập nhật thông tin cá nhân thành công." });
+        }
 
         // POST: /api/user
         [HttpPost]
@@ -71,7 +84,7 @@ namespace DNASystemBackend.Controllers
 
         // PUT: /api/user/{id}
         [HttpPut("{id}")]
-        [Authorize]
+        [Authorize (Roles = "Admin")]
         public async Task<IActionResult> UpdateUser(string id, [FromBody] UpdateUserDto dto)
         {
             var (success, message) = await _userService.UpdateUserAsync(id, dto);
@@ -84,6 +97,17 @@ namespace DNASystemBackend.Controllers
         {
              await _userService.UpdateUserImageAsync(id, dto);
             
+            return Ok(new { message = "Cập nhật hình ảnh người dùng thành công." });
+        }
+        [HttpPut("update-image")]
+        [Authorize]
+        public async Task<IActionResult> UpdateUserImageProfile( [FromForm] UpdateUserImageDto dto)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized("Không xác định được người dùng.");
+            await _userService.UpdateUserImageAsync(userId, dto);
+
             return Ok(new { message = "Cập nhật hình ảnh người dùng thành công." });
         }
         // DELETE: /api/user/{id}

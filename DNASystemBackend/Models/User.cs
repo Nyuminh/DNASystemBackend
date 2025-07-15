@@ -46,4 +46,5 @@ public partial class User
     public virtual ICollection<TestResult> TestResultCustomers { get; set; } = new List<TestResult>();
 
     public virtual ICollection<TestResult> TestResultStaffs { get; set; } = new List<TestResult>();
+    public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
 }
