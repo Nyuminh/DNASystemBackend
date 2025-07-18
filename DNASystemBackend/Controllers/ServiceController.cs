@@ -37,6 +37,7 @@ namespace DNASystemBackend.Controllers
         // POST: /api/services
         [HttpPost]
         [Authorize(Roles = "Manager")]
+        [Consumes("multipart/form-data")]
         public async Task<IActionResult> CreateService([FromForm] ServiceDto model)
         {
             var (success, message) = await _serviceService.CreateAsync(model);
@@ -47,6 +48,7 @@ namespace DNASystemBackend.Controllers
         // PUT: /api/services/{id}
         [HttpPut("{id}")]
         [Authorize(Roles = "Manager")]
+        [Consumes("multipart/form-data")]
         public async Task<IActionResult> UpdateService(string id, [FromForm] UpdateServiceDto model)
         {
             var (success, message) = await _serviceService.UpdateAsync(id, model);

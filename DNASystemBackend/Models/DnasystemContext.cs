@@ -419,8 +419,7 @@ public partial class DnasystemContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("gender");
             entity.Property(e => e.Image)
-                .HasMaxLength(255)
-                .IsUnicode(false)
+                .HasMaxLength(255)  
                 .HasColumnName("image");
             entity.Property(e => e.Password)
                 .HasMaxLength(20)

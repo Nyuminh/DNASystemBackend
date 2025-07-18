@@ -1,11 +1,12 @@
-﻿using System.Text;
+﻿using System.Security.Claims;
+using System.Text;
 using System.Text.Json.Serialization;
-using System.Security.Claims;
 using DNASystemBackend.Interfaces;
 using DNASystemBackend.Models;
 using DNASystemBackend.Repositories;
 using DNASystemBackend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -212,6 +213,11 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 104857600; // 100MB 
+});
+
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddDataProtection();
 builder.Services.AddSession(options =>
@@ -238,6 +244,7 @@ var app = builder.Build();
 
 app.UseCors("AllowAll");
 
+app.UseStaticFiles();
 
 app.Use(async (context, next) =>
 {
@@ -254,7 +261,7 @@ app.Use(async (context, next) =>
 app.UseSession();
 
 // Enable static files
-app.UseStaticFiles();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

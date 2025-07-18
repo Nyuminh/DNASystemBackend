@@ -52,6 +52,7 @@ namespace DNASystemBackend.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Manager")]
+        [Consumes("multipart/form-data")]
         public async Task<IActionResult> CreateCourse([FromForm] CreateCourseDto course)
         {
             if (await _courseRepository.TitleExistsAsync(course.Title))
@@ -65,6 +66,7 @@ namespace DNASystemBackend.Controllers
 
         [HttpPut("{courseId}")]
         [Authorize(Roles = "Manager")]
+        [Consumes("multipart/form-data")]
         public async Task<IActionResult> UpdateCourse(string courseId, [FromForm] UpdateCourseDto course)
         {
             var (success, message) = await _service.UpdateCourseAsync(courseId, course);

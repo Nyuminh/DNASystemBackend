@@ -119,6 +119,9 @@ namespace DNASystemBackend.Services
                 var testResults = await _context.TestResults.Where(t => t.BookingId == id).ToListAsync();
                 if (testResults.Any())
                     _context.TestResults.RemoveRange(testResults);
+                var relatives = await _context.Relatives.Where(t => t.BookingId == id).ToListAsync();
+                if (relatives.Any())
+                    _context.Relatives.RemoveRange(relatives);
 
                 // Cuối cùng: Booking
                 _context.Bookings.Remove(booking);

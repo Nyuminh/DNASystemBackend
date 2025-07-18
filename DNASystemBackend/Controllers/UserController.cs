@@ -101,6 +101,7 @@ namespace DNASystemBackend.Controllers
         }
         [HttpPut("update-image")]
         [Authorize]
+        [Consumes("multipart/form-data")]
         public async Task<IActionResult> UpdateUserImageProfile( [FromForm] UpdateUserImageDto dto)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
