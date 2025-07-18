@@ -58,7 +58,7 @@ namespace DNASystemBackend.Controllers
 
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Staff")]
+        [Authorize]
         public async Task<IActionResult> UpdateAppointment(string id, UpdateAppointDto updated)
         {
             var (success, message) = await _service.UpdateAsync(id, updated);

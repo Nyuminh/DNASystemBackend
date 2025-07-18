@@ -40,7 +40,7 @@ namespace DNASystemBackend.Controllers
             return Ok(result);
         }
         [HttpPost]
-        [Authorize(Roles = "Staff")]
+        [Authorize]
         public async Task<ActionResult<Kit>> CreateKit([FromBody] CreateKitDto kit)
         {
             var (success, message) = await _service.CreateAsync(kit);
