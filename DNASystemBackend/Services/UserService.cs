@@ -216,7 +216,7 @@ public class UserService : IUserService
             var path = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot", "images", dto.picture.FileName);
             using (var stream = System.IO.File.Create(path))
             {
-                dto.picture.CopyToAsync(stream);
+                await dto.picture.CopyToAsync(stream);
             }
             UpdatedUser.Image = "/images/" + dto.picture.FileName; // Assuming you want to store the filename in the database
         }

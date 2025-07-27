@@ -49,7 +49,7 @@ namespace DNASystemBackend.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Staff")]
+        [Authorize]
         public async Task<IActionResult> UpdateStatus(string id, [FromBody] UpdateKitDto status)
         {
             var (success, message) = await _service.UpdateStatusAsync(id, status);

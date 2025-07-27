@@ -38,7 +38,7 @@ namespace DNASystemBackend.Services
                     var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", model.picture.FileName);
                     using (var stream = System.IO.File.Create(path))
                     {
-                        model.picture.CopyToAsync(stream);
+                        await model.picture.CopyToAsync(stream);
                     }
                     service.Image = "/images/" + model.picture.FileName; // Assuming you want to store the filename in the database
                 }
@@ -67,7 +67,7 @@ namespace DNASystemBackend.Services
                 var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", model.picture.FileName);
                 using (var stream = System.IO.File.Create(path))
                 {
-                    model.picture.CopyToAsync(stream);
+                    await model.picture.CopyToAsync(stream);
                 }
                 service.Image = "/images/" + model.picture.FileName; // Assuming you want to store the filename in the database
             }
