@@ -1,5 +1,6 @@
 ﻿namespace DNASystemBackend.Services
 {
+    using DNASystemBackend.DTOs;
     using DNASystemBackend.Interfaces;
     using DNASystemBackend.Models;
     using DNASystemBackend.Repositories;
@@ -36,7 +37,21 @@
                 .FirstOrDefaultAsync(r => r.ResultId == id);
         }
         public Task<TestResult> CreateAsync(TestResult result) => _repo.CreateAsync(result);
-        public Task<bool> UpdateAsync(string id, TestResult updated) => _repo.UpdateAsync(id, updated);
+        public async Task<bool> UpdateAsync(string id, UpdateTestResultDTO updated)
+        {
+            var existingResult = await _repo.GetByIdAsync(id);
+            if (existingResult == null)
+            {
+                return false;
+            }
+
+            // Map properties from UpdateTestResultDTO to TestResult
+            existingResult.Date = updated.Date ?? existingResult.Date;
+            existingResult.Description = updated.Description ?? existingResult.Description;
+            existingResult.Status = updated.Status ?? existingResult.Status;
+
+            return await _repo.UpdateAsync(id, existingResult);
+        }
         public Task<bool> DeleteAsync(string id) => _repo.DeleteAsync(id);
         public Task<string> GenerateIdAsync() => _repo.GenerateIdAsync();
     }

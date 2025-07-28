@@ -72,7 +72,7 @@ namespace DNASystemBackend.Controllers
 
         [HttpPut("{id}")]
         [Authorize(Roles = "Staff")]
-        public async Task<IActionResult> Update(string id, [FromBody] TestResult updatedResult)
+        public async Task<IActionResult> Update(string id, [FromBody] UpdateTestResultDTO updatedResult)
         {
             var success = await _service.UpdateAsync(id, updatedResult);
             return success ? Ok(new { message = "Cập nhật kết quả thành công." }) : NotFound();
