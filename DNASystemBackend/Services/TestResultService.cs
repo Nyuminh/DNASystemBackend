@@ -28,9 +28,11 @@
         public async Task<TestResult?> GetByIdAsync(string id)
         {
             return await _context.TestResults
-                .Include(r => r.Staff)
                 .Include(r => r.Customer)
+                .Include(r => r.Staff)
                 .Include(r => r.Service)
+                .Include(r => r.Booking)
+                    .ThenInclude(b => b.Relatives)
                 .FirstOrDefaultAsync(r => r.ResultId == id);
         }
         public Task<TestResult> CreateAsync(TestResult result) => _repo.CreateAsync(result);

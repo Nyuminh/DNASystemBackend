@@ -262,7 +262,8 @@ namespace DNASystemBackend.Controllers
                                     grid.Item().Text("Tên (B):").Bold();
                                     grid.Item().Text(result.Customer?.Fullname ?? "N/A");
                                     grid.Item().Text("Tên (Ct):").Bold();
-                                    grid.Item().Text("(Xem thông tin chi tiết trong hồ sơ)");
+                                    grid.Item().Text(result.Booking?.Relatives.FirstOrDefault()?.Fullname ?? "N/A");
+                                    
                                     grid.Item().Text("Loại dịch vụ:").Bold();
                                     grid.Item().Text(result.Service?.Name ?? "N/A");
                                 });
@@ -274,7 +275,9 @@ namespace DNASystemBackend.Controllers
                             column.Item().Background(Colors.Grey.Lighten3).Padding(10).Column(col =>
                             {
                                 col.Item().Text("KẾT QUẢ PHÂN TÍCH").FontSize(14).Bold();
-                                col.Item().Text($"Tỉ lệ trùng khớp: 99.99% ").FontSize(12);
+                                col.Item().Text(displayedMatchPercentage > 99.9 ?
+                                                $"Tỉ lệ trùng khớp:99.99 %" :
+                                                $"Tỉ lệ trùng khớp:0.00 %").FontSize(12);
                                 col.Item().Text(displayedMatchPercentage > 99.9 ? 
                                     "Kết luận: KHẲNG ĐỊNH quan hệ cha con" : 
                                     "Kết luận: LOẠI TRỪ quan hệ cha con").FontSize(12).Bold();
