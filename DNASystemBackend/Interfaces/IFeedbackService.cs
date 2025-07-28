@@ -1,7 +1,5 @@
 ﻿using DNASystemBackend.DTOs;
 using DNASystemBackend.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace DNASystemBackend.Interfaces
 {

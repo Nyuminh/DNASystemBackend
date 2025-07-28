@@ -2,8 +2,6 @@
 using DNASystemBackend.Interfaces;
 using DNASystemBackend.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace DNASystemBackend.Controllers
 {

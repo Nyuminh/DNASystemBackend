@@ -15,7 +15,6 @@ using QuestPDF.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllers()
     .AddJsonOptions(x =>
     {
@@ -24,8 +23,6 @@ builder.Services.AddControllers()
         x.JsonSerializerOptions.Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
     });
 
-
-// Add Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -50,7 +47,7 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IRelativeRepository, RelativeRepository>();
 builder.Services.AddScoped<IRelativeService, RelativeService>();
 
-// Add configuration for Logging
+
 builder.Services.AddLogging(logging =>
 {
     logging.AddConsole();
@@ -58,7 +55,6 @@ builder.Services.AddLogging(logging =>
     logging.SetMinimumLevel(LogLevel.Debug);
 });
 
-// Add configuration for JWT Authentication
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -110,7 +106,7 @@ builder.Services.AddAuthentication(options =>
     options.ClientId = googleSettings["ClientId"] ?? throw new InvalidOperationException("Google ClientId not configured");
     options.ClientSecret = googleSettings["ClientSecret"] ?? throw new InvalidOperationException("Google ClientSecret not configured");
     
-    // Essential scopes only
+   
     options.Scope.Clear();
     options.Scope.Add("openid");
     options.Scope.Add("profile");
@@ -188,7 +184,7 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "DNASystem API", Version = "v1" });
 
-    // Thêm cấu hình JWT cho Swagger
+ 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -216,9 +212,8 @@ builder.Services.AddSwaggerGen(c =>
 });
 builder.Services.Configure<FormOptions>(options =>
 {
-    options.MultipartBodyLengthLimit = 104857600; // 100MB 
+    options.MultipartBodyLengthLimit = 104857600; 
 });
-
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddDataProtection();
 builder.Services.AddSession(options =>
@@ -230,7 +225,6 @@ builder.Services.AddSession(options =>
     options.Cookie.SameSite = SameSiteMode.Lax;
     }
 );
-
 builder.Services.AddDbContext<DnasystemContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DNASystemDb")));
 builder.Services.AddCors(options =>
@@ -243,12 +237,8 @@ builder.Services.AddCors(options =>
 
 QuestPDF.Settings.License = LicenseType.Community;
 var app = builder.Build();
-
-
 app.UseCors("AllowAll");
-
 app.UseStaticFiles();
-
 app.Use(async (context, next) =>
 {
     if (context.Request.ContentType != null &&
@@ -260,25 +250,13 @@ app.Use(async (context, next) =>
 
     await next();
 });
-
 app.UseSession();
-
-// Enable static files
-
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-// Comment out HTTPS redirection for localhost testing
-// app.UseHttpsRedirection();
-
-app.UseAuthentication(); // <-- Thêm dòng này cho JWT
+app.UseAuthentication(); 
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

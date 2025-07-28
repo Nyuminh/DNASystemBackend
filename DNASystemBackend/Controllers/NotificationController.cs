@@ -3,9 +3,6 @@ using DNASystemBackend.Interfaces;
 using DNASystemBackend.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.Sql;
-using System;
-using System.Threading.Tasks;
 
 namespace DnaTestingApi.Controllers
 {

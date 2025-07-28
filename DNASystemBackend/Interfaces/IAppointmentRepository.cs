@@ -1,5 +1,4 @@
-﻿using DNASystemBackend.DTOs;
-using DNASystemBackend.Models;
+﻿using DNASystemBackend.Models;
 
 namespace DNASystemBackend.Interfaces
 {

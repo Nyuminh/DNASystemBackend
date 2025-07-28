@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using DNASystemBackend.DTOs;
 using DNASystemBackend.Models;
 using Microsoft.AspNetCore.Mvc;
