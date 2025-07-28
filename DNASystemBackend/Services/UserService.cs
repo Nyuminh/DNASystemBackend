@@ -242,9 +242,119 @@ public class UserService : IUserService
 
         try
         {
-            _context.Users.Remove(user);
-            await _userRepo.SaveAsync();
-            return (true, "Xóa người dùng thành công.");
+            // Begin transaction to ensure data integrity
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            
+            try
+            {
+                try
+                {
+                    // Delete related Notifications - wrapped in try-catch because table might not exist
+                    var notifications = await _context.Notifications
+                        .Where(n => n.UserId == userId)
+                        .ToListAsync();
+                    if (notifications.Any())
+                    {
+                        _context.Notifications.RemoveRange(notifications);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Warning: Could not delete notifications: {ex.Message}");
+                    // Continue with other deletions even if notifications fail
+                }
+                
+                // Delete related Relatives
+                var relatives = await _context.Relatives
+                    .Where(r => r.UserId == userId)
+                    .ToListAsync();
+                _context.Relatives.RemoveRange(relatives);
+                
+                // Update or delete related Bookings where user is customer
+                var customerBookings = await _context.Bookings
+                    .Where(b => b.CustomerId == userId)
+                    .ToListAsync();
+                foreach (var booking in customerBookings)
+                {
+                    // Delete related TestResults for this booking
+                    var testResults = await _context.TestResults
+                        .Where(tr => tr.BookingId == booking.BookingId)
+                        .ToListAsync();
+                    _context.TestResults.RemoveRange(testResults);
+                    
+                    // Delete related Kits for this booking
+                    var kits = await _context.Kits
+                        .Where(k => k.BookingId == booking.BookingId)
+                        .ToListAsync();
+                    _context.Kits.RemoveRange(kits);
+                    
+                    // Delete related Invoices for this booking
+                    var invoices = await _context.Invoices
+                        .Where(i => i.BookingId == booking.BookingId)
+                        .ToListAsync();
+                    foreach (var invoice in invoices)
+                    {
+                        // Delete related InvoiceDetails
+                        var invoiceDetails = await _context.InvoiceDetails
+                            .Where(id => id.InvoiceId == invoice.InvoiceId)
+                            .ToListAsync();
+                        _context.InvoiceDetails.RemoveRange(invoiceDetails);
+                    }
+                    _context.Invoices.RemoveRange(invoices);
+                }
+                _context.Bookings.RemoveRange(customerBookings);
+                
+                // Update related Bookings where user is staff
+                var staffBookings = await _context.Bookings
+                    .Where(b => b.StaffId == userId)
+                    .ToListAsync();
+                foreach (var booking in staffBookings)
+                {
+                    booking.StaffId = null; // Set to null instead of deleting
+                }
+                
+                // Delete related TestResults where user is customer or staff
+                var userTestResults = await _context.TestResults
+                    .Where(tr => tr.CustomerId == userId || tr.StaffId == userId)
+                    .ToListAsync();
+                _context.TestResults.RemoveRange(userTestResults);
+                
+                // Delete related Kits where user is customer or staff
+                var userKits = await _context.Kits
+                    .Where(k => k.CustomerId == userId || k.StaffId == userId)
+                    .ToListAsync();
+                _context.Kits.RemoveRange(userKits);
+                
+                // Delete related Feedbacks
+                var feedbacks = await _context.Feedbacks
+                    .Where(f => f.CustomerId == userId)
+                    .ToListAsync();
+                _context.Feedbacks.RemoveRange(feedbacks);
+                
+                // Update related Courses
+                var courses = await _context.Courses
+                    .Where(c => c.ManagerId == userId)
+                    .ToListAsync();
+                foreach (var course in courses)
+                {
+                    course.ManagerId = null; // Set to null instead of deleting
+                }
+                
+                // Finally delete the user
+                _context.Users.Remove(user);
+                
+                // Save changes and commit transaction
+                await _userRepo.SaveAsync();
+                await transaction.CommitAsync();
+                
+                return (true, "Xóa người dùng thành công.");
+            }
+            catch (Exception ex)
+            {
+                // If any error occurs, roll back the transaction
+                await transaction.RollbackAsync();
+                throw new Exception($"Lỗi khi xóa dữ liệu liên quan: {ex.Message}", ex);
+            }
         }
         catch (Exception ex)
         {
